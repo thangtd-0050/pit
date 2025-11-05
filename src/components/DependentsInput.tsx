@@ -1,12 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info, Minus, Plus } from 'lucide-react';
 
 interface DependentsInputProps {
@@ -36,6 +31,29 @@ export function DependentsInput({ value, onChange, min = 0, max = 20 }: Dependen
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Enter key: blur input
+    if (e.key === 'Enter') {
+      e.currentTarget.blur();
+      return;
+    }
+
+    // Escape key: reset to 0
+    if (e.key === 'Escape') {
+      onChange(0);
+      return;
+    }
+
+    // Arrow keys: increment/decrement by 1
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      handleIncrement();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      handleDecrement();
+    }
+  };
+
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
@@ -50,8 +68,8 @@ export function DependentsInput({ value, onChange, min = 0, max = 20 }: Dependen
             </TooltipTrigger>
             <TooltipContent className="max-w-xs">
               <p className="text-sm">
-                Người phụ thuộc là con dưới 18 tuổi, vợ/chồng không có thu nhập, cha mẹ trên 60
-                tuổi không có thu nhập, hoặc người khuyết tật không có khả năng lao động.
+                Người phụ thuộc là con dưới 18 tuổi, vợ/chồng không có thu nhập, cha mẹ trên 60 tuổi
+                không có thu nhập, hoặc người khuyết tật không có khả năng lao động.
               </p>
             </TooltipContent>
           </Tooltip>
@@ -75,8 +93,9 @@ export function DependentsInput({ value, onChange, min = 0, max = 20 }: Dependen
           max={max}
           value={value}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           className="text-center"
-          aria-label="Số người phụ thuộc"
+          aria-label="Số người phụ thuộc. Dùng mũi tên lên/xuống hoặc nút +/-, Enter để xác nhận, Escape để đặt về 0"
         />
         <Button
           type="button"
@@ -89,7 +108,9 @@ export function DependentsInput({ value, onChange, min = 0, max = 20 }: Dependen
           <Plus className="h-4 w-4" />
         </Button>
       </div>
-      <p className="text-sm text-muted-foreground">Từ {min} đến {max} người</p>
+      <p className="text-sm text-muted-foreground">
+        Từ {min} đến {max} người
+      </p>
     </div>
   );
 }

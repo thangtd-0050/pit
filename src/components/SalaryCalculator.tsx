@@ -1,29 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { CalculatorInputs } from '@/components/CalculatorInputs';
 import { ResultDisplay } from '@/components/ResultDisplay';
-import { ComparisonView } from '@/components/ComparisonView';
 import { calcAll, compareRegimes } from '@/lib/tax';
-import {
-  REGIME_2025,
-  REGIME_2026,
-  REGIONAL_MINIMUMS,
-} from '@/config/constants';
+import { REGIME_2025, REGIME_2026, REGIONAL_MINIMUMS } from '@/config/constants';
 import { usePreferences } from '@/store/preferences';
 import { decodeStateFromURL } from '@/lib/url-state';
-import type {
-  RegionId,
-  InsuranceBaseMode,
-  CalculationResult,
-  ComparisonResult,
-} from '@/types';
+import type { RegionId, InsuranceBaseMode, CalculationResult, ComparisonResult } from '@/types';
+
+// Lazy load ComparisonView for code splitting
+const ComparisonView = lazy(() => import('@/components/ComparisonView'));
 
 export function SalaryCalculator() {
   // Input state
   const [gross, setGross] = useState(30_000_000);
   const [dependents, setDependents] = useState(2);
   const [region, setRegion] = useState<RegionId>('I');
-  const [insuranceBaseMode, setInsuranceBaseMode] =
-    useState<InsuranceBaseMode>('gross');
+  const [insuranceBaseMode, setInsuranceBaseMode] = useState<InsuranceBaseMode>('gross');
   const [customInsuranceBase, setCustomInsuranceBase] = useState(30_000_000);
 
   // View mode from preferences store (persisted)
@@ -36,8 +28,7 @@ export function SalaryCalculator() {
     if (urlState.gross !== undefined) setGross(urlState.gross);
     if (urlState.dependents !== undefined) setDependents(urlState.dependents);
     if (urlState.region !== undefined) setRegion(urlState.region);
-    if (urlState.insuranceBaseMode !== undefined)
-      setInsuranceBaseMode(urlState.insuranceBaseMode);
+    if (urlState.insuranceBaseMode !== undefined) setInsuranceBaseMode(urlState.insuranceBaseMode);
     if (urlState.customInsuranceBase !== undefined)
       setCustomInsuranceBase(urlState.customInsuranceBase);
     if (urlState.viewMode !== undefined) setViewMode(urlState.viewMode);
@@ -79,8 +70,7 @@ export function SalaryCalculator() {
   }, [gross, dependents, region, insuranceBaseMode, customInsuranceBase]);
 
   // Determine which result to display based on view mode
-  const currentResult =
-    viewMode === '2025' ? result2025 : viewMode === '2026' ? result2026 : null;
+  const currentResult = viewMode === '2025' ? result2025 : viewMode === '2026' ? result2026 : null;
 
   return (
     <div className="space-y-6">
@@ -101,20 +91,26 @@ export function SalaryCalculator() {
       {/* Results */}
       {viewMode === 'compare' ? (
         comparison && (
-          <ComparisonView
-            comparison={comparison}
-            gross={gross}
-            insuranceBaseMode={insuranceBaseMode}
-            customInsuranceBase={customInsuranceBase}
-            regionalMin={REGIONAL_MINIMUMS[region].minWage}
-            locale={locale}
-            viewMode={viewMode}
-          />
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center p-8 text-muted-foreground">
+                Đang tải...
+              </div>
+            }
+          >
+            <ComparisonView
+              comparison={comparison}
+              insuranceBaseMode={insuranceBaseMode}
+              customInsuranceBase={customInsuranceBase}
+              regionalMin={REGIONAL_MINIMUMS[region].minWage}
+              locale={locale}
+              viewMode={viewMode}
+            />
+          </Suspense>
         )
       ) : (
         <ResultDisplay
           result={currentResult}
-          gross={gross}
           insuranceBaseMode={insuranceBaseMode}
           customInsuranceBase={customInsuranceBase}
           regionalMin={REGIONAL_MINIMUMS[region].minWage}

@@ -14,7 +14,6 @@ import type { CalculationResult, InsuranceBaseMode } from '@/types';
 interface ResultDisplayProps {
   result: CalculationResult | null;
   /** Additional context for insurance base adjustments */
-  gross?: number;
   insuranceBaseMode?: InsuranceBaseMode;
   customInsuranceBase?: number;
   regionalMin?: number;
@@ -26,7 +25,6 @@ interface ResultDisplayProps {
 
 export function ResultDisplay({
   result,
-  gross,
   insuranceBaseMode,
   customInsuranceBase,
   regionalMin,
@@ -49,7 +47,7 @@ export function ResultDisplay({
   const handleShareLink = () => {
     try {
       const state = {
-        gross,
+        gross: result.inputs.gross,
         dependents: result.inputs.dependents,
         region: result.inputs.region,
         insuranceBaseMode,
@@ -93,12 +91,7 @@ export function ResultDisplay({
         <div className="flex items-center justify-between">
           <CardTitle>Kết quả tính toán</CardTitle>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleShareLink}
-              className="gap-2"
-            >
+            <Button variant="outline" size="sm" onClick={handleShareLink} className="gap-2">
               {shareSuccess ? (
                 <>
                   <Check className="h-4 w-4" />
@@ -111,12 +104,7 @@ export function ResultDisplay({
                 </>
               )}
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCopyDetails}
-              className="gap-2"
-            >
+            <Button variant="outline" size="sm" onClick={handleCopyDetails} className="gap-2">
               {copySuccess ? (
                 <>
                   <Check className="h-4 w-4" />
@@ -138,10 +126,7 @@ export function ResultDisplay({
         <div className="space-y-6">
           <InsuranceBreakdown
             insurance={result.insurance}
-            gross={gross}
-            customBase={
-              insuranceBaseMode === 'custom' ? customInsuranceBase : undefined
-            }
+            customBase={insuranceBaseMode === 'custom' ? customInsuranceBase : undefined}
             regionalMin={regionalMin}
           />
           <DeductionsBreakdown deductions={result.deductions} />

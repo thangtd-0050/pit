@@ -51,9 +51,7 @@ export function DeltaItem({
   const Icon = isZero ? Minus : isPositive ? ArrowUp : ArrowDown;
 
   // Font size classes
-  const sizeClass = large
-    ? 'text-3xl md:text-4xl font-bold'
-    : 'text-lg font-semibold';
+  const sizeClass = large ? 'text-3xl md:text-4xl font-bold' : 'text-lg font-semibold';
 
   // Format the absolute value
   const formattedValue = formatNumber(Math.abs(delta), locale);
@@ -63,12 +61,7 @@ export function DeltaItem({
 
   return (
     <div className={cn('flex items-center justify-between gap-4', className)}>
-      <span
-        className={cn(
-          'text-sm font-medium text-muted-foreground',
-          large && 'text-base'
-        )}
-      >
+      <span className={cn('text-sm font-medium text-muted-foreground', large && 'text-base')}>
         {label}
       </span>
       <div className={cn('flex items-center gap-2', colorClass)}>

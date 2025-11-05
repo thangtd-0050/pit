@@ -6,7 +6,6 @@ interface ComparisonViewProps {
   /** Comparison result with both regime calculations and deltas */
   comparison: ComparisonResult;
   /** Additional context for insurance base adjustments */
-  gross?: number;
   insuranceBaseMode?: InsuranceBaseMode;
   customInsuranceBase?: number;
   regionalMin?: number;
@@ -20,9 +19,8 @@ interface ComparisonViewProps {
  * Side-by-side comparison view showing 2025 and 2026 regime results with delta summary.
  * Responsive grid layout: stacked on mobile, side-by-side on larger screens.
  */
-export function ComparisonView({
+function ComparisonView({
   comparison,
-  gross,
   insuranceBaseMode,
   customInsuranceBase,
   regionalMin,
@@ -31,19 +29,12 @@ export function ComparisonView({
 }: ComparisonViewProps) {
   return (
     <div className="space-y-6">
-      {/* Regime results side-by-side */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* 2025 Regime Result */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between px-1">
-            <h2 className="text-lg font-semibold">Chế độ 2025</h2>
-            <span className="text-sm text-muted-foreground">
-              Giảm trừ: 11M + 4.4M/người
-            </span>
-          </div>
+      {/* Side-by-side regime cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* 2025 Regime */}
+        <div>
           <ResultDisplay
             result={comparison.regime2025}
-            gross={gross}
             insuranceBaseMode={insuranceBaseMode}
             customInsuranceBase={customInsuranceBase}
             regionalMin={regionalMin}
@@ -52,17 +43,10 @@ export function ComparisonView({
           />
         </div>
 
-        {/* 2026 Regime Result */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between px-1">
-            <h2 className="text-lg font-semibold">Chế độ 2026</h2>
-            <span className="text-sm text-muted-foreground">
-              Giảm trừ: 15.5M + 6.2M/người
-            </span>
-          </div>
+        {/* 2026 Regime */}
+        <div>
           <ResultDisplay
             result={comparison.regime2026}
-            gross={gross}
             insuranceBaseMode={insuranceBaseMode}
             customInsuranceBase={customInsuranceBase}
             regionalMin={regionalMin}
@@ -77,3 +61,9 @@ export function ComparisonView({
     </div>
   );
 }
+
+// Named export for tests
+export { ComparisonView };
+
+// Default export for lazy loading
+export default ComparisonView;

@@ -20,9 +20,7 @@ export function Header() {
 
       {/* Title and subtitle */}
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Tính Lương NET từ Gross
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Tính Lương NET từ Gross</h1>
         <p className="text-lg text-muted-foreground">
           Công cụ tính lương thực nhận theo quy định Việt Nam
         </p>

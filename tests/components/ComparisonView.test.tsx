@@ -13,12 +13,12 @@ describe('ComparisonView', () => {
 
     render(<ComparisonView comparison={comparison} />);
 
-    // Check for regime labels
-    expect(screen.getByText('Chế độ 2025')).toBeInTheDocument();
-    expect(screen.getByText('Chế độ 2026')).toBeInTheDocument();
-
     // Check for comparison heading
     expect(screen.getByText('So sánh 2025 ↔ 2026')).toBeInTheDocument();
+
+    // Check that both results are displayed (looking for NET salary label which appears twice)
+    const netLabels = screen.getAllByText(/Lương NET/i);
+    expect(netLabels.length).toBeGreaterThanOrEqual(2);
   });
 
   it('should display delta summary', () => {
@@ -52,17 +52,20 @@ describe('ComparisonView', () => {
 
   it('should render with custom insurance base', () => {
     const comparison = compareRegimes({
-      gross: 50_000_000,
-      dependents: 2,
-      region: 'I',
-      insuranceBase: 30_000_000,
+      gross: 60_000_000,
+      dependents: 1,
+      region: 'III',
+      insuranceBase: 50_000_000,
     });
 
-    render(<ComparisonView comparison={comparison} />);
+    render(<ComparisonView comparison={comparison} insuranceBaseMode="custom" customInsuranceBase={50_000_000} />);
 
-    // Should render without crashing
-    expect(screen.getByText('Chế độ 2025')).toBeInTheDocument();
-    expect(screen.getByText('Chế độ 2026')).toBeInTheDocument();
+    // Should render without crashing - check for comparison heading
+    expect(screen.getByText('So sánh 2025 ↔ 2026')).toBeInTheDocument();
+
+    // Check that results are displayed
+    const netLabels = screen.getAllByText(/Lương NET/i);
+    expect(netLabels.length).toBeGreaterThanOrEqual(2);
   });
 
   it('should display deduction amounts for both regimes', () => {

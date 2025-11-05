@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { sanitizeNumericInput, formatNumber } from '@/lib/format';
 import { usePreferences } from '@/store/preferences';
 
@@ -61,8 +62,50 @@ export function GrossSalaryInput({
     setDisplayValue(formatNumber(numericValue, locale));
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Enter key: blur to trigger calculation
+    if (e.key === 'Enter') {
+      e.currentTarget.blur();
+      return;
+    }
+
+    // Escape key: clear input
+    if (e.key === 'Escape') {
+      setDisplayValue('0');
+      onChange(0);
+      setError('');
+      return;
+    }
+
+    // Arrow keys: increment/decrement by 1M
+    const currentValue = sanitizeNumericInput(displayValue);
+    const step = 1_000_000;
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const newValue = Math.min(currentValue + step, max);
+      onChange(newValue);
+      setDisplayValue(formatNumber(newValue, locale));
+      setError('');
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const newValue = Math.max(currentValue - step, min);
+      onChange(newValue);
+      setDisplayValue(formatNumber(newValue, locale));
+      setError('');
+    }
+  };
+
+  const handlePresetClick = (presetValue: number) => {
+    onChange(presetValue);
+    setDisplayValue(formatNumber(presetValue, locale));
+    setError('');
+  };
+
+  const presets = [10_000_000, 30_000_000, 60_000_000, 100_000_000, 185_000_000];
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <Label htmlFor="gross-salary">
         Lương Gross (VND) <span className="text-destructive">*</span>
       </Label>
@@ -73,12 +116,30 @@ export function GrossSalaryInput({
         value={displayValue}
         onChange={handleChange}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
         placeholder={formatNumber(30_000_000, locale)}
-        aria-label="Nhập lương gross hàng tháng"
+        aria-label="Nhập lương gross hàng tháng. Dùng mũi tên lên/xuống để điều chỉnh 1 triệu, Enter để xác nhận, Escape để xóa"
         aria-invalid={!!error}
         aria-describedby={error ? 'gross-salary-error' : undefined}
         className={error ? 'border-destructive' : ''}
       />
+
+      {/* Preset buttons */}
+      <div className="flex flex-wrap gap-2">
+        {presets.map((preset) => (
+          <Button
+            key={preset}
+            variant="outline"
+            size="sm"
+            onClick={() => handlePresetClick(preset)}
+            className="text-xs"
+            type="button"
+          >
+            {formatNumber(preset / 1_000_000, locale)}M
+          </Button>
+        ))}
+      </div>
+
       {error && (
         <p id="gross-salary-error" className="text-sm text-destructive">
           {error}

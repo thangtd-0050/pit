@@ -67,3 +67,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Enhanced focus indicators for accessibility (WCAG 2.1 AA) */
+@layer utilities {
+  /* Focus visible for all interactive elements */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Keyboard focus for buttons */
+  button:focus-visible,
+  a:focus-visible {
+    @apply ring-2 ring-primary ring-offset-2;
+  }
+
+  /* Focus for form inputs */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply ring-2 ring-ring ring-offset-0 border-ring;
+  }
+
+  /* Focus for custom radio/checkbox */
+  [role='radio']:focus-visible,
+  [role='checkbox']:focus-visible {
+    @apply ring-2 ring-ring ring-offset-2;
+  }
+
+  /* Remove default outline for mouse users, keep for keyboard */
+  *:focus:not(:focus-visible) {
+    @apply outline-none ring-0;
+  }
+}

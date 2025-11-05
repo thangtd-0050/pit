@@ -69,7 +69,12 @@ export const REGIME_2025: Regime = {
  * Tax regime for 2026+ (proposed regime with higher deductions).
  * - Personal deduction: 15,500,000 VND
  * - Dependent deduction: 6,200,000 VND per dependent
- * - 5 progressive tax brackets from 5% to 35%
+ * - 5 progressive tax brackets: 5%, 15%, 25%, 30%, 35%
+ *   - 0-10M: 5%
+ *   - 10M-30M: 15%
+ *   - 30M-60M: 25%
+ *   - 60M-100M: 30%
+ *   - >100M: 35%
  */
 export const REGIME_2026: Regime = {
   id: '2026',
@@ -77,9 +82,9 @@ export const REGIME_2026: Regime = {
   dependentDeduction: 6_200_000,
   brackets: [
     { threshold: 10_000_000, rate: 0.05 }, // 0-10M @ 5%
-    { threshold: 30_000_000, rate: 0.1 }, // 10-30M @ 10%
-    { threshold: 60_000_000, rate: 0.15 }, // 30-60M @ 15%
-    { threshold: 100_000_000, rate: 0.2 }, // 60-100M @ 20%
+    { threshold: 30_000_000, rate: 0.15 }, // 10-30M @ 15%
+    { threshold: 60_000_000, rate: 0.25 }, // 30-60M @ 25%
+    { threshold: 100_000_000, rate: 0.3 }, // 60-100M @ 30%
     { threshold: 'inf', rate: 0.35 }, // >100M @ 35%
   ],
 };

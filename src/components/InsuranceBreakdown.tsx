@@ -1,8 +1,4 @@
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   Table,
   TableBody,
@@ -20,8 +16,6 @@ import { useState } from 'react';
 
 interface InsuranceBreakdownProps {
   insurance: Insurance;
-  /** Gross salary for comparison (to detect if custom base was adjusted) */
-  gross?: number;
   /** Custom insurance base entered by user (if any) */
   customBase?: number;
   /** Regional minimum wage for floor comparison */
@@ -30,7 +24,6 @@ interface InsuranceBreakdownProps {
 
 export function InsuranceBreakdown({
   insurance,
-  gross,
   customBase,
   regionalMin,
 }: InsuranceBreakdownProps) {
@@ -44,19 +37,14 @@ export function InsuranceBreakdown({
 
   // Check if floored (custom base below minimum)
   const wasFloored =
-    usingCustomBase &&
-    regionalMin &&
-    customBase < regionalMin &&
-    baseSIHI === regionalMin;
+    usingCustomBase && regionalMin && customBase < regionalMin && baseSIHI === regionalMin;
 
   // Check if capped for SI/HI (above 46,800,000)
-  const wasCappedSIHI =
-    usingCustomBase && customBase > 46_800_000 && baseSIHI === 46_800_000;
+  const wasCappedSIHI = usingCustomBase && customBase > 46_800_000 && baseSIHI === 46_800_000;
 
   // Check if capped for UI (above 20x regional minimum)
   const capUI = regionalMin ? 20 * regionalMin : 0;
-  const wasCappedUI =
-    usingCustomBase && customBase > capUI && baseUI === capUI;
+  const wasCappedUI = usingCustomBase && customBase > capUI && baseUI === capUI;
 
   return (
     <div className="space-y-4">
@@ -69,24 +57,21 @@ export function InsuranceBreakdown({
           <div className="space-y-1">
             {wasFloored && (
               <p>
-                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã
-                được điều chỉnh lên <strong>sàn tối thiểu theo vùng</strong> (
-                {formatNumber(regionalMin!, locale)} VND).
+                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã được điều chỉnh lên{' '}
+                <strong>sàn tối thiểu theo vùng</strong> ({formatNumber(regionalMin!, locale)} VND).
               </p>
             )}
             {wasCappedSIHI && (
               <p>
-                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã
-                được điều chỉnh xuống{' '}
-                <strong>trần BHXH, BHYT</strong> (
-                {formatNumber(46_800_000, locale)} VND).
+                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã được điều chỉnh
+                xuống <strong>trần BHXH, BHYT</strong> ({formatNumber(46_800_000, locale)} VND).
               </p>
             )}
             {wasCappedUI && (
               <p>
-                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã
-                được điều chỉnh xuống <strong>trần BHTN</strong> (
-                {formatNumber(capUI, locale)} VND = 20 lần mức tối thiểu vùng).
+                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã được điều chỉnh
+                xuống <strong>trần BHTN</strong> ({formatNumber(capUI, locale)} VND = 20 lần mức tối
+                thiểu vùng).
               </p>
             )}
           </div>
@@ -138,9 +123,7 @@ export function InsuranceBreakdown({
         <CollapsibleTrigger asChild>
           <Button variant="ghost" className="w-full justify-between">
             <span className="text-sm">Chi tiết mức đóng</span>
-            <ChevronDown
-              className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-            />
+            <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="space-y-2 pt-2">
@@ -148,7 +131,9 @@ export function InsuranceBreakdown({
             <div className="grid gap-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Mức đóng BHXH/BHYT:</span>
-                <span className="font-medium">{formatNumber(insurance.bases.baseSIHI, locale)}</span>
+                <span className="font-medium">
+                  {formatNumber(insurance.bases.baseSIHI, locale)}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Mức đóng BHTN:</span>

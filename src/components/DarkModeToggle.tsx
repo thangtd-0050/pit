@@ -21,9 +21,7 @@ export function DarkModeToggle() {
 
   // Check system preference on mount
   useEffect(() => {
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (prefersDark && !darkMode) {
       // Only set dark mode if user hasn't explicitly chosen light mode
       const stored = localStorage.getItem('pit-preferences');
@@ -45,11 +43,7 @@ export function DarkModeToggle() {
       aria-label={darkMode ? 'Chế độ sáng' : 'Chế độ tối'}
       title={darkMode ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}
     >
-      {darkMode ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
+      {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
     </Button>
   );
 }

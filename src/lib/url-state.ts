@@ -59,9 +59,7 @@ export function decodeStateFromURL(queryString: string): Partial<URLState> {
   const state: Partial<URLState> = {};
 
   // Remove leading '?' if present
-  const cleanQuery = queryString.startsWith('?')
-    ? queryString.slice(1)
-    : queryString;
+  const cleanQuery = queryString.startsWith('?') ? queryString.slice(1) : queryString;
 
   // Handle empty query
   if (!cleanQuery) {

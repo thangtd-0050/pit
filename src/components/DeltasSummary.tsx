@@ -23,26 +23,13 @@ export function DeltasSummary({ comparison, className }: DeltasSummaryProps) {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Hero NET salary delta */}
-        <DeltaItem
-          label="Lương NET"
-          delta={deltas.netSalary}
-          large
-          className="pb-4 border-b"
-        />
+        <DeltaItem label="Lương NET" delta={deltas.netSalary} large className="pb-4 border-b" />
 
         {/* Deduction deltas */}
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground">
-            Các khoản giảm trừ
-          </h3>
-          <DeltaItem
-            label="Giảm trừ bản thân"
-            delta={deltas.personalDeduction}
-          />
-          <DeltaItem
-            label="Giảm trừ người phụ thuộc"
-            delta={deltas.dependentDeduction}
-          />
+          <h3 className="text-sm font-semibold text-muted-foreground">Các khoản giảm trừ</h3>
+          <DeltaItem label="Giảm trừ bản thân" delta={deltas.personalDeduction} />
+          <DeltaItem label="Giảm trừ người phụ thuộc" delta={deltas.dependentDeduction} />
           <DeltaItem
             label="Tổng giảm trừ"
             delta={deltas.totalDeductions}
@@ -52,22 +39,14 @@ export function DeltasSummary({ comparison, className }: DeltasSummaryProps) {
 
         {/* Insurance delta (should always be 0) */}
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground">
-            Bảo hiểm
-          </h3>
+          <h3 className="text-sm font-semibold text-muted-foreground">Bảo hiểm</h3>
           <DeltaItem label="Bảo hiểm bắt buộc" delta={deltas.insurance} />
         </div>
 
         {/* Tax deltas */}
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground">
-            Thuế TNCN
-          </h3>
-          <DeltaItem
-            label="Thu nhập tính thuế"
-            delta={deltas.taxableIncome}
-            inverted
-          />
+          <h3 className="text-sm font-semibold text-muted-foreground">Thuế TNCN</h3>
+          <DeltaItem label="Thu nhập tính thuế" delta={deltas.taxableIncome} inverted />
           <DeltaItem label="Thuế TNCN" delta={deltas.pit} inverted />
         </div>
       </CardContent>
