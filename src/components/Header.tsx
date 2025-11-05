@@ -1,8 +1,10 @@
 import { ViewModeToggle } from '@/components/ViewModeToggle';
+import { LocaleSelector } from '@/components/LocaleSelector';
+import { DarkModeToggle } from '@/components/DarkModeToggle';
 import { usePreferences } from '@/store/preferences';
 
 /**
- * Page header with title and view mode toggle.
+ * Page header with title, view mode toggle, and customization options.
  * Provides context and navigation for the calculator.
  */
 export function Header() {
@@ -10,6 +12,12 @@ export function Header() {
 
   return (
     <header className="space-y-6 pb-8 border-b">
+      {/* Top bar with customization options */}
+      <div className="flex items-center justify-end gap-3">
+        <LocaleSelector />
+        <DarkModeToggle />
+      </div>
+
       {/* Title and subtitle */}
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
