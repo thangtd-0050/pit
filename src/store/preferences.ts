@@ -13,11 +13,13 @@ export const usePreferences = create<PreferencesState>()(
       locale: 'vi-VN',
       darkMode: false,
       showDetails: true,
+      viewMode: '2025',
 
       // Actions
       setLocale: (locale) => set({ locale }),
       setDarkMode: (darkMode) => set({ darkMode }),
       setShowDetails: (showDetails) => set({ showDetails }),
+      setViewMode: (viewMode) => set({ viewMode }),
     }),
     {
       name: 'pit-preferences', // localStorage key

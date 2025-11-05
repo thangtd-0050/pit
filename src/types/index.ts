@@ -158,9 +158,9 @@ export interface CalculationResult {
  */
 export interface ComparisonResult {
   /** Result using 2025 regime */
-  result2025: CalculationResult;
+  regime2025: CalculationResult;
   /** Result using 2026 regime */
-  result2026: CalculationResult;
+  regime2026: CalculationResult;
   /** Difference values (2026 - 2025) */
   deltas: {
     /** Δ in personal deduction (2026 - 2025) */
@@ -169,10 +169,12 @@ export interface ComparisonResult {
     dependentDeduction: number;
     /** Δ in total deductions */
     totalDeductions: number;
+    /** Δ in insurance (should be 0) */
+    insurance: number;
     /** Δ in taxable income */
     taxableIncome: number;
     /** Δ in total PIT */
-    totalPIT: number;
+    pit: number;
     /** Δ in net salary (positive = better for user) */
     netSalary: number;
   };
@@ -192,12 +194,16 @@ export interface PreferencesState {
   darkMode: boolean;
   /** Show/hide detailed breakdown */
   showDetails: boolean;
+  /** Active viewing mode */
+  viewMode: ViewMode;
   /** Update locale preference */
   setLocale: (locale: 'en-US' | 'vi-VN') => void;
   /** Update dark mode setting */
   setDarkMode: (enabled: boolean) => void;
   /** Update show details setting */
   setShowDetails: (show: boolean) => void;
+  /** Update view mode */
+  setViewMode: (mode: ViewMode) => void;
 }
 
 /**

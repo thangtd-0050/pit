@@ -119,23 +119,23 @@
 
 **Independent Test**: User can select "Compare 2025 ↔ 2026" mode and see two result cards showing calculations under both regimes with delta summary highlighting differences (green for better, red for worse)
 
-### Tests for User Story 2 (TDD - Write FIRST, ensure FAIL)
+### Tests for User Story 2 (TDD - Write FIRST, ensure FAIL) ✅
 
-- [ ] T063 [P] [US2] Add tests for compareRegimes() in tests/unit/tax.test.ts (various gross amounts, verify deltas calculated correctly, positive net delta, negative net delta, identical insurance amounts)
+- [X] T063 [P] [US2] Created tests/unit/compareRegimes.test.ts with 13 comprehensive tests for compareRegimes() function (delta calculations, regime results, edge cases)
 
-### Implementation for User Story 2
+### Implementation for User Story 2 
 
-- [ ] T064 [US2] Implement compareRegimes() in src/lib/tax.ts (calls calcAll twice with 2025 and 2026 regimes, calculates deltas, depends on calcAll)
-- [ ] T065 [US2] Run tests for compareRegimes() and verify 100% pass rate
-- [ ] T066 [P] [US2] Create src/components/DeltaItem.tsx (display single delta with color coding: positive/negative/zero, inverted flag for tax, large prop for hero size)
-- [ ] T067 [US2] Create src/components/DeltasSummary.tsx (card showing all deltas: personal deduction, dependent deduction, total deductions, taxable income, total PIT, net salary, uses DeltaItem components)
-- [ ] T068 [US2] Create src/components/ComparisonView.tsx (side-by-side layout with two ResultDisplay cards for 2025 and 2026, plus DeltasSummary card, responsive grid)
-- [ ] T069 [P] [US2] Create src/components/ViewModeToggle.tsx (button group for "Đơn" vs "So sánh" modes, keyboard accessible)
-- [ ] T070 [US2] Update src/components/SalaryCalculator.tsx to support viewMode switching (integrate with Zustand preferences store, conditionally render ResultDisplay vs ComparisonView, call compareRegimes in compare mode)
-- [ ] T071 [P] [US2] Create src/components/Header.tsx (page title, ViewModeToggle, spacing and responsive layout)
-- [ ] T072 [US2] Update src/App.tsx to include Header component
-- [ ] T073 [US2] Create tests/components/ComparisonView.test.tsx (render with comparison data, verify both results displayed, test responsive layout)
-- [ ] T074 [US2] Run component tests and verify comparison view works
+- [X] T064 [US2] Implement compareRegimes() in src/lib/tax.ts (calls calcAll twice with 2025 and 2026 regimes, calculates deltas, depends on calcAll)
+- [X] T065 [US2] Run tests for compareRegimes() and verify 100% pass rate (13/13 tests passing, total 69 tests)
+- [X] T066 [P] [US2] Create src/components/DeltaItem.tsx (display single delta with color coding: positive/negative/zero, inverted flag for tax, large prop for hero size)
+- [X] T067 [US2] Create src/components/DeltasSummary.tsx (card showing all deltas: personal deduction, dependent deduction, total deductions, taxable income, total PIT, net salary, uses DeltaItem components)
+- [X] T068 [US2] Create src/components/ComparisonView.tsx (side-by-side layout with two ResultDisplay cards for 2025 and 2026, plus DeltasSummary card, responsive grid)
+- [X] T069 [P] [US2] Create src/components/ViewModeToggle.tsx (button group for "2025"/"2026"/"So sánh" modes, keyboard accessible)
+- [X] T070 [US2] Update src/components/SalaryCalculator.tsx to support viewMode switching (integrate with Zustand preferences store, conditionally render ResultDisplay vs ComparisonView, call compareRegimes in compare mode)
+- [X] T071 [P] [US2] Create src/components/Header.tsx (page title, ViewModeToggle, spacing and responsive layout)
+- [X] T072 [US2] Update src/App.tsx to include Header component
+- [X] T073 [US2] Create tests/components/ComparisonView.test.tsx (render with comparison data, verify both results displayed, test responsive layout - 6 tests)
+- [X] T074 [US2] Run component tests and verify comparison view works (75/75 tests passing)
 - [ ] T075 [US2] Manual testing: Compare regimes with 30M gross, 2 deps, verify 2026 shows higher deductions and lower PIT
 - [ ] T076 [US2] Manual testing: Test delta color coding (green for positive net delta, red for negative)
 - [ ] T077 [US2] Manual testing: Toggle between single and compare modes, verify smooth transition

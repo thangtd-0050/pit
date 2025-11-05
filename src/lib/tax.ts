@@ -5,10 +5,19 @@ import type {
   PITItem,
   CalculatorInputs,
   CalculationResult,
+  ComparisonResult,
   Deductions,
   Regime,
 } from '@/types';
-import { REGIONAL_MINIMUMS, BASE_SALARY, RATE_SI, RATE_HI, RATE_UI } from '@/config/constants';
+import {
+  REGIONAL_MINIMUMS,
+  BASE_SALARY,
+  RATE_SI,
+  RATE_HI,
+  RATE_UI,
+  REGIME_2025,
+  REGIME_2026,
+} from '@/config/constants';
 
 /**
  * Clamp a value between a minimum and maximum.
@@ -183,4 +192,38 @@ export function calcAll(inputs: CalculatorInputs): CalculationResult {
  */
 function formatVnd(amount: number): string {
   return amount.toLocaleString('vi-VN');
+}
+
+/**
+ * Compare 2025 vs 2026 tax regimes side-by-side with delta calculations.
+ * @param inputs - User-provided calculator inputs (without regime specified)
+ * @returns ComparisonResult with both calculations and deltas
+ */
+export function compareRegimes(
+  inputs: Omit<CalculatorInputs, 'regime'>
+): ComparisonResult {
+  // Calculate results for both regimes
+  const regime2025 = calcAll({ ...inputs, regime: REGIME_2025 });
+  const regime2026 = calcAll({ ...inputs, regime: REGIME_2026 });
+
+  // Calculate deltas (2026 - 2025)
+  // Positive delta = 2026 is higher (better for deductions, worse for taxes)
+  // Negative delta = 2026 is lower (worse for deductions, better for taxes)
+  const deltas = {
+    personalDeduction:
+      regime2026.deductions.personal - regime2025.deductions.personal,
+    dependentDeduction:
+      regime2026.deductions.dependents - regime2025.deductions.dependents,
+    totalDeductions: regime2026.deductions.total - regime2025.deductions.total,
+    insurance: regime2026.insurance.total - regime2025.insurance.total,
+    taxableIncome: regime2026.pit.taxable - regime2025.pit.taxable,
+    pit: regime2026.pit.total - regime2025.pit.total,
+    netSalary: regime2026.net - regime2025.net,
+  };
+
+  return {
+    regime2025,
+    regime2026,
+    deltas,
+  };
 }

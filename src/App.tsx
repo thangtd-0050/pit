@@ -1,19 +1,13 @@
+import { Header } from '@/components/Header';
 import { SalaryCalculator } from '@/components/SalaryCalculator';
 
 function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold md:text-4xl">
-            Tính Lương NET từ Gross
-          </h1>
-          <p className="mt-2 text-muted-foreground">
-            Công cụ tính lương thực nhận theo quy định Việt Nam
-          </p>
-        </header>
+        <Header />
 
-        <main>
+        <main className="mt-8">
           <SalaryCalculator />
         </main>
 
