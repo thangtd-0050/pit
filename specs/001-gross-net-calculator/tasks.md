@@ -68,28 +68,28 @@
 
 **Independent Test**: User can enter gross salary (30M), dependents (2), region (I), and immediately see calculated net salary (25,215,000) with complete breakdown of insurance (BHXH, BHYT, BHTN) and progressive income tax by bracket
 
-### Tests for User Story 1 (TDD - Write FIRST, ensure FAIL)
+### Tests for User Story 1 (TDD - Write FIRST, ensure FAIL) ✅
 
-- [ ] T028 [P] [US1] Create tests/unit/tax.test.ts with test suite for clamp() function (within bounds, above max, below min, edge cases)
-- [ ] T029 [P] [US1] Add tests for roundVnd() in tests/unit/tax.test.ts (round up, round down, exact integers, decimals)
-- [ ] T030 [P] [US1] Add tests for calcInsuranceBases() in tests/unit/tax.test.ts (all 4 regions, gross within bounds, exceeding SI/HI cap, exceeding UI cap, custom base below floor, custom base above cap, custom base undefined)
-- [ ] T031 [P] [US1] Add tests for calcInsurance() in tests/unit/tax.test.ts (standard case, rounding behavior, capped bases, floored bases, verify total calculation)
-- [ ] T032 [P] [US1] Add tests for calcPit() in tests/unit/tax.test.ts (2025 regime: edge cases at 5M, 10M, 18M, 32M, 52M, 80M thresholds; 2026 regime: edge cases at 10M, 30M, 60M, 100M thresholds; taxable=0, taxable<0, highest bracket, progressive calculation)
-- [ ] T033 [P] [US1] Add tests for calcAll() in tests/unit/tax.test.ts (regression tests: 10M/2deps/RegionI, 30M/2deps/RegionI, 60M/2deps/RegionI, 100M/2deps/RegionI, 185M/2deps/RegionI, 0 dependents, custom insurance base, all 4 regions, both regimes, verify NET = gross - insurance - PIT)
-- [ ] T034 [P] [US1] Create tests/unit/format.test.ts with tests for formatNumber() (en-US locale, vi-VN locale, large numbers, zero, no decimals)
-- [ ] T035 [P] [US1] Add tests for sanitizeNumericInput() in tests/unit/format.test.ts (comma-separated, underscore-separated, space-separated, plain numeric, empty string, non-numeric)
+- [X] T028 [P] [US1] Create tests/unit/tax.test.ts with test suite for clamp() function (within bounds, above max, below min, edge cases)
+- [X] T029 [P] [US1] Add tests for roundVnd() in tests/unit/tax.test.ts (round up, round down, exact integers, decimals)
+- [X] T030 [P] [US1] Add tests for calcInsuranceBases() in tests/unit/tax.test.ts (all 4 regions, gross within bounds, exceeding SI/HI cap, exceeding UI cap, custom base below floor, custom base above cap, custom base undefined)
+- [X] T031 [P] [US1] Add tests for calcInsurance() in tests/unit/tax.test.ts (standard case, rounding behavior, capped bases, floored bases, verify total calculation)
+- [X] T032 [P] [US1] Add tests for calcPit() in tests/unit/tax.test.ts (2025 regime: edge cases at 5M, 10M, 18M, 32M, 52M, 80M thresholds; 2026 regime: edge cases at 10M, 30M, 60M, 100M thresholds; taxable=0, taxable<0, highest bracket, progressive calculation)
+- [X] T033 [P] [US1] Add tests for calcAll() in tests/unit/tax.test.ts (regression tests: 10M/2deps/RegionI, 30M/2deps/RegionI, 60M/2deps/RegionI, 100M/2deps/RegionI, 185M/2deps/RegionI, 0 dependents, custom insurance base, all 4 regions, both regimes, verify NET = gross - insurance - PIT)
+- [X] T034 [P] [US1] Create tests/unit/format.test.ts with tests for formatNumber() (en-US locale, vi-VN locale, large numbers, zero, no decimals)
+- [X] T035 [P] [US1] Add tests for sanitizeNumericInput() in tests/unit/format.test.ts (comma-separated, underscore-separated, space-separated, plain numeric, empty string, non-numeric)
 
-### Implementation for User Story 1
+### Implementation for User Story 1 ✅
 
-- [ ] T036 [P] [US1] Implement clamp() in src/lib/tax.ts (pure function, no side effects)
-- [ ] T037 [P] [US1] Implement roundVnd() in src/lib/tax.ts (standard rounding to integer)
-- [ ] T038 [US1] Implement calcInsuranceBases() in src/lib/tax.ts (depends on clamp, calculates baseSIHI and baseUI with floor/cap logic)
-- [ ] T039 [US1] Implement calcInsurance() in src/lib/tax.ts (depends on calcInsuranceBases, applies 8%, 1.5%, 1% rates with rounding)
-- [ ] T040 [US1] Implement calcPit() in src/lib/tax.ts (depends on roundVnd, progressive bracket calculation)
-- [ ] T041 [US1] Implement calcAll() in src/lib/tax.ts (master function orchestrating insurance, deductions, PIT, NET calculation)
-- [ ] T042 [P] [US1] Implement formatNumber() in src/lib/format.ts (Intl.NumberFormat with locale support)
-- [ ] T043 [P] [US1] Implement sanitizeNumericInput() in src/lib/format.ts (remove non-digits, parse to int)
-- [ ] T044 [US1] Run all unit tests and verify 100% pass rate for calculation functions
+- [X] T036 [P] [US1] Implement clamp() in src/lib/tax.ts (pure function, no side effects)
+- [X] T037 [P] [US1] Implement roundVnd() in src/lib/tax.ts (standard rounding to integer)
+- [X] T038 [US1] Implement calcInsuranceBases() in src/lib/tax.ts (depends on clamp, calculates baseSIHI and baseUI with floor/cap logic)
+- [X] T039 [US1] Implement calcInsurance() in src/lib/tax.ts (depends on calcInsuranceBases, applies 8%, 1.5%, 1% rates with rounding)
+- [X] T040 [US1] Implement calcPit() in src/lib/tax.ts (depends on roundVnd, progressive bracket calculation)
+- [X] T041 [US1] Implement calcAll() in src/lib/tax.ts (master function orchestrating insurance, deductions, PIT, NET calculation)
+- [X] T042 [P] [US1] Implement formatNumber() in src/lib/format.ts (Intl.NumberFormat with locale support)
+- [X] T043 [P] [US1] Implement sanitizeNumericInput() in src/lib/format.ts (remove non-digits, parse to int)
+- [X] T044 [US1] Run all unit tests and verify 100% pass rate for calculation functions
 - [ ] T045 [P] [US1] Create src/components/GrossSalaryInput.tsx (formatted numeric input with validation, debounce 300ms, min/max validation, error states, aria labels)
 - [ ] T046 [P] [US1] Create src/components/DependentsInput.tsx (number spinner with increment/decrement buttons, min=0, max=20, InfoTooltip for dependent definition)
 - [ ] T047 [P] [US1] Create src/components/RegionSelector.tsx (dropdown with 4 regions, Vietnamese labels with minimum wage amounts)
