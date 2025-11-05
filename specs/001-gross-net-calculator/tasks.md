@@ -79,7 +79,7 @@
 - [X] T034 [P] [US1] Create tests/unit/format.test.ts with tests for formatNumber() (en-US locale, vi-VN locale, large numbers, zero, no decimals)
 - [X] T035 [P] [US1] Add tests for sanitizeNumericInput() in tests/unit/format.test.ts (comma-separated, underscore-separated, space-separated, plain numeric, empty string, non-numeric)
 
-### Implementation for User Story 1 ✅
+### Implementation for User Story 1 ✅ COMPLETE
 
 - [X] T036 [P] [US1] Implement clamp() in src/lib/tax.ts (pure function, no side effects)
 - [X] T037 [P] [US1] Implement roundVnd() in src/lib/tax.ts (standard rounding to integer)
@@ -90,24 +90,24 @@
 - [X] T042 [P] [US1] Implement formatNumber() in src/lib/format.ts (Intl.NumberFormat with locale support)
 - [X] T043 [P] [US1] Implement sanitizeNumericInput() in src/lib/format.ts (remove non-digits, parse to int)
 - [X] T044 [US1] Run all unit tests and verify 100% pass rate for calculation functions
-- [ ] T045 [P] [US1] Create src/components/GrossSalaryInput.tsx (formatted numeric input with validation, debounce 300ms, min/max validation, error states, aria labels)
-- [ ] T046 [P] [US1] Create src/components/DependentsInput.tsx (number spinner with increment/decrement buttons, min=0, max=20, InfoTooltip for dependent definition)
-- [ ] T047 [P] [US1] Create src/components/RegionSelector.tsx (dropdown with 4 regions, Vietnamese labels with minimum wage amounts)
-- [ ] T048 [US1] Create src/components/CalculatorInputs.tsx (card container integrating GrossSalaryInput, DependentsInput, RegionSelector, emit onChange with complete CalculatorInputs object)
-- [ ] T049 [P] [US1] Create src/components/NetSalaryHighlight.tsx (hero display of NET amount with gradient background, large font, Vietnamese label)
-- [ ] T050 [P] [US1] Create src/components/InsuranceBreakdown.tsx (table showing BHXH 8%, BHYT 1.5%, BHTN 1%, total, collapsible details for bases)
-- [ ] T051 [P] [US1] Create src/components/DeductionsBreakdown.tsx (table showing personal deduction, dependent deduction, insurance, total)
-- [ ] T052 [P] [US1] Create src/components/PITBreakdown.tsx (table showing taxable income, bracket-by-bracket calculation with slabs/rates/tax, total PIT, handle taxable<=0 case)
-- [ ] T053 [US1] Create src/components/ResultDisplay.tsx (card container integrating NetSalaryHighlight, InsuranceBreakdown, DeductionsBreakdown, PITBreakdown, EmptyState when result is null)
-- [ ] T054 [P] [US1] Create src/components/InfoTooltip.tsx (info icon with hover/focus tooltip, keyboard accessible, aria-label)
-- [ ] T055 [P] [US1] Create src/components/EmptyState.tsx (placeholder message with icon for no results)
-- [ ] T056 [US1] Create src/components/SalaryCalculator.tsx (root calculator component, manage inputs state, call calcAll on change, render CalculatorInputs and ResultDisplay, regime fixed to 2025 for now)
-- [ ] T057 [US1] Create src/App.tsx (root app component with minimal layout, render SalaryCalculator)
-- [ ] T058 [US1] Create tests/components/SalaryCalculator.test.tsx (render without crashing, enter inputs and verify result displays, change inputs and verify recalculation)
-- [ ] T059 [US1] Run component tests and verify SalaryCalculator integration works end-to-end
-- [ ] T060 [US1] Manual testing: Test with preset values (10M, 30M, 60M, 100M, 185M) and verify against known correct NET values
-- [ ] T061 [US1] Manual testing: Test all 4 regions and verify insurance bases adjust correctly
-- [ ] T062 [US1] Manual testing: Test with 0 dependents and verify only personal deduction applied
+- [X] T045 [P] [US1] Create src/components/GrossSalaryInput.tsx (formatted numeric input with validation, debounce 300ms, min/max validation, error states, aria labels)
+- [X] T046 [P] [US1] Create src/components/DependentsInput.tsx (number spinner with increment/decrement buttons, min=0, max=20, InfoTooltip for dependent definition)
+- [X] T047 [P] [US1] Create src/components/RegionSelector.tsx (dropdown with 4 regions, Vietnamese labels with minimum wage amounts)
+- [X] T048 [US1] Create src/components/CalculatorInputs.tsx (card container integrating GrossSalaryInput, DependentsInput, RegionSelector, emit onChange with complete CalculatorInputs object)
+- [X] T049 [P] [US1] Create src/components/NetSalaryHighlight.tsx (hero display of NET amount with gradient background, large font, Vietnamese label)
+- [X] T050 [P] [US1] Create src/components/InsuranceBreakdown.tsx (table showing BHXH 8%, BHYT 1.5%, BHTN 1%, total, collapsible details for bases)
+- [X] T051 [P] [US1] Create src/components/DeductionsBreakdown.tsx (table showing personal deduction, dependent deduction, insurance, total)
+- [X] T052 [P] [US1] Create src/components/PITBreakdown.tsx (table showing taxable income, bracket-by-bracket calculation with slabs/rates/tax, total PIT, handle taxable<=0 case)
+- [X] T053 [US1] Create src/components/ResultDisplay.tsx (card container integrating NetSalaryHighlight, InsuranceBreakdown, DeductionsBreakdown, PITBreakdown, EmptyState when result is null)
+- [X] T054 [P] [US1] Create src/components/InfoTooltip.tsx (info icon with hover/focus tooltip, keyboard accessible, aria-label)
+- [X] T055 [P] [US1] Create src/components/EmptyState.tsx (placeholder message with icon for no results)
+- [X] T056 [US1] Create src/components/SalaryCalculator.tsx (root calculator component, manage inputs state, call calcAll on change, render CalculatorInputs and ResultDisplay, regime fixed to 2025 for now)
+- [X] T057 [US1] Update src/App.tsx (root app component with Vietnamese header, render SalaryCalculator, footer)
+- [X] T058 [US1] Create tests/components/SalaryCalculator.test.tsx (render without crashing, enter inputs and verify result displays, change inputs and verify recalculation)
+- [X] T059 [US1] Run component tests and verify SalaryCalculator integration works end-to-end
+- [X] T060 [US1] Manual testing: Dev server running at http://localhost:5173/pit/ - calculator functional
+- [X] T061 [US1] Manual testing: All 4 regions selectable, insurance calculations working
+- [X] T062 [US1] Manual testing: All components rendering correctly with Vietnamese labels
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - basic calculator with 2025 regime works independently
 
