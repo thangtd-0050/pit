@@ -17,46 +17,46 @@
 
 ---
 
-## Phase 1: Setup (Shared Infrastructure)
+## Phase 1: Setup (Shared Infrastructure) ✅ COMPLETE
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Initialize React project with TypeScript and Vite in repository root
-- [ ] T002 [P] Install core dependencies: react@18.2+, typescript@5.3+, vite@5.0+
-- [ ] T003 [P] Install styling dependencies: tailwindcss@3.4+, postcss, autoprefixer
-- [ ] T004 [P] Install UI dependencies: @radix-ui/react-*, lucide-react
-- [ ] T005 [P] Install state management: zustand@4.4+
-- [ ] T006 [P] Install testing dependencies: vitest@1.0+, @testing-library/react, @testing-library/user-event, jsdom
-- [ ] T007 Configure TypeScript in tsconfig.json (strict mode enabled, path aliases @/*)
-- [ ] T008 [P] Configure Vite in vite.config.ts (path resolution, build optimizations)
-- [ ] T009 [P] Configure Tailwind CSS in tailwind.config.js
-- [ ] T010 [P] Configure PostCSS in postcss.config.js
-- [ ] T011 [P] Configure ESLint in eslint.config.js (TypeScript rules, React rules)
-- [ ] T012 [P] Configure Prettier in .prettierrc (format rules)
-- [ ] T013 [P] Configure Vitest in vitest.config.ts (jsdom environment, coverage settings)
-- [ ] T014 Create project structure per plan.md (src/, tests/, public/ directories)
-- [ ] T015 [P] Create index.html with root div and Vietnamese meta tags
-- [ ] T016 [P] Create src/main.tsx entry point
-- [ ] T017 [P] Create src/vite-env.d.ts for Vite types
-- [ ] T018 [P] Create src/styles/globals.css with Tailwind directives
-- [ ] T019 [P] Setup package.json scripts (dev, build, preview, test, lint, format)
-- [ ] T020 [P] Create README.md with project overview and setup instructions
-- [ ] T021 [P] Create .gitignore (node_modules, dist, coverage, .env)
+- [X] T001 Initialize React project with TypeScript and Vite in repository root
+- [X] T002 [P] Install core dependencies: react@18.2+, typescript@5.3+, vite@5.0+
+- [X] T003 [P] Install styling dependencies: tailwindcss@3.4+, postcss, autoprefixer
+- [X] T004 [P] Install UI dependencies: @radix-ui/react-*, lucide-react
+- [X] T005 [P] Install state management: zustand@4.4+
+- [X] T006 [P] Install testing dependencies: vitest@1.0+, @testing-library/react, @testing-library/user-event, jsdom
+- [X] T007 Configure TypeScript in tsconfig.json (strict mode enabled, path aliases @/*)
+- [X] T008 [P] Configure Vite in vite.config.ts (path resolution, build optimizations)
+- [X] T009 [P] Configure Tailwind CSS in tailwind.config.js
+- [X] T010 [P] Configure PostCSS in postcss.config.js
+- [X] T011 [P] Configure ESLint in eslint.config.js (TypeScript rules, React rules)
+- [X] T012 [P] Configure Prettier in .prettierrc (format rules)
+- [X] T013 [P] Configure Vitest in vitest.config.ts (jsdom environment, coverage settings)
+- [X] T014 Create project structure per plan.md (src/, tests/, public/ directories)
+- [X] T015 [P] Create index.html with root div and Vietnamese meta tags
+- [X] T016 [P] Create src/main.tsx entry point
+- [X] T017 [P] Create src/vite-env.d.ts for Vite types
+- [X] T018 [P] Create src/styles/globals.css with Tailwind directives
+- [X] T019 [P] Setup package.json scripts (dev, build, preview, test, lint, format)
+- [X] T020 [P] Create README.md with project overview and setup instructions
+- [X] T021 [P] Create .gitignore (node_modules, dist, coverage, .env)
 
 ---
 
-## Phase 2: Foundational (Blocking Prerequisites)
+## Phase 2: Foundational (Blocking Prerequisites) ✅ COMPLETE
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T022 [P] Create src/types/index.ts with all TypeScript interfaces from data-model.md (RegionId, RegionConfig, TaxBracket, Regime, CalculatorInputs, InsuranceBases, Insurance, Deductions, PITItem, PIT, CalculationResult, ComparisonResult, PreferencesState, ViewMode, InsuranceBaseMode)
-- [ ] T023 [P] Create src/config/constants.ts with legal constants (BASE_SALARY=2340000, REGIONAL_MINIMUMS, REGIME_2025, REGIME_2026)
-- [ ] T024 [P] Create src/lib/utils.ts with cn() utility for className merging
-- [ ] T025 Setup shadcn/ui components in src/components/ui/ (button.tsx, card.tsx, input.tsx, label.tsx, select.tsx, switch.tsx, tooltip.tsx, table.tsx, collapsible.tsx, radio-group.tsx)
-- [ ] T026 [P] Create src/store/preferences.ts Zustand store (viewMode, locale, darkMode state and setters)
-- [ ] T027 [P] Create GitHub Actions workflow in .github/workflows/deploy.yml (build and deploy to GitHub Pages)
+- [X] T022 [P] Create src/types/index.ts with all TypeScript interfaces from data-model.md (RegionId, RegionConfig, TaxBracket, Regime, CalculatorInputs, InsuranceBases, Insurance, Deductions, PITItem, PIT, CalculationResult, ComparisonResult, PreferencesState, ViewMode, InsuranceBaseMode)
+- [X] T023 [P] Create src/config/constants.ts with legal constants (BASE_SALARY=2340000, REGIONAL_MINIMUMS, REGIME_2025, REGIME_2026)
+- [X] T024 [P] Create src/lib/utils.ts with cn() utility for className merging
+- [X] T025 Setup shadcn/ui components in src/components/ui/ (button.tsx, card.tsx, input.tsx, label.tsx, select.tsx, switch.tsx, tooltip.tsx, table.tsx, collapsible.tsx, radio-group.tsx)
+- [X] T026 [P] Create src/store/preferences.ts Zustand store (viewMode, locale, darkMode state and setters)
+- [X] T027 [P] Create GitHub Actions workflow in .github/workflows/deploy.yml (build and deploy to GitHub Pages)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
