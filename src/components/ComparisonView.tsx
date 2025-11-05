@@ -10,6 +10,10 @@ interface ComparisonViewProps {
   insuranceBaseMode?: InsuranceBaseMode;
   customInsuranceBase?: number;
   regionalMin?: number;
+  /** Current locale for copy formatting */
+  locale?: 'en-US' | 'vi-VN';
+  /** Current view mode */
+  viewMode?: '2025' | '2026' | 'compare';
 }
 
 /**
@@ -22,6 +26,8 @@ export function ComparisonView({
   insuranceBaseMode,
   customInsuranceBase,
   regionalMin,
+  locale,
+  viewMode,
 }: ComparisonViewProps) {
   return (
     <div className="space-y-6">
@@ -41,6 +47,8 @@ export function ComparisonView({
             insuranceBaseMode={insuranceBaseMode}
             customInsuranceBase={customInsuranceBase}
             regionalMin={regionalMin}
+            locale={locale}
+            viewMode={viewMode}
           />
         </div>
 
@@ -58,6 +66,8 @@ export function ComparisonView({
             insuranceBaseMode={insuranceBaseMode}
             customInsuranceBase={customInsuranceBase}
             regionalMin={regionalMin}
+            locale={locale}
+            viewMode={viewMode}
           />
         </div>
       </div>

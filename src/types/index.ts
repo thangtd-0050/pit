@@ -220,3 +220,24 @@ export type ViewMode = '2025' | '2026' | 'compare';
  * - "custom": User provides custom insurance base
  */
 export type InsuranceBaseMode = 'gross' | 'custom';
+
+/**
+ * URL-shareable state for calculator.
+ * Used for encoding/decoding query parameters.
+ */
+export interface URLState {
+  /** Gross salary in VND */
+  gross?: number;
+  /** Number of dependents */
+  dependents?: number;
+  /** Regional minimum wage identifier */
+  region?: RegionId;
+  /** Insurance base calculation mode */
+  insuranceBaseMode?: InsuranceBaseMode;
+  /** Custom insurance base amount (when mode is 'custom') */
+  customInsuranceBase?: number;
+  /** Active view mode */
+  viewMode?: ViewMode;
+  /** Number format locale */
+  locale?: 'en-US' | 'vi-VN';
+}

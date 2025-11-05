@@ -9,6 +9,7 @@ import {
   REGIONAL_MINIMUMS,
 } from '@/config/constants';
 import { usePreferences } from '@/store/preferences';
+import { decodeStateFromURL } from '@/lib/url-state';
 import type {
   RegionId,
   InsuranceBaseMode,
@@ -26,7 +27,23 @@ export function SalaryCalculator() {
   const [customInsuranceBase, setCustomInsuranceBase] = useState(30_000_000);
 
   // View mode from preferences store (persisted)
-  const { viewMode } = usePreferences();
+  const { viewMode, setViewMode, setLocale, locale } = usePreferences();
+
+  // Restore state from URL on mount
+  useEffect(() => {
+    const urlState = decodeStateFromURL(window.location.search);
+
+    if (urlState.gross !== undefined) setGross(urlState.gross);
+    if (urlState.dependents !== undefined) setDependents(urlState.dependents);
+    if (urlState.region !== undefined) setRegion(urlState.region);
+    if (urlState.insuranceBaseMode !== undefined)
+      setInsuranceBaseMode(urlState.insuranceBaseMode);
+    if (urlState.customInsuranceBase !== undefined)
+      setCustomInsuranceBase(urlState.customInsuranceBase);
+    if (urlState.viewMode !== undefined) setViewMode(urlState.viewMode);
+    if (urlState.locale !== undefined) setLocale(urlState.locale);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
   // Result state
   const [result2025, setResult2025] = useState<CalculationResult | null>(null);
@@ -90,6 +107,8 @@ export function SalaryCalculator() {
             insuranceBaseMode={insuranceBaseMode}
             customInsuranceBase={customInsuranceBase}
             regionalMin={REGIONAL_MINIMUMS[region].minWage}
+            locale={locale}
+            viewMode={viewMode}
           />
         )
       ) : (
@@ -99,6 +118,8 @@ export function SalaryCalculator() {
           insuranceBaseMode={insuranceBaseMode}
           customInsuranceBase={customInsuranceBase}
           regionalMin={REGIONAL_MINIMUMS[region].minWage}
+          locale={locale}
+          viewMode={viewMode}
         />
       )}
     </div>

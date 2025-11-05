@@ -196,18 +196,34 @@
 
 ### Tests for User Story 4 (TDD - Write FIRST, ensure FAIL)
 
-- [ ] T087 [P] [US4] Create tests/unit/url-state.test.ts with tests for encodeStateToURL() (complete state, partial state, custom insurance base, compare mode)
-- [ ] T088 [P] [US4] Add tests for decodeStateFromURL() in tests/unit/url-state.test.ts (valid complete query, partial query, invalid values ignored, empty query, malformed query)
+- [X] T087 [P] [US4] Create tests/unit/url-state.test.ts with tests for encodeStateToURL() (complete state, partial state, custom insurance base, compare mode)
+- [X] T088 [P] [US4] Add tests for decodeStateFromURL() in tests/unit/url-state.test.ts (valid complete query, partial query, invalid values ignored, empty query, malformed query)
 
 ### Implementation for User Story 4
 
-- [ ] T089 [P] [US4] Implement encodeStateToURL() in src/lib/url-state.ts (URLSearchParams with abbreviated keys: g=gross, d=deps, r=region, ib=insuranceBase, m=viewMode, fmt=locale)
-- [ ] T090 [P] [US4] Implement decodeStateFromURL() in src/lib/url-state.ts (parse query params, validate types, return Partial<URLState>, handle errors gracefully)
-- [ ] T091 [US4] Run tests for URL state functions and verify 100% pass rate
-- [ ] T092 [US4] Implement copyDetailsToClipboard() utility in src/lib/format.ts (format CalculationResult as Vietnamese text with labels, use navigator.clipboard.writeText)
-- [ ] T093 [US4] Add useEffect to SalaryCalculator.tsx to decode URL params on mount (restore state from URL if valid params present)
-- [ ] T094 [US4] Add "Share link" button to ResultDisplay.tsx (onClick: encodeStateToURL and update window.location.search, show success toast)
-- [ ] T095 [US4] Add "Copy details" button to ResultDisplay.tsx (onClick: copyDetailsToClipboard, show success toast, handle clipboard API errors)
+- [X] T089 [P] [US4] Implement encodeStateToURL() in src/lib/url-state.ts (URLSearchParams with abbreviated keys: g=gross, d=deps, r=region, ib=insuranceBase, m=viewMode, fmt=locale)
+- [X] T090 [P] [US4] Implement decodeStateFromURL() in src/lib/url-state.ts (parse query params, validate types, return Partial<URLState>, handle errors gracefully)
+- [X] T091 [US4] Run tests for URL state functions and verify 100% pass rate (15/15 tests passing)
+- [X] T092 [US4] Implement copyDetailsToClipboard() utility in src/lib/format.ts (format CalculationResult as Vietnamese text with labels, use navigator.clipboard.writeText)
+  - Created async function with formatted Vietnamese output
+  - Includes all calculation details: inputs, insurance, deductions, PIT, NET result
+  - Uses formatNumber with vi-VN locale for consistency
+  - Implements clipboard API with fallback for older browsers
+- [X] T093 [US4] Add useEffect to SalaryCalculator.tsx to decode URL params on mount (restore state from URL if valid params present)
+  - Added URL state restoration on component mount
+  - Decodes all state: gross, dependents, region, insuranceBaseMode, customInsuranceBase, viewMode, locale
+  - Updates both local state and preferences store
+- [X] T094 [US4] Add "Share link" button to ResultDisplay.tsx (onClick: encodeStateToURL and update window.location.search, show success toast)
+  - Added Share button with Share2 icon
+  - Encodes current state to URL and updates browser history
+  - Shows "Đã tạo link!" success message for 2s
+  - Error handling with Vietnamese alert fallback
+- [X] T095 [US4] Add "Copy details" button to ResultDisplay.tsx (onClick: copyDetailsToClipboard, show success toast, handle clipboard API errors)
+  - Added Copy button with Copy icon
+  - Calls copyDetailsToClipboard with full calculation result
+  - Shows "Đã sao chép!" success message for 2s
+  - Error handling with Vietnamese alert fallback
+  - Buttons placed in CardHeader next to title
 - [ ] T096 [US4] Create tests/integration/url-state.test.tsx (encode state, verify URL updates, reload page, verify state restored)
 - [ ] T097 [US4] Run integration tests and verify URL sharing works end-to-end
 - [ ] T098 [US4] Manual testing: Calculate with 185M gross, 2 deps, Region I, compare mode, click Share link, verify URL contains all params
