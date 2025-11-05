@@ -1,17 +1,28 @@
 import { ResultDisplay } from '@/components/ResultDisplay';
 import { DeltasSummary } from '@/components/DeltasSummary';
-import type { ComparisonResult } from '@/types';
+import type { ComparisonResult, InsuranceBaseMode } from '@/types';
 
 interface ComparisonViewProps {
   /** Comparison result with both regime calculations and deltas */
   comparison: ComparisonResult;
+  /** Additional context for insurance base adjustments */
+  gross?: number;
+  insuranceBaseMode?: InsuranceBaseMode;
+  customInsuranceBase?: number;
+  regionalMin?: number;
 }
 
 /**
  * Side-by-side comparison view showing 2025 and 2026 regime results with delta summary.
  * Responsive grid layout: stacked on mobile, side-by-side on larger screens.
  */
-export function ComparisonView({ comparison }: ComparisonViewProps) {
+export function ComparisonView({
+  comparison,
+  gross,
+  insuranceBaseMode,
+  customInsuranceBase,
+  regionalMin,
+}: ComparisonViewProps) {
   return (
     <div className="space-y-6">
       {/* Regime results side-by-side */}
@@ -24,7 +35,13 @@ export function ComparisonView({ comparison }: ComparisonViewProps) {
               Giảm trừ: 11M + 4.4M/người
             </span>
           </div>
-          <ResultDisplay result={comparison.regime2025} />
+          <ResultDisplay
+            result={comparison.regime2025}
+            gross={gross}
+            insuranceBaseMode={insuranceBaseMode}
+            customInsuranceBase={customInsuranceBase}
+            regionalMin={regionalMin}
+          />
         </div>
 
         {/* 2026 Regime Result */}
@@ -35,7 +52,13 @@ export function ComparisonView({ comparison }: ComparisonViewProps) {
               Giảm trừ: 15.5M + 6.2M/người
             </span>
           </div>
-          <ResultDisplay result={comparison.regime2026} />
+          <ResultDisplay
+            result={comparison.regime2026}
+            gross={gross}
+            insuranceBaseMode={insuranceBaseMode}
+            customInsuranceBase={customInsuranceBase}
+            regionalMin={regionalMin}
+          />
         </div>
       </div>
 

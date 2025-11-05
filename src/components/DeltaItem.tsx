@@ -21,7 +21,7 @@ interface DeltaItemProps {
  * - Positive delta (2026 > 2025): Green if good, red if bad
  * - Negative delta (2026 < 2025): Red if good, green if bad
  * - Zero delta: Gray with minus sign
- * 
+ *
  * For taxes and deductions:
  * - Use inverted=true for tax amounts (lower tax is better)
  * - Use inverted=false for deductions (higher deductions are better)

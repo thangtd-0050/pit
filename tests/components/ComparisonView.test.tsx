@@ -76,7 +76,7 @@ describe('ComparisonView', () => {
 
     // Check for deduction labels (should appear in both result cards)
     expect(screen.getAllByText('Giảm trừ bản thân').length).toBeGreaterThan(0);
-    
+
     // 2025 should show 11M personal deduction (appears multiple times)
     const deductionTexts = screen.getAllByText(/11\.000\.000|11,000,000/);
     expect(deductionTexts.length).toBeGreaterThan(0);

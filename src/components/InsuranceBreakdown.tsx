@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, AlertCircle } from 'lucide-react';
 import { formatNumber } from '@/lib/format';
 import { usePreferences } from '@/store/preferences';
 import type { Insurance } from '@/types';
@@ -20,15 +20,78 @@ import { useState } from 'react';
 
 interface InsuranceBreakdownProps {
   insurance: Insurance;
+  /** Gross salary for comparison (to detect if custom base was adjusted) */
+  gross?: number;
+  /** Custom insurance base entered by user (if any) */
+  customBase?: number;
+  /** Regional minimum wage for floor comparison */
+  regionalMin?: number;
 }
 
-export function InsuranceBreakdown({ insurance }: InsuranceBreakdownProps) {
+export function InsuranceBreakdown({
+  insurance,
+  gross,
+  customBase,
+  regionalMin,
+}: InsuranceBreakdownProps) {
   const { locale } = usePreferences();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Detect if custom base was adjusted
+  const usingCustomBase = customBase !== undefined && customBase > 0;
+  const baseSIHI = insurance.bases.baseSIHI;
+  const baseUI = insurance.bases.baseUI;
+
+  // Check if floored (custom base below minimum)
+  const wasFloored =
+    usingCustomBase &&
+    regionalMin &&
+    customBase < regionalMin &&
+    baseSIHI === regionalMin;
+
+  // Check if capped for SI/HI (above 46,800,000)
+  const wasCappedSIHI =
+    usingCustomBase && customBase > 46_800_000 && baseSIHI === 46_800_000;
+
+  // Check if capped for UI (above 20x regional minimum)
+  const capUI = regionalMin ? 20 * regionalMin : 0;
+  const wasCappedUI =
+    usingCustomBase && customBase > capUI && baseUI === capUI;
 
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Bảo hiểm bắt buộc</h3>
+
+      {/* Helper messages when custom base was adjusted */}
+      {(wasFloored || wasCappedSIHI || wasCappedUI) && (
+        <div className="flex items-start gap-2 rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-900 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-100">
+          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+          <div className="space-y-1">
+            {wasFloored && (
+              <p>
+                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã
+                được điều chỉnh lên <strong>sàn tối thiểu theo vùng</strong> (
+                {formatNumber(regionalMin!, locale)} VND).
+              </p>
+            )}
+            {wasCappedSIHI && (
+              <p>
+                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã
+                được điều chỉnh xuống{' '}
+                <strong>trần BHXH, BHYT</strong> (
+                {formatNumber(46_800_000, locale)} VND).
+              </p>
+            )}
+            {wasCappedUI && (
+              <p>
+                Mức đóng tùy chỉnh ({formatNumber(customBase!, locale)} VND) đã
+                được điều chỉnh xuống <strong>trần BHTN</strong> (
+                {formatNumber(capUI, locale)} VND = 20 lần mức tối thiểu vùng).
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       <Table>
         <TableHeader>

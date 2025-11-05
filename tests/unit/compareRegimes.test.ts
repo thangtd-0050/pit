@@ -264,10 +264,10 @@ describe('compareRegimes', () => {
 
       // Insurance deltas should be zero (same formula both regimes)
       expect(result.deltas.insurance).toBe(0);
-      
+
       // PIT should be zero (no taxable income)
       expect(result.deltas.pit).toBe(0);
-      
+
       // NET delta should be zero (both negative by same amount)
       expect(result.deltas.netSalary).toBe(0);
     });

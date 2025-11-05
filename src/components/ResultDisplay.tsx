@@ -4,13 +4,24 @@ import { InsuranceBreakdown } from '@/components/InsuranceBreakdown';
 import { DeductionsBreakdown } from '@/components/DeductionsBreakdown';
 import { PITBreakdown } from '@/components/PITBreakdown';
 import { EmptyState } from '@/components/EmptyState';
-import type { CalculationResult } from '@/types';
+import type { CalculationResult, InsuranceBaseMode } from '@/types';
 
 interface ResultDisplayProps {
   result: CalculationResult | null;
+  /** Additional context for insurance base adjustments */
+  gross?: number;
+  insuranceBaseMode?: InsuranceBaseMode;
+  customInsuranceBase?: number;
+  regionalMin?: number;
 }
 
-export function ResultDisplay({ result }: ResultDisplayProps) {
+export function ResultDisplay({
+  result,
+  gross,
+  insuranceBaseMode,
+  customInsuranceBase,
+  regionalMin,
+}: ResultDisplayProps) {
   if (!result) {
     return (
       <Card>
@@ -30,7 +41,14 @@ export function ResultDisplay({ result }: ResultDisplayProps) {
         <NetSalaryHighlight amount={result.net} />
 
         <div className="space-y-6">
-          <InsuranceBreakdown insurance={result.insurance} />
+          <InsuranceBreakdown
+            insurance={result.insurance}
+            gross={gross}
+            customBase={
+              insuranceBaseMode === 'custom' ? customInsuranceBase : undefined
+            }
+            regionalMin={regionalMin}
+          />
           <DeductionsBreakdown deductions={result.deductions} />
           <PITBreakdown pit={result.pit} />
         </div>
