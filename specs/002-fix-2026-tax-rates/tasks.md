@@ -91,11 +91,11 @@ Single-project React SPA structure:
 
 **Purpose**: Final verification and quality checks
 
-- [ ] T018 Run full test suite and verify 97 tests passing with ≥76% coverage
-- [ ] T019 Verify no lint errors with `npm run lint`
-- [ ] T020 Test manual scenarios from spec.md acceptance criteria (50M salary with 2 dependents, 150M with 0 dependents, comparison mode, URL restoration)
-- [ ] T021 Update feature specification status to "Complete" in specs/002-fix-2026-tax-rates/spec.md
-- [ ] T022 Create git commit with descriptive message referencing bug fix
+- [X] T018 Run full test suite and verify 97 tests passing with ≥76% coverage
+- [X] T019 Verify no lint errors with `npm run lint`
+- [X] T020 Test manual scenarios from spec.md acceptance criteria (50M salary with 2 dependents, 150M with 0 dependents, comparison mode, URL restoration)
+- [X] T021 Update feature specification status to "Complete" in specs/002-fix-2026-tax-rates/spec.md
+- [X] T022 Create git commit with descriptive message referencing bug fix
 
 ---
 
