@@ -273,7 +273,7 @@ describe('compareRegimes', () => {
     });
 
     it('should handle all regions consistently', () => {
-      const baseInputs: Omit<CalculatorInputs, 'region'> = {
+      const baseInputs: Omit<CalculatorInputs, 'region' | 'regime'> = {
         gross: 50_000_000,
         dependents: 2,
       };

@@ -1,10 +1,11 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { CalculatorInputs } from '@/components/CalculatorInputs';
 import { ResultDisplay } from '@/components/ResultDisplay';
 import { calcAll, compareRegimes } from '@/lib/tax';
 import { REGIME_2025, REGIME_2026, REGIONAL_MINIMUMS } from '@/config/constants';
 import { usePreferences } from '@/store/preferences';
 import { decodeStateFromURL } from '@/lib/url-state';
+import { useAnalytics } from '@/hooks/useAnalytics';
 import type { RegionId, InsuranceBaseMode, CalculationResult, ComparisonResult } from '@/types';
 
 // Lazy load ComparisonView for code splitting
@@ -20,6 +21,30 @@ export function SalaryCalculator() {
 
   // View mode from preferences store (persisted)
   const { viewMode, setViewMode, setLocale, locale } = usePreferences();
+
+  // Analytics hook
+  const { trackPageView, trackCalculation, trackRegimeSwitch } = useAnalytics();
+
+  // Track previous viewMode for regime switch detection
+  const prevViewMode = useRef(viewMode);
+
+  // Track initial page load and view mode changes
+  useEffect(() => {
+    const path = viewMode === 'compare' ? '/compare' : `/${viewMode}`;
+    trackPageView({
+      path,
+      title: `Salary Calculator ${viewMode === 'compare' ? 'Comparison' : viewMode}`,
+    });
+
+    // Track regime switch if view mode changed
+    if (prevViewMode.current !== viewMode) {
+      trackRegimeSwitch({
+        from: prevViewMode.current,
+        to: viewMode,
+      });
+      prevViewMode.current = viewMode;
+    }
+  }, [viewMode, trackPageView, trackRegimeSwitch]);
 
   // Restore state from URL on mount
   useEffect(() => {
@@ -44,6 +69,8 @@ export function SalaryCalculator() {
   // Calculate whenever inputs change
   useEffect(() => {
     if (gross > 0) {
+      const startTime = performance.now();
+
       // Build inputs object with optional custom insurance base
       const inputs = {
         gross,
@@ -62,12 +89,22 @@ export function SalaryCalculator() {
       setResult2025(calc2025);
       setResult2026(calc2026);
       setComparison(comp);
+
+      // Track calculation with performance timing
+      const calculationTime = Math.round(performance.now() - startTime);
+      const currentRegime = viewMode === 'compare' ? '2025' : viewMode;
+
+      trackCalculation({
+        regime: currentRegime,
+        hasInput: gross > 0,
+        calculationTime,
+      });
     } else {
       setResult2025(null);
       setResult2026(null);
       setComparison(null);
     }
-  }, [gross, dependents, region, insuranceBaseMode, customInsuranceBase]);
+  }, [gross, dependents, region, insuranceBaseMode, customInsuranceBase, viewMode, trackCalculation]);
 
   // Determine which result to display based on view mode
   const currentResult = viewMode === '2025' ? result2025 : viewMode === '2026' ? result2026 : null;

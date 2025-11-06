@@ -1,7 +1,7 @@
 # Analytics Service API Contract
 
-**Feature**: 003-google-analytics  
-**Date**: 2025-11-06  
+**Feature**: 003-google-analytics
+**Date**: 2025-11-06
 **Purpose**: Define the contract for the Analytics Service API
 
 ---
@@ -24,11 +24,11 @@ Primary interface for all analytics tracking operations.
 export interface IAnalyticsService {
   /**
    * Track a page view or virtual page navigation
-   * 
+   *
    * @param params - Page view parameters
    * @returns void (fire-and-forget)
    * @throws Never throws - errors are logged internally
-   * 
+   *
    * @example
    * analytics.trackPageView({ path: '/2025', title: 'Calculator 2025' });
    */
@@ -36,11 +36,11 @@ export interface IAnalyticsService {
 
   /**
    * Track a generic custom event
-   * 
+   *
    * @param event - Event details with name and optional parameters
    * @returns void (fire-and-forget)
    * @throws Never throws - errors are logged internally
-   * 
+   *
    * @example
    * analytics.trackEvent({
    *   name: 'button_click',
@@ -53,11 +53,11 @@ export interface IAnalyticsService {
 
   /**
    * Track a salary calculation event
-   * 
+   *
    * @param params - Calculation event parameters
    * @returns void (fire-and-forget)
    * @throws Never throws - errors are logged internally
-   * 
+   *
    * @example
    * analytics.trackCalculation({
    *   regime: '2026',
@@ -69,11 +69,11 @@ export interface IAnalyticsService {
 
   /**
    * Track a preset button click
-   * 
+   *
    * @param params - Preset click parameters
    * @returns void (fire-and-forget)
    * @throws Never throws - errors are logged internally
-   * 
+   *
    * @example
    * analytics.trackPresetClick({
    *   presetLabel: 'preset_30M',
@@ -84,11 +84,11 @@ export interface IAnalyticsService {
 
   /**
    * Track a regime/view mode switch
-   * 
+   *
    * @param params - Regime switch parameters
    * @returns void (fire-and-forget)
    * @throws Never throws - errors are logged internally
-   * 
+   *
    * @example
    * analytics.trackRegimeSwitch({
    *   from: '2025',
@@ -99,11 +99,11 @@ export interface IAnalyticsService {
 
   /**
    * Track a share action (URL or copy)
-   * 
+   *
    * @param params - Share event parameters
    * @returns void (fire-and-forget)
    * @throws Never throws - errors are logged internally
-   * 
+   *
    * @example
    * analytics.trackShare({
    *   method: 'url',
@@ -114,10 +114,10 @@ export interface IAnalyticsService {
 
   /**
    * Check if analytics tracking is available (gtag loaded, not blocked)
-   * 
+   *
    * @returns true if gtag is available, false otherwise
    * @throws Never throws
-   * 
+   *
    * @example
    * if (analytics.isAvailable()) {
    *   console.log('Analytics enabled');
@@ -416,7 +416,7 @@ describe('Privacy contract', () => {
       presetLabel: 'preset_30M',
       presetIndex: 2
     });
-    
+
     expect(mockGtag).toHaveBeenCalledWith(
       'event',
       'preset_click',
@@ -431,7 +431,7 @@ describe('Privacy contract', () => {
       name: 'test',
       customParams: { suspicious: 50_000_000 }
     });
-    
+
     // Event should not be sent
     expect(mockGtag).not.toHaveBeenCalled();
   });
@@ -457,7 +457,7 @@ describe('Performance contract', () => {
     const start = performance.now();
     analytics.trackCalculation({ regime: '2026', hasInput: true });
     const duration = performance.now() - start;
-    
+
     expect(duration).toBeLessThan(10);
   });
 
@@ -466,7 +466,7 @@ describe('Performance contract', () => {
       analytics.trackPageView({ path: '/test' });
       resolve(); // Should resolve immediately
     });
-    
+
     await expect(promise).resolves.toBeUndefined();
   });
 });
@@ -502,7 +502,7 @@ function GrossSalaryInput() {
       presetLabel: `preset_${millions}M`,
       presetIndex: index
     });
-    
+
     setSalary(amount);
   };
 
@@ -569,7 +569,7 @@ describe('IAnalyticsService contract', () => {
   it('should have correct method signatures', () => {
     expect(typeof analytics.trackPageView).toBe('function');
     expect(analytics.trackPageView.length).toBe(1); // 1 parameter
-    
+
     const result = analytics.trackPageView({ path: '/test' });
     expect(result).toBeUndefined(); // void return
   });

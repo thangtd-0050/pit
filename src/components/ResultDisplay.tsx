@@ -9,6 +9,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { Share2, Copy, Check } from 'lucide-react';
 import { encodeStateToURL } from '@/lib/url-state';
 import { copyDetailsToClipboard } from '@/lib/format';
+import { useAnalytics } from '@/hooks/useAnalytics';
 import type { CalculationResult, InsuranceBaseMode } from '@/types';
 
 interface ResultDisplayProps {
@@ -31,6 +32,7 @@ export function ResultDisplay({
   locale = 'vi-VN',
   viewMode = '2025',
 }: ResultDisplayProps) {
+  const { trackShare } = useAnalytics();
   const [shareSuccess, setShareSuccess] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -60,6 +62,9 @@ export function ResultDisplay({
       const newURL = `${window.location.pathname}?${queryString}`;
       window.history.pushState({}, '', newURL);
 
+      // Track share action
+      trackShare({ method: 'url' });
+
       setShareSuccess(true);
       setTimeout(() => setShareSuccess(false), 2000);
     } catch (error) {
@@ -76,6 +81,9 @@ export function ResultDisplay({
         region: result.inputs.region,
         regime: result.inputs.regime,
       });
+
+      // Track copy action
+      trackShare({ method: 'copy' });
 
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);

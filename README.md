@@ -52,6 +52,54 @@ Công cụ tính lương NET từ lương GROSS theo quy định thuế TNCN và
 - **UI Components**: Radix UI primitives
 - **Testing**: Vitest + Testing Library
 - **Code Quality**: ESLint + Prettier
+- **Analytics**: Google Analytics 4 (GA4)
+
+## 📊 Analytics & Privacy
+
+### Google Analytics Integration
+
+This project uses **Google Analytics 4 (GA4)** to track usage patterns and improve user experience. The analytics implementation:
+
+- **Page View Tracking**: Monitors which calculator modes (2025, 2026, Compare) are most popular
+- **Event Tracking**: Tracks user interactions (preset clicks, calculations, mode switches, shares)
+- **Performance Monitoring**: Measures calculation speed and page load times
+
+### Privacy Protection
+
+We take privacy seriously:
+
+- ✅ **IP Anonymization**: All IP addresses are anonymized before being sent to Google
+- ✅ **No PII Collection**: We never track actual salary amounts or personal information
+- ✅ **Graceful Degradation**: If analytics are blocked by ad blockers, the calculator continues to work perfectly
+- ✅ **GDPR Compliant**: No cookies or personal data storage
+- ✅ **Sanitized Data**: Preset values >1000M are automatically rejected to prevent PII leakage
+
+### What We Track
+
+- Page views and navigation patterns (e.g., switching between 2025/2026 modes)
+- Feature usage (e.g., preset button clicks, custom insurance base)
+- Calculation performance metrics (duration in milliseconds)
+- Share/copy actions
+
+### What We DON'T Track
+
+- ❌ Your actual salary amount
+- ❌ Personal information
+- ❌ Location data beyond country-level
+- ❌ Browsing history outside this app
+
+### Environment Setup
+
+To enable analytics in your own deployment:
+
+1. Create a `.env` file based on `.env.example`
+2. Add your GA4 Measurement ID:
+   ```
+   VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+   ```
+3. Get your Measurement ID from [Google Analytics](https://analytics.google.com)
+
+For local development, analytics are logged to the console instead of being sent to GA4.
 
 ## Getting Started
 

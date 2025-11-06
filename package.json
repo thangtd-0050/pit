@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "build:gh": "tsc && VITE_BASE_PATH=/pit/ vite build",
+    "build": "tsc -p tsconfig.app.json && vite build",
+    "build:gh": "tsc -p tsconfig.app.json && VITE_BASE_PATH=/pit/ vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",

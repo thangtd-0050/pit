@@ -18,6 +18,13 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress sourcemap warnings from node_modules
+        if (warning.code === 'SOURCEMAP_ERROR') {
+          return;
+        }
+        warn(warning);
+      },
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],

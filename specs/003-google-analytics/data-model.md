@@ -1,7 +1,7 @@
 # Data Model: Google Analytics Tracking
 
-**Feature**: 003-google-analytics  
-**Date**: 2025-11-06  
+**Feature**: 003-google-analytics
+**Date**: 2025-11-06
 **Purpose**: Define data structures for analytics events and tracking state
 
 ---
@@ -367,21 +367,21 @@ function sanitizePresetLabel(amount: number): string {
  */
 function sanitizeParams(params: Record<string, any>): Record<string, any> {
   const sanitized: Record<string, any> = {};
-  
+
   for (const [key, value] of Object.entries(params)) {
     // Skip keys that might contain PII
     if (key.match(/salary|income|email|phone|name|address/i)) {
       continue;
     }
-    
+
     // Skip large numbers that might be actual salaries
     if (typeof value === 'number' && value > 1_000_000) {
       continue;
     }
-    
+
     sanitized[key] = value;
   }
-  
+
   return sanitized;
 }
 ```

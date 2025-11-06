@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { sanitizeNumericInput, formatNumber } from '@/lib/format';
 import { usePreferences } from '@/store/preferences';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface GrossSalaryInputProps {
   value: number;
@@ -19,6 +20,7 @@ export function GrossSalaryInput({
   max = 1_000_000_000,
 }: GrossSalaryInputProps) {
   const { locale } = usePreferences();
+  const { trackPresetClick } = useAnalytics();
   const [displayValue, setDisplayValue] = useState('');
   const [error, setError] = useState('');
 
@@ -97,6 +99,15 @@ export function GrossSalaryInput({
   };
 
   const handlePresetClick = (presetValue: number) => {
+    // Track preset click with analytics
+    const presetIndex = presets.indexOf(presetValue);
+    const presetLabel = `preset_${presetValue / 1_000_000}M`;
+
+    trackPresetClick({
+      presetLabel,
+      presetIndex,
+    });
+
     onChange(presetValue);
     setDisplayValue(formatNumber(presetValue, locale));
     setError('');

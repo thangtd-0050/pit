@@ -14,7 +14,7 @@ Integrate Google Analytics 4 (GA4) tracking into the Vietnam Gross-to-Net Salary
 ## Technical Context
 
 **Language/Version**: TypeScript 5.3.3 (strict mode enabled)
-**Primary Dependencies**: 
+**Primary Dependencies**:
 - Google Analytics 4 (gtag.js) - client-side tracking library
 - React 18.2.0 - existing UI framework
 - Vite 5.0.10 - build tool (supports script injection in index.html)
@@ -23,18 +23,18 @@ Integrate Google Analytics 4 (GA4) tracking into the Vietnam Gross-to-Net Salary
 **Testing**: Vitest 1.4.0, React Testing Library 14.1.2, Playwright 1.41.1 (existing stack)
 **Target Platform**: Modern web browsers (Chrome, Firefox, Safari, Edge - ES2020+)
 **Project Type**: Single-page web application (SPA) with React
-**Performance Goals**: 
+**Performance Goals**:
 - Analytics script load: <500ms (async, non-blocking)
 - Event tracking overhead: <10ms per event
 - Zero impact on existing page load time (<3s FCP maintained)
 
-**Constraints**: 
+**Constraints**:
 - No backend/server-side tracking (client-side only)
 - No personally identifiable information (PII) tracked
 - Must work with ad blockers gracefully (no errors, calculator functions normally)
 - Must respect privacy (IP anonymization enabled)
 
-**Scale/Scope**: 
+**Scale/Scope**:
 - Single-page application with 3 view modes (2025, 2026, Compare)
 - ~10 tracked events (pageviews, clicks, calculations, shares)
 - Expected traffic: hundreds to thousands of daily users

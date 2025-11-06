@@ -1,8 +1,8 @@
 # Quickstart Guide: Google Analytics Integration
 
-**Feature**: 003-google-analytics  
-**Audience**: Developers and site owners  
-**Time to Complete**: 10 minutes  
+**Feature**: 003-google-analytics
+**Audience**: Developers and site owners
+**Time to Complete**: 10 minutes
 **Last Updated**: 2025-11-06
 
 ---
@@ -249,7 +249,7 @@ regime: 2026
 
 **Expected behavior**: This is normal! 30-40% of users have ad blockers.
 
-**Impact**: 
+**Impact**:
 - ✅ Calculator works normally (no errors)
 - ❌ No analytics data collected for that user
 
@@ -278,7 +278,7 @@ regime: 2026
 2. Check Performance tab: Analytics calls should be <10ms
 3. Verify `async` attribute on script tag in `index.html`
 
-**Solution**: 
+**Solution**:
 - Ensure gtag.js uses `async` attribute
 - Verify tracking calls are fire-and-forget (no awaits)
 
@@ -393,16 +393,16 @@ To enable verbose logging:
 
 ### Common Questions
 
-**Q: How long does it take for data to appear in GA4?**  
+**Q: How long does it take for data to appear in GA4?**
 A: Real-time view: 5-10 seconds. Standard reports: Up to 24 hours.
 
-**Q: Why is my data different from expected?**  
+**Q: Why is my data different from expected?**
 A: Ad blockers, privacy tools, and bot filters affect tracking (expected 60-70% coverage).
 
-**Q: Can I see individual user sessions?**  
+**Q: Can I see individual user sessions?**
 A: No. GA4 focuses on aggregated, anonymized data (privacy-first design).
 
-**Q: How do I change the Measurement ID?**  
+**Q: How do I change the Measurement ID?**
 A: Update `VITE_GA_MEASUREMENT_ID` env var, rebuild, redeploy.
 
 ---

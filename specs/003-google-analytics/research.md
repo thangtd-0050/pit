@@ -1,7 +1,7 @@
 # Research Notes: Google Analytics 4 Integration
 
-**Feature**: 003-google-analytics  
-**Date**: 2025-11-06  
+**Feature**: 003-google-analytics
+**Date**: 2025-11-06
 **Purpose**: Resolve technical unknowns and establish best practices for GA4 integration
 
 ---
