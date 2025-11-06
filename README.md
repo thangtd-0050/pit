@@ -1,12 +1,12 @@
 # 💰 Vietnam Gross-to-Net Salary Calculator
 
-[![Tests](https://img.shields.io/badge/tests-97%20passing-brightgreen)](https://github.com/tran-duc-thang/pit)
-[![Coverage](https://img.shields.io/badge/coverage-76%25-yellow)](https://github.com/tran-duc-thang/pit)
+[![Tests](https://img.shields.io/badge/tests-132%20passing-brightgreen)](https://github.com/tran-duc-thang/pit)
+[![Coverage](https://img.shields.io/badge/coverage-83%25-yellow)](https://github.com/tran-duc-thang/pit)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 Công cụ tính lương NET từ lương GROSS theo quy định thuế TNCN và bảo hiểm xã hội Việt Nam 2025-2026.
 
-**Live Demo**: [https://tran-duc-thang.github.io/pit](https://tran-duc-thang.github.io/pit)
+**Live Demo**: [https://pit.thangtd.com/](https://pit.thangtd.com/)
 
 ## ✨ Tính Năng
 
