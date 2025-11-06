@@ -56,7 +56,7 @@ describe('ResultDisplay - Union Dues', () => {
 
     // Should display union dues label
     expect(screen.getByText(/đoàn phí công đoàn/i)).toBeInTheDocument();
-    
+
     // Should display union dues amount
     expect(screen.getByText(/150.000/)).toBeInTheDocument();
   });
@@ -143,7 +143,7 @@ describe('ResultDisplay - Union Dues', () => {
 
     // Should show capped amount
     expect(screen.getByText(/234.000/)).toBeInTheDocument();
-    
+
     // Should show cap indicator (tooltip or note)
     // This depends on implementation - checking for common phrases
     const container = screen.getByText(/đoàn phí công đoàn/i).closest('div');
@@ -193,7 +193,7 @@ describe('ResultDisplay - Union Dues', () => {
 
     // Should display both NET and final NET
     expect(screen.getByText(/lương thực nhận/i)).toBeInTheDocument();
-    
+
     // Final NET should be NET - union dues = 24,907,500
     expect(screen.getByText(/24.907.500/)).toBeInTheDocument();
   });

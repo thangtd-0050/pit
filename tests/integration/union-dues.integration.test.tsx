@@ -41,13 +41,13 @@ describe('Union Dues Integration Tests', () => {
 
     // Initial state: checkbox unchecked, should show NET salary
     const checkbox = screen.getByRole('switch', { name: /đoàn viên công đoàn/i });
-    
+
     // Wait for initial calculation to complete
     await screen.findByText(/lương thực nhận/i);
 
     // Toggle checkbox on - should recalculate with union dues
     await user.click(checkbox);
-    
+
     // Verify calculation updated (component should re-render)
     expect(checkbox).toBeChecked();
   });
@@ -64,10 +64,10 @@ describe('Union Dues Integration Tests', () => {
 
   it('should preserve checkbox state in URL when sharing', async () => {
     const user = userEvent.setup();
-    
+
     // Mock window.history.pushState
     const pushStateSpy = vi.spyOn(window.history, 'pushState');
-    
+
     render(<SalaryCalculator />);
 
     // Toggle checkbox on

@@ -131,8 +131,8 @@ export function ResultDisplay({
       </CardHeader>
       <CardContent className="space-y-8">
         {/* Display final NET if union member, otherwise regular NET */}
-        <NetSalaryHighlight 
-          amount={result.finalNet} 
+        <NetSalaryHighlight
+          amount={result.finalNet}
         />
 
         <div className="space-y-6">
@@ -143,7 +143,7 @@ export function ResultDisplay({
           />
           <DeductionsBreakdown deductions={result.deductions} />
           <PITBreakdown pit={result.pit} />
-          
+
           {/* Union Dues Breakdown - only show if user is union member */}
           {result.unionDues && (
             <div className="space-y-3">
