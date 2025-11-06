@@ -102,7 +102,7 @@ export function GrossSalaryInput({
     setError('');
   };
 
-  const presets = [10_000_000, 30_000_000, 60_000_000, 100_000_000, 185_000_000];
+  const presets = [10_000_000, 20_000_000, 30_000_000, 50_000_000, 70_000_000, 100_000_000, 150_000_000, 200_000_000];
 
   return (
     <div className="space-y-3">
