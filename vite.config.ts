@@ -26,5 +26,6 @@ export default defineConfig({
       }
     }
   },
-  base: '/pit/'
+  // Use '/' for custom domain, '/pit/' for GitHub Pages subdirectory
+  base: process.env.VITE_BASE_PATH || '/'
 })
