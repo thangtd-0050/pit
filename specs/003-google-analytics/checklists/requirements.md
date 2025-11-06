@@ -1,7 +1,7 @@
 # Requirements Quality Checklist - Feature 003: Google Analytics
 
-**Generated**: 2025-11-06  
-**Feature**: Add Google Analytics Tracking  
+**Generated**: 2025-11-06
+**Feature**: Add Google Analytics Tracking
 **Spec File**: `/Users/tran.duc.thang/Projects/pit/specs/003-google-analytics/spec.md`
 
 ---
@@ -10,7 +10,7 @@
 
 - [x] **User Scenarios**: 3 prioritized user stories defined (P1, P2, P3)
   - P1: Track Page Views and Basic Usage
-  - P2: Track User Interactions and Events  
+  - P2: Track User Interactions and Events
   - P3: Track Performance and User Experience Metrics
 - [x] **Acceptance Scenarios**: All stories have testable Given-When-Then scenarios
 - [x] **Edge Cases**: 3 edge cases identified (ad blockers, offline/failures, privacy)

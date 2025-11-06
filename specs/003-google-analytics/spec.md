@@ -1,8 +1,8 @@
 # Feature Specification: Add Google Analytics Tracking
 
-**Feature Branch**: `003-google-analytics`  
-**Created**: 2025-11-06  
-**Status**: Draft  
+**Feature Branch**: `003-google-analytics`
+**Created**: 2025-11-06
+**Status**: Draft
 **Input**: User description: "Thêm Google Analytics vào để thống kê tình hình sử dụng của trang web"
 
 ## User Scenarios & Testing *(mandatory)*
@@ -11,7 +11,7 @@
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
   you should still have a viable MVP (Minimum Viable Product) that delivers value.
-  
+
   Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
   Think of each story as a standalone slice of functionality that can be:
   - Developed independently
@@ -74,11 +74,11 @@ As the website owner, I want to track page load times, interaction delays, and u
 - What happens when a user has ad blockers or tracking blockers enabled?
   - System should gracefully handle blocked analytics without breaking functionality
   - No errors shown to user, calculator continues to work normally
-  
+
 - What happens when the user is offline or analytics fails to load?
   - System should not wait for analytics to initialize before showing content
   - Calculator functionality must work independently of analytics
-  
+
 - What happens to user privacy and data retention?
   - No personally identifiable information (PII) should be tracked (no IP addresses stored, no user identification)
   - Respect user privacy preferences and GDPR requirements
