@@ -25,6 +25,21 @@ export const RATE_HI = 0.015; // 1.5%
  */
 export const RATE_UI = 0.01; // 1%
 
+/**
+ * Union dues rate - Trade union member contribution
+ */
+export const UNION_DUES_RATE = 0.005; // 0.5%
+
+/**
+ * Maximum union dues as ratio of base salary (10% of 2,340,000 VND)
+ */
+export const UNION_DUES_MAX_RATIO = 0.1;
+
+/**
+ * Maximum union dues amount (10% × BASE_SALARY = 234,000 VND)
+ */
+export const UNION_DUES_MAX = 234_000; // VND/month
+
 // ============================================================================
 // Regional Minimum Wages
 // ============================================================================

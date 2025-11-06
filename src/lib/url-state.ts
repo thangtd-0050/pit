@@ -10,6 +10,7 @@ import type { URLState, RegionId, ViewMode, InsuranceBaseMode } from '@/types';
  * - ib: insurance base (custom amount)
  * - m: view mode
  * - fmt: locale format
+ * - u: union member (1 if true, omitted if false)
  *
  * @param state - Partial or complete URLState object
  * @returns Query string (without leading '?')
@@ -43,6 +44,10 @@ export function encodeStateToURL(state: Partial<URLState>): string {
 
   if (state.locale !== undefined) {
     params.set('fmt', state.locale);
+  }
+
+  if (state.isUnionMember === true) {
+    params.set('u', '1');
   }
 
   return params.toString();
@@ -118,6 +123,12 @@ export function decodeStateFromURL(queryString: string): Partial<URLState> {
     const locale = params.get('fmt');
     if (locale && isValidLocale(locale)) {
       state.locale = locale as 'en-US' | 'vi-VN';
+    }
+
+    // Parse union member
+    const unionMember = params.get('u');
+    if (unionMember === '1') {
+      state.isUnionMember = true;
     }
   } catch (error) {
     // If URLSearchParams fails to parse, return whatever we have

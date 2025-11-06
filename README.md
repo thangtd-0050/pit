@@ -18,6 +18,7 @@ Công cụ tính lương NET từ lương GROSS theo quy định thuế TNCN và
 ### 🏢 Tùy Chỉnh Linh Hoạt
 - **4 Vùng Lương Tối Thiểu**: Tự động điều chỉnh theo vùng I, II, III, IV
 - **Cơ Sở Đóng Bảo Hiểm**: Chọn theo Gross hoặc tùy chỉnh (tự động áp dụng trần/sàn)
+- **Đoàn Phí Công Đoàn**: Tùy chọn tính đoàn phí (0.5% cơ sở BHXH, tối đa 234K VND) cho đoàn viên
 - **Số Người Phụ Thuộc**: 0-20 người (hỗ trợ các trường hợp đặc biệt)
 - **Preset Lương**: Chọn nhanh 10M, 30M, 60M, 100M, 185M
 
@@ -205,6 +206,48 @@ NET = GROSS - BHXH - BHYT - BHTN - Thuế TNCN
      - 18M-32M: 20% = 2.8M
      - 32M-52M: 25% (chỉ tính 18M) = 4.5M
      - **Tổng thuế**: 9.25M
+
+5. **Tính Lương NET & Đoàn Phí** (Final Take-Home)
+   - Lương NET = Gross - BHXH - Thuế TNCN
+   - Đoàn phí (nếu là đoàn viên) = 0.5% × cơ sở BHXH (max 234K)
+   - Lương thực nhận cuối cùng = NET - Đoàn phí
+
+### Ví Dụ Tính Toán (Lương Gross 30M, Đoàn Viên Công Đoàn)
+
+**Đầu Vào**:
+- Lương Gross: 30,000,000 VND
+- Người phụ thuộc: 0
+- Vùng: I (Hà Nội, TP.HCM)
+- Là đoàn viên công đoàn: ✓
+
+**Quy Trình Tính**:
+1. Bảo hiểm bắt buộc (10.5%):
+   - BHXH (8%): 2,400,000
+   - BHYT (1.5%): 450,000
+   - BHTN (1%): 300,000
+   - **Tổng BH**: 3,150,000
+
+2. Giảm trừ:
+   - Bản thân: 11,000,000
+   - Người phụ thuộc: 0
+   - Bảo hiểm: 3,150,000
+   - **Tổng giảm trừ**: 14,150,000
+
+3. Thuế TNCN:
+   - Thu nhập chịu thuế: 30M - 14.15M = 15,850,000
+   - Bậc 1 (0-5M @ 5%): 250,000
+   - Bậc 2 (5M-10M @ 10%): 500,000
+   - Bậc 3 (10M-15.85M @ 15%): 877,500
+   - **Tổng thuế**: 1,627,500
+
+4. Đoàn phí công đoàn:
+   - Cơ sở tính: 30,000,000 (cơ sở BHXH)
+   - Đoàn phí (0.5%): **150,000**
+
+**Kết Quả**:
+- Lương NET: 30M - 3.15M - 1.627M = **25,222,500 VND**
+- Đoàn phí công đoàn: **-150,000 VND**
+- **Lương thực nhận cuối cùng: 25,072,500 VND**
 
 ### Bậc Thuế TNCN
 

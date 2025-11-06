@@ -18,6 +18,7 @@ import {
   REGIME_2025,
   REGIME_2026,
 } from '@/config/constants';
+import { calculateUnionDues, calculateFinalNet } from '@/lib/union-dues';
 
 /**
  * Clamp a value between a minimum and maximum.
@@ -205,13 +206,24 @@ export function calcAll(inputs: CalculatorInputs): CalculationResult {
   // 5. Calculate NET salary
   const net = inputs.gross - insurance.total - pit.total;
 
-  return {
+  // 6. Calculate union dues (if user is union member)
+  const unionDues = inputs.isUnionMember ? calculateUnionDues(bases.baseSIHI) : undefined;
+
+  // 7. Calculate final NET after union dues
+  const result: CalculationResult = {
     inputs,
     insurance,
     deductions,
     pit,
     net,
+    unionDues,
+    finalNet: net, // Temporary - will update below
   };
+
+  // Calculate final NET properly
+  result.finalNet = calculateFinalNet(result);
+
+  return result;
 }
 
 /**

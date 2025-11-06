@@ -8,7 +8,7 @@ import { PITBreakdown } from '@/components/PITBreakdown';
 import { EmptyState } from '@/components/EmptyState';
 import { Share2, Copy, Check } from 'lucide-react';
 import { encodeStateToURL } from '@/lib/url-state';
-import { copyDetailsToClipboard } from '@/lib/format';
+import { copyDetailsToClipboard, formatNumber } from '@/lib/format';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import type { CalculationResult, InsuranceBaseMode } from '@/types';
 
@@ -56,6 +56,7 @@ export function ResultDisplay({
         customInsuranceBase,
         viewMode,
         locale,
+        ...(result.inputs.isUnionMember && { isUnionMember: true }),
       };
 
       const queryString = encodeStateToURL(state);
@@ -129,7 +130,10 @@ export function ResultDisplay({
         </div>
       </CardHeader>
       <CardContent className="space-y-8">
-        <NetSalaryHighlight amount={result.net} />
+        {/* Display final NET if union member, otherwise regular NET */}
+        <NetSalaryHighlight 
+          amount={result.finalNet} 
+        />
 
         <div className="space-y-6">
           <InsuranceBreakdown
@@ -139,6 +143,34 @@ export function ResultDisplay({
           />
           <DeductionsBreakdown deductions={result.deductions} />
           <PITBreakdown pit={result.pit} />
+          
+          {/* Union Dues Breakdown - only show if user is union member */}
+          {result.unionDues && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium">Đoàn phí công đoàn</h3>
+              <div className="space-y-2 rounded-lg border p-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">
+                    Đoàn phí công đoàn
+                    {result.unionDues.cappedAtMax && (
+                      <span className="ml-1 text-xs text-amber-600" title="Đã áp mức tối đa 10% lương cơ sở">
+                        (Đã đạt mức trần)
+                      </span>
+                    )}
+                  </span>
+                  <span className="font-medium text-red-600">
+                    -{formatNumber(result.unionDues.amount, locale)} VND
+                  </span>
+                </div>
+                <div className="flex items-center justify-between border-t pt-2 text-sm font-semibold">
+                  <span>Lương thực nhận cuối cùng</span>
+                  <span className="text-lg text-green-600">
+                    {formatNumber(result.finalNet, locale)} VND
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

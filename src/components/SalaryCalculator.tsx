@@ -18,6 +18,7 @@ export function SalaryCalculator() {
   const [region, setRegion] = useState<RegionId>('I');
   const [insuranceBaseMode, setInsuranceBaseMode] = useState<InsuranceBaseMode>('gross');
   const [customInsuranceBase, setCustomInsuranceBase] = useState(30_000_000);
+  const [isUnionMember, setIsUnionMember] = useState(false);
 
   // View mode from preferences store (persisted)
   const { viewMode, setViewMode, setLocale, locale } = usePreferences();
@@ -58,6 +59,7 @@ export function SalaryCalculator() {
       setCustomInsuranceBase(urlState.customInsuranceBase);
     if (urlState.viewMode !== undefined) setViewMode(urlState.viewMode);
     if (urlState.locale !== undefined) setLocale(urlState.locale);
+    if (urlState.isUnionMember !== undefined) setIsUnionMember(urlState.isUnionMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run on mount
 
@@ -71,13 +73,16 @@ export function SalaryCalculator() {
     if (gross > 0) {
       const startTime = performance.now();
 
-      // Build inputs object with optional custom insurance base
+      // Build inputs object with optional custom insurance base and union member status
       const inputs = {
         gross,
         dependents,
         region,
         ...(insuranceBaseMode === 'custom' && {
           insuranceBase: customInsuranceBase,
+        }),
+        ...(isUnionMember && {
+          isUnionMember: true,
         }),
       };
 
@@ -104,7 +109,7 @@ export function SalaryCalculator() {
       setResult2026(null);
       setComparison(null);
     }
-  }, [gross, dependents, region, insuranceBaseMode, customInsuranceBase, viewMode, trackCalculation]);
+  }, [gross, dependents, region, insuranceBaseMode, customInsuranceBase, isUnionMember, viewMode, trackCalculation]);
 
   // Determine which result to display based on view mode
   const currentResult = viewMode === '2025' ? result2025 : viewMode === '2026' ? result2026 : null;
@@ -118,11 +123,13 @@ export function SalaryCalculator() {
         region={region}
         insuranceBaseMode={insuranceBaseMode}
         customInsuranceBase={customInsuranceBase}
+        isUnionMember={isUnionMember}
         onGrossChange={setGross}
         onDependentsChange={setDependents}
         onRegionChange={setRegion}
         onInsuranceBaseModeChange={setInsuranceBaseMode}
         onCustomInsuranceBaseChange={setCustomInsuranceBase}
+        onUnionMemberChange={setIsUnionMember}
       />
 
       {/* Results */}

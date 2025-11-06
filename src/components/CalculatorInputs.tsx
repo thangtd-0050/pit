@@ -3,6 +3,7 @@ import { GrossSalaryInput } from '@/components/GrossSalaryInput';
 import { DependentsInput } from '@/components/DependentsInput';
 import { RegionSelector } from '@/components/RegionSelector';
 import { InsuranceBaseInput } from '@/components/InsuranceBaseInput';
+import { UnionDuesCheckbox } from '@/components/UnionDuesCheckbox';
 import type { RegionId, InsuranceBaseMode } from '@/types';
 
 interface CalculatorInputsProps {
@@ -11,11 +12,13 @@ interface CalculatorInputsProps {
   region: RegionId;
   insuranceBaseMode: InsuranceBaseMode;
   customInsuranceBase: number;
+  isUnionMember: boolean;
   onGrossChange: (value: number) => void;
   onDependentsChange: (value: number) => void;
   onRegionChange: (value: RegionId) => void;
   onInsuranceBaseModeChange: (mode: InsuranceBaseMode) => void;
   onCustomInsuranceBaseChange: (amount: number) => void;
+  onUnionMemberChange: (checked: boolean) => void;
 }
 
 export function CalculatorInputs({
@@ -24,11 +27,13 @@ export function CalculatorInputs({
   region,
   insuranceBaseMode,
   customInsuranceBase,
+  isUnionMember,
   onGrossChange,
   onDependentsChange,
   onRegionChange,
   onInsuranceBaseModeChange,
   onCustomInsuranceBaseChange,
+  onUnionMemberChange,
 }: CalculatorInputsProps) {
   return (
     <Card>
@@ -45,6 +50,7 @@ export function CalculatorInputs({
           onModeChange={onInsuranceBaseModeChange}
           onCustomAmountChange={onCustomInsuranceBaseChange}
         />
+        <UnionDuesCheckbox checked={isUnionMember} onCheckedChange={onUnionMemberChange} />
       </CardContent>
     </Card>
   );

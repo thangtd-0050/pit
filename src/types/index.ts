@@ -61,6 +61,8 @@ export interface CalculatorInputs {
   insuranceBase?: number;
   /** Tax regime to apply (2025 or 2026) */
   regime: Regime;
+  /** Whether user is a trade union member (for union dues calculation) */
+  isUnionMember?: boolean;
 }
 
 // ============================================================================
@@ -133,6 +135,39 @@ export interface PIT {
   total: number;
 }
 
+/**
+ * Union dues calculation result for trade union members.
+ */
+export interface UnionDues {
+  /**
+   * Calculated union dues amount in VND
+   * Formula: min(insuranceBase × 0.005, 234000)
+   */
+  amount: number;
+
+  /**
+   * Social insurance base used for calculation in VND
+   * Source: insuranceBase from CalculationResult
+   */
+  calculationBase: number;
+
+  /**
+   * Whether the maximum cap was applied
+   * true if amount = 234,000 (cap reached)
+   */
+  cappedAtMax: boolean;
+
+  /**
+   * The rate applied (always 0.005 = 0.5%)
+   */
+  rate: number;
+
+  /**
+   * Maximum allowed amount (always 234,000 VND)
+   */
+  maxAmount: number;
+}
+
 // ============================================================================
 // Calculation Output Entities
 // ============================================================================
@@ -151,6 +186,17 @@ export interface CalculationResult {
   pit: PIT;
   /** Net salary (VND) */
   net: number;
+  /**
+   * Union dues calculation (only present if user is union member)
+   * undefined if isUnionMember = false
+   */
+  unionDues?: UnionDues;
+  /**
+   * Final take-home pay after union dues deduction
+   * If unionDues exists: net - unionDues.amount
+   * Otherwise: same as net
+   */
+  finalNet: number;
 }
 
 /**
@@ -240,4 +286,6 @@ export interface URLState {
   viewMode?: ViewMode;
   /** Number format locale */
   locale?: 'en-US' | 'vi-VN';
+  /** Whether user is a union member */
+  isUnionMember?: boolean;
 }
