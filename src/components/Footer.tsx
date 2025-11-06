@@ -28,13 +28,34 @@ export function Footer() {
             <p>Cập nhật: {lastUpdated}</p>
             <span className="hidden sm:inline">•</span>
             <a
-              href="https://github.com/tran-duc-thang/pit"
+              href="https://github.com/thangtd-0050/pit"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground underline transition-colors"
             >
               GitHub
             </a>
+          </div>
+
+          {/* Credits */}
+          <div className="flex flex-col items-center gap-2 text-xs sm:flex-row sm:justify-center sm:gap-3">
+            <span>
+              Idea by{' '}
+              <a
+                href="https://www.facebook.com/thangtd90"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium hover:text-foreground underline transition-colors"
+              >
+                ThangTD
+              </a>
+            </span>
+            <span className="hidden sm:inline">·</span>
+            <span>Spec'd with GitHub SpecKit</span>
+            <span className="hidden sm:inline">·</span>
+            <span>Coded by GitHub Copilot</span>
+            <span className="hidden sm:inline">·</span>
+            <span>Hosted on GitHub Pages</span>
           </div>
 
           {/* Source information */}
