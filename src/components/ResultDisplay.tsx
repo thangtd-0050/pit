@@ -141,7 +141,10 @@ export function ResultDisplay({
             customBase={insuranceBaseMode === 'custom' ? customInsuranceBase : undefined}
             regionalMin={regionalMin}
           />
-          <DeductionsBreakdown deductions={result.deductions} />
+          <DeductionsBreakdown 
+            deductions={result.deductions} 
+            lunchAllowance={result.lunchAllowance}
+          />
           <PITBreakdown pit={result.pit} />
 
           {/* Union Dues Breakdown - only show if user is union member */}
@@ -162,26 +165,6 @@ export function ResultDisplay({
                     -{formatNumber(result.unionDues.amount, locale)} VND
                   </span>
                 </div>
-              </div>
-            </div>
-          )}
-
-          {/* Lunch Allowance Breakdown - only show if lunch allowance is enabled */}
-          {result.lunchAllowance !== undefined && (
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium">Phụ cấp ăn trưa (miễn thuế)</h3>
-              <div className="space-y-2 rounded-lg border border-green-200 bg-green-50/50 p-4">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">
-                    Phần thu nhập không chịu thuế TNCN
-                  </span>
-                  <span className="font-medium text-green-600">
-                    {formatNumber(result.lunchAllowance, locale)} VND
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Số tiền này đã được trừ khỏi thu nhập chịu thuế, giúp giảm thuế phải nộp.
-                </p>
               </div>
             </div>
           )}

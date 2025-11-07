@@ -32,7 +32,7 @@ describe('Lunch Allowance Calculation', () => {
 
     // NET should be HIGHER (less tax paid)
     expect(resultWith.net).toBeGreaterThan(resultWithout.net);
-    
+
     // finalNet should equal net (lunch allowance already accounted for)
     expect(resultWith.finalNet).toBe(resultWith.net);
   });
@@ -42,7 +42,7 @@ describe('Lunch Allowance Calculation', () => {
     const resultWithZero = calcAll(mockInputs, 0);
 
     expect(resultWithZero.lunchAllowance).toBe(0);
-    
+
     // Zero lunch allowance should have same effect as no lunch allowance
     expect(resultWithZero.pit.taxable).toBe(resultWithout.pit.taxable);
     expect(resultWithZero.pit.total).toBe(resultWithout.pit.total);
@@ -60,7 +60,7 @@ describe('Lunch Allowance Calculation', () => {
 
     // Lunch allowance should reduce taxable income
     expect(resultWith.pit.taxable).toBe(resultWithout.pit.taxable - DEFAULT_LUNCH_ALLOWANCE);
-    
+
     // NET should be higher (less tax)
     expect(resultWith.net).toBeGreaterThan(resultWithout.net);
 
@@ -75,15 +75,15 @@ describe('Lunch Allowance Calculation', () => {
     const resultWith = calcAll(mockInputs, largeAmount);
 
     expect(resultWith.lunchAllowance).toBe(largeAmount);
-    
+
     // Large lunch allowance significantly reduces taxable income
     expect(resultWith.pit.taxable).toBe(
       Math.max(0, resultWithout.pit.taxable - largeAmount)
     );
-    
+
     // Tax should be much lower
     expect(resultWith.pit.total).toBeLessThan(resultWithout.pit.total);
-    
+
     // NET should be higher
     expect(resultWith.net).toBeGreaterThan(resultWithout.net);
   });
@@ -106,7 +106,7 @@ describe('Lunch Allowance Calculation', () => {
     // The tax savings should approximately equal lunch allowance × tax rate
     const taxSavings = resultWithoutAllowance.pit.total - resultWithAllowance.pit.total;
     const netIncrease = resultWithAllowance.net - resultWithoutAllowance.net;
-    
+
     // Net increase should equal tax savings
     expect(netIncrease).toBe(taxSavings);
   });

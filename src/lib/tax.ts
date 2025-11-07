@@ -203,12 +203,12 @@ export function calcAll(inputs: CalculatorInputs, lunchAllowance?: number): Calc
   // The lunch allowance is part of gross income but is tax-exempt, so we subtract it
   // before calculating PIT
   let taxable = inputs.gross - deductions.total;
-  
+
   // Subtract lunch allowance from taxable income (if provided)
   if (lunchAllowance !== undefined && lunchAllowance > 0) {
     taxable -= lunchAllowance;
   }
-  
+
   // Ensure taxable income is non-negative
   taxable = Math.max(0, taxable);
 
