@@ -9,52 +9,59 @@
 
 ### User Story 1 - Enable Tax-Exempt Lunch Allowance in Salary Calculation (Priority: P1) 🎯 MVP
 
-Users can enable tax-exempt lunch allowance as a non-taxable component of their total compensation. By default, the allowance is set to 730,000 VND (a common amount for Vietnamese companies), allowing users to simply toggle it on without additional configuration. The entire amount entered is treated as tax-exempt income.
+Users can enable tax-exempt lunch allowance as a non-taxable component of their gross income. By default, the allowance is set to 730,000 VND (a common amount for Vietnamese companies). The lunch allowance reduces taxable income, resulting in lower tax and higher net salary.
 
-**Why this priority**: This is the core functionality that delivers immediate value - users can accurately calculate their net salary by including lunch allowance, which is a common tax-exempt benefit in Vietnam (especially for foreign companies) and affects their take-home pay.
+**Why this priority**: This is the core functionality that delivers immediate value - users can accurately calculate their net salary by including lunch allowance, which is a common tax-exempt benefit in Vietnam and reduces their tax burden.
 
-**Independent Test**: Can be fully tested by enabling the lunch allowance toggle with the default 730,000 VND value and verifying the calculation shows the full amount as tax-exempt income added to final net pay (not to gross taxable income). Delivers a complete, usable feature that improves salary calculation accuracy.
+**Logic**: Lunch allowance is part of gross income but is tax-exempt:
+- Gross = 30,000,000 VND
+- Lunch allowance (tax-exempt) = 730,000 VND
+- Taxable income = Gross - Insurance - Deductions - **Lunch allowance**
+- Tax is calculated on the reduced taxable income
+- NET = Gross - Insurance - Tax (already reflects tax savings)
+
+**Independent Test**: Enable the lunch allowance toggle with default 730,000 VND and verify: (1) taxable income is reduced by 730,000, (2) tax is lower, (3) NET is higher due to tax savings.
 
 **Acceptance Scenarios**:
 
-1. **Given** a user is on the salary calculator page, **When** they enable the "Tax-Exempt Lunch Allowance" toggle, **Then** the system applies a default 730,000 VND tax-exempt allowance and recalculates their net salary
-2. **Given** the lunch allowance is enabled with default value, **When** the user views the calculation breakdown, **Then** they see the 730,000 VND listed as a tax-exempt income component (not part of gross taxable income)
-3. **Given** a user has lunch allowance enabled, **When** they share their calculation via URL, **Then** the shared link preserves the lunch allowance toggle state and amount
-4. **Given** a user opens a shared calculation with lunch allowance enabled, **When** the page loads, **Then** the lunch allowance toggle is checked and the calculation reflects the full tax-exempt allowance
+1. **Given** a user has gross salary 30M VND, **When** they enable lunch allowance with default 730K, **Then** taxable income is reduced by 730K and tax is recalculated on lower base
+2. **Given** lunch allowance is enabled, **When** viewing calculation breakdown, **Then** lunch allowance is shown as reducing taxable income (not added to final NET)
+3. **Given** a user has lunch allowance enabled, **When** they share via URL, **Then** the shared link preserves the lunch allowance state
+4. **Given** a shared URL with lunch allowance, **When** page loads, **Then** calculation reflects the tax-exempt allowance correctly
 
 ---
 
 ### User Story 2 - Customize Tax-Exempt Lunch Allowance Amount (Priority: P2)
 
-Users can customize the lunch allowance amount to match their actual company benefit, which may be higher or lower than the default 730,000 VND. The entire amount entered is treated as tax-exempt income, regardless of value (supporting foreign companies with higher allowances).
+Users can customize the lunch allowance amount to match their actual company benefit. The entire amount is tax-exempt, reducing taxable income proportionally.
 
-**Why this priority**: While the default covers most Vietnamese companies, some organizations (especially foreign companies) offer different allowance amounts that can exceed 730,000 VND. This provides flexibility for accurate calculations without being critical for the initial MVP.
+**Why this priority**: Companies offer different allowance amounts. This provides flexibility for accurate tax calculations.
 
-**Independent Test**: Can be tested independently by enabling lunch allowance and changing the input value to any custom amount (e.g., 500,000 VND or 1,500,000 VND), then verifying the calculation treats the entire custom amount as tax-exempt income added to final net salary.
+**Independent Test**: Change lunch allowance to custom amount (e.g., 1,500,000 VND), verify taxable income is reduced by that amount and tax is recalculated.
 
 **Acceptance Scenarios**:
 
-1. **Given** lunch allowance is enabled, **When** a user enters a custom amount (e.g., 500,000 VND), **Then** the calculation uses that full amount as tax-exempt income
-2. **Given** a user has entered a custom lunch allowance, **When** they share the calculation, **Then** the shared URL preserves the custom amount
-3. **Given** a user enters an amount exceeding 730,000 VND (e.g., 1,500,000 VND), **When** the calculation is performed, **Then** the entire 1,500,000 VND is treated as tax-exempt income (no portion is taxable)
-4. **Given** a user has entered a custom amount, **When** they disable and re-enable the toggle, **Then** the custom amount is retained (not reset to default)
+1. **Given** lunch allowance enabled, **When** user enters 500,000 VND, **Then** taxable income is reduced by 500,000
+2. **Given** custom amount entered, **When** user shares calculation, **Then** URL preserves custom amount
+3. **Given** user enters 1,500,000 VND, **When** calculation performed, **Then** entire 1.5M reduces taxable income
+4. **Given** custom amount entered, **When** toggle disabled/re-enabled, **Then** custom amount is retained
 
 ---
 
 ### User Story 3 - Display Tax-Exempt Lunch Allowance in Results (Priority: P3)
 
-Users can see a clear breakdown showing how lunch allowance affects their total compensation, with the full amount displayed as tax-exempt income that increases their final net salary.
+Users see clear breakdown showing lunch allowance as tax-exempt income that reduced their tax burden.
 
-**Why this priority**: This enhances transparency and helps users understand their salary structure, but the basic calculation works without the detailed breakdown display.
+**Why this priority**: Enhances transparency but calculation works without detailed display.
 
-**Independent Test**: Can be tested by enabling lunch allowance with various amounts (e.g., 730,000 VND, 1,500,000 VND) and verifying the results display shows: (1) total lunch allowance amount, (2) confirmation that it's fully tax-exempt, (3) updated final net salary with the allowance added.
+**Independent Test**: Enable lunch allowance and verify results show: (1) lunch allowance amount, (2) tax-exempt label, (3) explanation that it reduced taxable income.
 
 **Acceptance Scenarios**:
 
-1. **Given** lunch allowance is 730,000 VND, **When** viewing results, **Then** the breakdown shows the full 730,000 VND as tax-exempt income added to net salary
-2. **Given** lunch allowance is 1,500,000 VND (exceeding typical amount), **When** viewing results, **Then** the breakdown shows the full 1,500,000 VND as tax-exempt income (no taxable portion)
-3. **Given** lunch allowance is enabled, **When** viewing the comparison mode between tax regimes, **Then** both regime calculations include the lunch allowance as fully tax-exempt income
-4. **Given** a user has lunch allowance enabled, **When** they view the results, **Then** the final net salary clearly shows the tax-exempt allowance added to the post-tax amount
+1. **Given** lunch allowance is 730K, **When** viewing results, **Then** breakdown shows 730K as tax-exempt income
+2. **Given** lunch allowance is 1.5M, **When** viewing results, **Then** breakdown shows full 1.5M as tax-exempt
+3. **Given** lunch allowance enabled, **When** viewing comparison mode, **Then** both regimes include lunch allowance reducing taxable income
+4. **Given** lunch allowance enabled, **When** viewing results, **Then** explanation shows it reduced tax liability (not added to final NET)
 
 ---
 

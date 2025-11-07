@@ -47,40 +47,28 @@ export function calculateUnionDues(insuranceBase: number): UnionDues {
 }
 
 /**
- * Calculate final take-home pay after union dues deduction and lunch allowance addition.
+ * Calculate final take-home pay after union dues deduction.
+ *
+ * Note: Lunch allowance is NOT added here because it's already accounted for as tax-exempt income.
+ * The lunch allowance reduces taxable income (in calcAll), which means the user pays less tax,
+ * resulting in a higher NET. We don't add it again at the end.
  *
  * @param result - Original calculation result with NET salary
- * @returns Final NET after union dues deduction and lunch allowance addition
+ * @returns Final NET after union dues deduction
  *
  * @example
  * ```typescript
- * // Non-union member, no lunch allowance: final NET = NET
- * const result = { net: 24_000_000, unionDues: undefined, lunchAllowance: undefined };
+ * // Non-union member: final NET = NET
+ * const result = { net: 24_000_000, unionDues: undefined, lunchAllowance: 730_000 };
  * const finalNet = calculateFinalNet(result); // 24000000
  *
- * // Union member, no lunch allowance: final NET = NET - union dues
+ * // Union member: final NET = NET - union dues
  * const resultWithDues = {
  *   net: 24_000_000,
  *   unionDues: { amount: 150_000, ... },
- *   lunchAllowance: undefined
+ *   lunchAllowance: 730_000
  * };
  * const finalNet2 = calculateFinalNet(resultWithDues); // 23850000
- *
- * // No union dues, with lunch allowance: final NET = NET + lunch allowance
- * const resultWithAllowance = {
- *   net: 24_000_000,
- *   unionDues: undefined,
- *   lunchAllowance: 730_000
- * };
- * const finalNet3 = calculateFinalNet(resultWithAllowance); // 24730000
- *
- * // Both union dues and lunch allowance: final NET = NET - dues + allowance
- * const resultBoth = {
- *   net: 24_000_000,
- *   unionDues: { amount: 150_000, ... },
- *   lunchAllowance: 730_000
- * };
- * const finalNet4 = calculateFinalNet(resultBoth); // 24580000
  * ```
  */
 export function calculateFinalNet(result: CalculationResult): number {
@@ -91,10 +79,11 @@ export function calculateFinalNet(result: CalculationResult): number {
     finalNet -= result.unionDues.amount;
   }
 
-  // Add lunch allowance if applicable
-  if (result.lunchAllowance !== undefined) {
-    finalNet += result.lunchAllowance;
-  }
+  // Note: We do NOT add lunch allowance here because:
+  // 1. Lunch allowance is part of the gross income
+  // 2. It's subtracted from taxable income (reducing tax paid)
+  // 3. The NET already reflects the tax savings from the lunch allowance
+  // 4. Adding it again would be double-counting
 
   return finalNet;
 }

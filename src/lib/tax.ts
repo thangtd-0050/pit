@@ -199,9 +199,20 @@ export function calcAll(inputs: CalculatorInputs, lunchAllowance?: number): Calc
   deductions.total = deductions.personal + deductions.dependents + deductions.insurance;
 
   // 3. Calculate taxable income
-  const taxable = Math.max(0, inputs.gross - deductions.total);
+  // Formula: Taxable = Gross - Deductions - LunchAllowance (tax-exempt)
+  // The lunch allowance is part of gross income but is tax-exempt, so we subtract it
+  // before calculating PIT
+  let taxable = inputs.gross - deductions.total;
+  
+  // Subtract lunch allowance from taxable income (if provided)
+  if (lunchAllowance !== undefined && lunchAllowance > 0) {
+    taxable -= lunchAllowance;
+  }
+  
+  // Ensure taxable income is non-negative
+  taxable = Math.max(0, taxable);
 
-  // 4. Calculate PIT
+  // 4. Calculate PIT (on taxable income after lunch allowance deduction)
   const pit = calcPit(taxable, inputs.regime);
 
   // 5. Calculate NET salary
