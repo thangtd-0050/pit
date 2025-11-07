@@ -141,8 +141,8 @@ export function ResultDisplay({
             customBase={insuranceBaseMode === 'custom' ? customInsuranceBase : undefined}
             regionalMin={regionalMin}
           />
-          <DeductionsBreakdown 
-            deductions={result.deductions} 
+          <DeductionsBreakdown
+            deductions={result.deductions}
             lunchAllowance={result.lunchAllowance}
           />
           <PITBreakdown pit={result.pit} />
