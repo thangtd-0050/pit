@@ -173,4 +173,84 @@ describe('decodeStateFromURL', () => {
 
     expect(decodeStateFromURL(invalidQuery)).toEqual({});
   });
+
+  it('should encode lunch allowance when enabled', () => {
+    const state: Partial<URLState> = {
+      hasLunchAllowance: true,
+      lunchAllowance: 730_000,
+    };
+
+    const url = encodeStateToURL(state);
+
+    expect(url).toContain('la=1');
+    expect(url).toContain('laa=730000');
+  });
+
+  it('should not encode lunch allowance when disabled', () => {
+    const state: Partial<URLState> = {
+      hasLunchAllowance: false,
+      lunchAllowance: 730_000,
+    };
+
+    const url = encodeStateToURL(state);
+
+    expect(url).not.toContain('la=');
+    expect(url).not.toContain('laa=');
+  });
+
+  it('should decode lunch allowance from URL', () => {
+    const query = 'la=1&laa=1500000';
+
+    const state = decodeStateFromURL(query);
+
+    expect(state).toEqual({
+      hasLunchAllowance: true,
+      lunchAllowance: 1_500_000,
+    });
+  });
+
+  it('should handle lunch allowance with default value', () => {
+    const query = 'la=1&laa=730000';
+
+    const state = decodeStateFromURL(query);
+
+    expect(state.hasLunchAllowance).toBe(true);
+    expect(state.lunchAllowance).toBe(730_000);
+  });
+
+  it('should ignore lunch allowance amount when not enabled', () => {
+    const query = 'laa=730000'; // la parameter missing
+
+    const state = decodeStateFromURL(query);
+
+    expect(state.hasLunchAllowance).toBeUndefined();
+    expect(state.lunchAllowance).toBe(730_000); // Amount can still be parsed
+  });
+
+  it('should reject negative lunch allowance values', () => {
+    const query = 'la=1&laa=-100';
+
+    const state = decodeStateFromURL(query);
+
+    expect(state.hasLunchAllowance).toBe(true);
+    expect(state.lunchAllowance).toBeUndefined(); // Invalid amount should be ignored
+  });
+
+  it('should handle lunch allowance with zero value', () => {
+    const query = 'la=1&laa=0';
+
+    const state = decodeStateFromURL(query);
+
+    expect(state.hasLunchAllowance).toBe(true);
+    expect(state.lunchAllowance).toBe(0);
+  });
+
+  it('should handle invalid lunch allowance amount', () => {
+    const query = 'la=1&laa=abc';
+
+    const state = decodeStateFromURL(query);
+
+    expect(state.hasLunchAllowance).toBe(true);
+    expect(state.lunchAllowance).toBeUndefined(); // Invalid amount should be ignored
+  });
 });

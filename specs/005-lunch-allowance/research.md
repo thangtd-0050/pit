@@ -1,7 +1,7 @@
 # Research: Tax-Exempt Lunch Allowance Implementation
 
-**Feature**: 005-lunch-allowance  
-**Date**: November 7, 2025  
+**Feature**: 005-lunch-allowance
+**Date**: November 7, 2025
 **Status**: Complete
 
 ## Research Questions & Findings
@@ -119,7 +119,7 @@ Step 7: Add Lunch Allowance (if enabled) → Final NET
 **Findings**:
 - **Current Pattern**: calculatorStore (Zustand) holds calculator inputs
 - **Union Dues Pattern**: Uses store + URL state for sharing
-- **State Requirements**: 
+- **State Requirements**:
   - `hasLunchAllowance: boolean` (toggle state)
   - `lunchAllowance: number` (amount value)
   - Default: `hasLunchAllowance = false, lunchAllowance = 730_000`
@@ -189,7 +189,7 @@ interface CalculatorState {
 - Verify calculateNet() signature accepts lunch allowance parameter
 - Verify URL state contract (parameter names, types)
 
-**Rationale**: 
+**Rationale**:
 - Comprehensive coverage across all layers
 - Test-first approach catches bugs early
 - Each layer tests different concerns (logic, UI, integration, contracts)

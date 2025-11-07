@@ -47,31 +47,54 @@ export function calculateUnionDues(insuranceBase: number): UnionDues {
 }
 
 /**
- * Calculate final take-home pay after union dues deduction.
+ * Calculate final take-home pay after union dues deduction and lunch allowance addition.
  *
  * @param result - Original calculation result with NET salary
- * @returns Final NET after union dues deduction (if applicable)
+ * @returns Final NET after union dues deduction and lunch allowance addition
  *
  * @example
  * ```typescript
- * // Non-union member: final NET = NET
- * const result = { net: 24_000_000, unionDues: undefined };
+ * // Non-union member, no lunch allowance: final NET = NET
+ * const result = { net: 24_000_000, unionDues: undefined, lunchAllowance: undefined };
  * const finalNet = calculateFinalNet(result); // 24000000
  *
- * // Union member: final NET = NET - union dues
+ * // Union member, no lunch allowance: final NET = NET - union dues
  * const resultWithDues = {
  *   net: 24_000_000,
- *   unionDues: { amount: 150_000, ... }
+ *   unionDues: { amount: 150_000, ... },
+ *   lunchAllowance: undefined
  * };
  * const finalNet2 = calculateFinalNet(resultWithDues); // 23850000
+ *
+ * // No union dues, with lunch allowance: final NET = NET + lunch allowance
+ * const resultWithAllowance = {
+ *   net: 24_000_000,
+ *   unionDues: undefined,
+ *   lunchAllowance: 730_000
+ * };
+ * const finalNet3 = calculateFinalNet(resultWithAllowance); // 24730000
+ *
+ * // Both union dues and lunch allowance: final NET = NET - dues + allowance
+ * const resultBoth = {
+ *   net: 24_000_000,
+ *   unionDues: { amount: 150_000, ... },
+ *   lunchAllowance: 730_000
+ * };
+ * const finalNet4 = calculateFinalNet(resultBoth); // 24580000
  * ```
  */
 export function calculateFinalNet(result: CalculationResult): number {
-  // If no union dues, return NET as-is
-  if (!result.unionDues) {
-    return result.net;
+  let finalNet = result.net;
+
+  // Subtract union dues if applicable
+  if (result.unionDues) {
+    finalNet -= result.unionDues.amount;
   }
 
-  // Subtract union dues from NET
-  return result.net - result.unionDues.amount;
+  // Add lunch allowance if applicable
+  if (result.lunchAllowance !== undefined) {
+    finalNet += result.lunchAllowance;
+  }
+
+  return finalNet;
 }

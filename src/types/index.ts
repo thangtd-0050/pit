@@ -192,8 +192,22 @@ export interface CalculationResult {
    */
   unionDues?: UnionDues;
   /**
-   * Final take-home pay after union dues deduction
-   * If unionDues exists: net - unionDues.amount
+   * Tax-exempt lunch allowance amount
+   * - undefined: Lunch allowance is disabled
+   * - number: Lunch allowance amount in VND (≥ 0)
+   * 
+   * @remarks
+   * - This is always undefined when the user hasn't enabled lunch allowance
+   * - When enabled, this value is added to final NET salary
+   * - Value is NOT included in gross taxable income
+   * - Entire amount is tax-exempt (no cap)
+   */
+  lunchAllowance?: number;
+  /**
+   * Final take-home pay after union dues deduction and lunch allowance addition
+   * If unionDues exists and lunchAllowance exists: net - unionDues.amount + lunchAllowance
+   * If only unionDues exists: net - unionDues.amount
+   * If only lunchAllowance exists: net + lunchAllowance
    * Otherwise: same as net
    */
   finalNet: number;
@@ -288,4 +302,8 @@ export interface URLState {
   locale?: 'en-US' | 'vi-VN';
   /** Whether user is a union member */
   isUnionMember?: boolean;
+  /** Whether lunch allowance is enabled */
+  hasLunchAllowance?: boolean;
+  /** Lunch allowance amount in VND */
+  lunchAllowance?: number;
 }

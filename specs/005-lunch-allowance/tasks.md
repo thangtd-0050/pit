@@ -1,7 +1,7 @@
 # Tasks: Tax-Exempt Lunch Allowance
 
-**Feature Branch**: `005-lunch-allowance`  
-**Input**: Design documents from `/specs/005-lunch-allowance/`  
+**Feature Branch**: `005-lunch-allowance`
+**Input**: Design documents from `/specs/005-lunch-allowance/`
 **Prerequisites**: plan.md ✅, spec.md ✅, research.md ✅, data-model.md ✅, contracts/ ✅, quickstart.md ✅
 
 **TDD Approach**: This feature follows Test-Driven Development (RED → GREEN → REFACTOR). Tests are written BEFORE implementation.
@@ -20,8 +20,8 @@
 
 **Purpose**: Project configuration and constant definitions
 
-- [ ] T001 Add DEFAULT_LUNCH_ALLOWANCE constant (730,000) to src/config/constants.ts
-- [ ] T002 [P] Create unit test for constants in tests/unit/constants.test.ts
+- [X] T001 Add DEFAULT_LUNCH_ALLOWANCE constant (730,000) to src/config/constants.ts
+- [X] T002 [P] Create unit test for constants in tests/unit/constants.test.ts
 
 **Checkpoint**: Constants defined and tested
 
@@ -33,11 +33,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 Extend CalculationResult interface with optional lunchAllowance field in src/types/index.ts
-- [ ] T004 [P] Create contract test for CalculationResult type extension in tests/contract/lunch-allowance.contract.test.ts
-- [ ] T005 Extend CalculatorState interface in src/store/calculatorStore.ts with hasLunchAllowance and lunchAllowance fields
-- [ ] T006 Implement setHasLunchAllowance and setLunchAllowance actions in src/store/calculatorStore.ts
-- [ ] T007 [P] Create unit tests for store actions in tests/unit/calculator-store.test.ts (8 test cases)
+- [X] T003 Extend CalculationResult interface with optional lunchAllowance field in src/types/index.ts
+- [X] T004 [P] Create contract test for CalculationResult type extension in tests/contract/lunch-allowance.contract.test.ts
+- [X] T005 Extend CalculatorState interface in src/store/calculatorStore.ts with hasLunchAllowance and lunchAllowance fields
+- [X] T006 Implement setHasLunchAllowance and setLunchAllowance actions in src/store/calculatorStore.ts
+- [X] T007 [P] Create unit tests for store actions in tests/unit/calculator-store.test.ts (8 test cases)
 
 **Checkpoint**: Foundation ready - type system extended, store ready for user story implementation
 
@@ -51,7 +51,7 @@
 
 ### Tests for User Story 1 (TDD - Write FIRST, ensure they FAIL before implementation)
 
-- [ ] T008 [P] [US1] Create unit test file tests/unit/lunch-allowance.test.ts with 6 test cases:
+- [X] T008 [P] [US1] Create unit test file tests/unit/lunch-allowance.test.ts with 6 test cases:
   - Test 1: Returns undefined when lunch allowance is disabled
   - Test 2: Adds default lunch allowance (730K) to final NET when enabled
   - Test 3: Handles zero lunch allowance
@@ -61,12 +61,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] Extend CalculateNetOptions interface with optional lunchAllowance parameter in src/lib/tax.ts
-- [ ] T010 [US1] Update calculateNet function in src/lib/tax.ts to accept lunchAllowance option and add to final NET after union dues
-- [ ] T011 [US1] Update calculateNet return statement to include lunchAllowance field in result object in src/lib/tax.ts
-- [ ] T012 [P] [US1] Extend parseStateFromURL function in src/lib/url-state.ts to parse hasLunchAllowance and lunchAllowance parameters
-- [ ] T013 [P] [US1] Extend serializeStateToURL function in src/lib/url-state.ts to serialize lunch allowance state when enabled
-- [ ] T014 [P] [US1] Create unit tests for URL state parsing/serialization in tests/unit/url-state.test.ts (8 test cases)
+- [X] T009 [US1] Extend CalculateNetOptions interface with optional lunchAllowance parameter in src/lib/tax.ts
+- [X] T010 [US1] Update calculateNet function in src/lib/tax.ts to accept lunchAllowance option and add to final NET after union dues
+- [X] T011 [US1] Update calculateNet return statement to include lunchAllowance field in result object in src/lib/tax.ts
+- [X] T012 [P] [US1] Extend parseStateFromURL function in src/lib/url-state.ts to parse hasLunchAllowance and lunchAllowance parameters
+- [X] T013 [P] [US1] Extend serializeStateToURL function in src/lib/url-state.ts to serialize lunch allowance state when enabled
+- [X] T014 [P] [US1] Create unit tests for URL state parsing/serialization in tests/unit/url-state.test.ts (8 test cases)
 
 **Checkpoint**: At this point, core calculation logic works - lunch allowance can be enabled and correctly affects final NET salary
 

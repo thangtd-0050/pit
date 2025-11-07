@@ -28,27 +28,27 @@ Add tax-exempt lunch allowance calculation to the Vietnam salary calculator. Use
 
 ## Technical Context
 
-**Language/Version**: TypeScript 5.3.3 (strict mode enabled)  
-**Primary Dependencies**: React 18.2, Vite 5.0, Zustand 4.4, Tailwind CSS 3.4, shadcn/ui (Radix UI components)  
-**Storage**: Client-side only (URL state for persistence, no backend)  
-**Testing**: Vitest 4.0.7, @testing-library/react 16.3.0, TDD methodology (RED → GREEN → REFACTOR)  
-**Target Platform**: Modern web browsers (Chrome, Firefox, Safari, Edge), mobile-responsive SPA  
-**Project Type**: Single-page web application (frontend only)  
-**Performance Goals**: <1.5s First Contentful Paint, instant recalculation on input changes (<100ms)  
-**Constraints**: Client-side calculation only (no server), bundle size <200KB gzipped, works offline  
+**Language/Version**: TypeScript 5.3.3 (strict mode enabled)
+**Primary Dependencies**: React 18.2, Vite 5.0, Zustand 4.4, Tailwind CSS 3.4, shadcn/ui (Radix UI components)
+**Storage**: Client-side only (URL state for persistence, no backend)
+**Testing**: Vitest 4.0.7, @testing-library/react 16.3.0, TDD methodology (RED → GREEN → REFACTOR)
+**Target Platform**: Modern web browsers (Chrome, Firefox, Safari, Edge), mobile-responsive SPA
+**Project Type**: Single-page web application (frontend only)
+**Performance Goals**: <1.5s First Contentful Paint, instant recalculation on input changes (<100ms)
+**Constraints**: Client-side calculation only (no server), bundle size <200KB gzipped, works offline
 **Scale/Scope**: Small feature addition to existing calculator (~200 LOC), integrates with 4 existing features
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-**Phase 0 Check**: ✅ PASS (all 7 principles met)  
-**Phase 1 Re-check**: ✅ PASS (all 7 principles maintained)  
+**Phase 0 Check**: ✅ PASS (all 7 principles met)
+**Phase 1 Re-check**: ✅ PASS (all 7 principles maintained)
 **Gate Status**: OPEN - Proceed to implementation
 
 ### I. Code Quality Excellence ✅
 - **Status**: PASS (Phase 0 + Phase 1)
-- **Evidence**: 
+- **Evidence**:
   - Feature follows existing codebase patterns (union dues)
   - Uses TypeScript strict mode (no `any` types in contracts)
   - Clear naming conventions (hasLunchAllowance, setLunchAllowance)
@@ -67,7 +67,7 @@ Add tax-exempt lunch allowance calculation to the Vietnam salary calculator. Use
 - **Action**: Ensure accessibility (ARIA labels, keyboard navigation) and consistent theming
 
 ### IV. Performance-By-Design ✅
-- **Status**: PASS  
+- **Status**: PASS
 - **Evidence**: Client-side calculation (<100ms), no network calls, follows existing performance patterns
 - **Action**: Verify instant recalculation on input changes, no performance regression
 

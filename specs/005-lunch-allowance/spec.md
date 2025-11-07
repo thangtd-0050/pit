@@ -1,8 +1,8 @@
 # Feature Specification: Lunch Allowance (Trợ Cấp Ăn Trưa/Ăn Giữa Ca)
 
-**Feature Branch**: `005-lunch-allowance`  
-**Created**: November 7, 2025  
-**Status**: Draft  
+**Feature Branch**: `005-lunch-allowance`
+**Created**: November 7, 2025
+**Status**: Draft
 **Input**: User description: "Bổ sung hỗ trợ tính trợ cấp ăn trưa/ăn giữa ca để phản ánh chính xác hơn phần không chịu thuế TNCN, phần chịu thuế nếu vượt mức trần cấu hình, và tiền thực nhận cuối cùng của người dùng"
 
 ## User Scenarios & Testing *(mandatory)*

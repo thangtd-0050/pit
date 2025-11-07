@@ -1,7 +1,7 @@
 # API Contract: Lunch Allowance Calculation
 
-**Feature**: 005-lunch-allowance  
-**Date**: November 7, 2025  
+**Feature**: 005-lunch-allowance
+**Date**: November 7, 2025
 **Version**: 1.0.0
 
 ## Overview
@@ -20,7 +20,7 @@ This document defines the function contracts (API surface) for the lunch allowan
 /**
  * Default tax-exempt lunch allowance amount
  * Common value for Vietnamese companies
- * 
+ *
  * @constant
  * @type {number}
  * @default 730000
@@ -48,27 +48,27 @@ export const DEFAULT_LUNCH_ALLOWANCE = 730_000;
  */
 interface CalculationResult {
   // ... existing fields omitted for brevity
-  
+
   /**
    * Tax-exempt lunch allowance amount
-   * 
+   *
    * @property {number | undefined} lunchAllowance
    * - undefined: Lunch allowance is disabled
    * - number: Lunch allowance amount in VND (≥ 0)
-   * 
+   *
    * @remarks
    * - This is always undefined when the user hasn't enabled lunch allowance
    * - When enabled, this value is added to final NET salary
    * - Value is NOT included in gross taxable income
    * - Entire amount is tax-exempt (no cap)
-   * 
+   *
    * @example
    * // Lunch allowance disabled
    * { ..., lunchAllowance: undefined }
-   * 
+   *
    * // Lunch allowance enabled with default
    * { ..., lunchAllowance: 730000 }
-   * 
+   *
    * // Lunch allowance enabled with custom amount
    * { ..., lunchAllowance: 1500000 }
    */
@@ -96,46 +96,46 @@ interface CalculationResult {
 ```typescript
 interface CalculatorState {
   // ... existing state fields
-  
+
   /**
    * Whether lunch allowance is enabled
    * @default false
    */
   hasLunchAllowance: boolean;
-  
+
   /**
    * Lunch allowance amount in VND
    * @default 730000
    * @constraints Must be ≥ 0
    */
   lunchAllowance: number;
-  
+
   /**
    * Toggle lunch allowance on/off
-   * 
+   *
    * @param has - true to enable, false to disable
-   * 
+   *
    * @remarks
    * - Disabling does NOT reset the amount value
    * - Amount is preserved for future re-enabling
-   * 
+   *
    * @example
    * const store = useCalculatorStore();
    * store.setHasLunchAllowance(true); // Enable with current amount
    */
   setHasLunchAllowance: (has: boolean) => void;
-  
+
   /**
    * Update lunch allowance amount
-   * 
+   *
    * @param amount - Lunch allowance amount in VND
-   * 
+   *
    * @remarks
    * - Negative values are clamped to 0
    * - Decimal values are floored to integer
    * - No maximum limit
    * - Does NOT automatically enable lunch allowance
-   * 
+   *
    * @example
    * const store = useCalculatorStore();
    * store.setLunchAllowance(1500000); // Set to 1.5M VND
@@ -169,10 +169,10 @@ interface CalculatorState {
 ```typescript
 /**
  * Parse lunch allowance state from URL parameters
- * 
+ *
  * @param searchParams - URLSearchParams from window.location.search
  * @returns Lunch allowance state object
- * 
+ *
  * @example
  * const params = new URLSearchParams(window.location.search);
  * const { hasLunchAllowance, lunchAllowance } = parseLunchAllowanceFromURL(params);
@@ -184,15 +184,15 @@ function parseLunchAllowanceFromURL(searchParams: URLSearchParams): {
 
 /**
  * Serialize lunch allowance state to URL parameters
- * 
+ *
  * @param state - Lunch allowance state object
  * @returns Updated URLSearchParams
- * 
+ *
  * @example
  * const params = new URLSearchParams();
- * serializeLunchAllowanceToURL(params, { 
- *   hasLunchAllowance: true, 
- *   lunchAllowance: 730000 
+ * serializeLunchAllowanceToURL(params, {
+ *   hasLunchAllowance: true,
+ *   lunchAllowance: 730000
  * });
  * // params.toString() === "hasLunchAllowance=true&lunchAllowance=730000"
  */
@@ -251,7 +251,7 @@ if (hasLunchAllowance) {
 ```typescript
 /**
  * Calculate net salary with optional lunch allowance
- * 
+ *
  * @param gross - Gross salary in VND
  * @param insurance - Insurance deductions
  * @param deductions - Tax deductions (personal + dependent)
@@ -259,19 +259,19 @@ if (hasLunchAllowance) {
  * @param options - Additional calculation options
  * @param options.unionDues - Optional union dues amount
  * @param options.lunchAllowance - Optional tax-exempt lunch allowance
- * 
+ *
  * @returns Net salary calculation result
- * 
+ *
  * @remarks
  * - lunchAllowance is added AFTER all deductions (insurance, tax, union dues)
  * - lunchAllowance does NOT affect taxable income
  * - Final formula: NET = (Gross - Insurance - Tax - UnionDues) + LunchAllowance
- * 
+ *
  * @example
  * // Without lunch allowance
  * const result1 = calculateNet(30000000, insurance, deductions, tax);
  * // result1.net === 25222500, result1.lunchAllowance === undefined
- * 
+ *
  * // With lunch allowance
  * const result2 = calculateNet(30000000, insurance, deductions, tax, {
  *   lunchAllowance: 730000
@@ -332,9 +332,9 @@ CalculationResult {
 ```typescript
 /**
  * Lunch allowance input component with toggle and amount field
- * 
+ *
  * @component
- * 
+ *
  * @example
  * <LunchAllowanceInput />
  */
@@ -345,7 +345,7 @@ export default function LunchAllowanceInput(): JSX.Element
 - **Props**: None (uses Zustand store internally)
 - **Returns**: React component
 - **Side Effects**: Updates calculator store on user interaction
-- **Dependencies**: 
+- **Dependencies**:
   - `useCalculatorStore` hook
   - `Switch`, `Input`, `Label` UI components
   - `DEFAULT_LUNCH_ALLOWANCE` constant
@@ -430,12 +430,12 @@ describe('Lunch Allowance Contracts', () => {
     it('CalculationResult should have optional lunchAllowance field');
     it('CalculatorState should have lunch allowance fields');
   });
-  
+
   describe('Function Contracts', () => {
     it('calculateNet should accept lunchAllowance option');
     it('calculateNet should return lunchAllowance in result');
   });
-  
+
   describe('URL State Contracts', () => {
     it('should parse hasLunchAllowance parameter');
     it('should parse lunchAllowance parameter');

@@ -1,7 +1,7 @@
 # Specification Quality Checklist: Lunch Allowance (Trợ Cấp Ăn Trưa)
 
-**Purpose**: Validate specification completeness and quality before proceeding to planning  
-**Created**: November 7, 2025  
+**Purpose**: Validate specification completeness and quality before proceeding to planning
+**Created**: November 7, 2025
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
@@ -11,7 +11,7 @@
 - [x] Written for non-technical stakeholders
 - [x] All mandatory sections completed
 
-**Notes**: 
+**Notes**:
 - Spec is completely technology-agnostic, focusing on WHAT and WHY
 - Clear business value articulated in each user story priority explanation
 - All mandatory sections (User Scenarios, Requirements, Success Criteria) are complete
@@ -56,7 +56,7 @@
 
 **Summary**:
 - Content Quality: 4/4 ✅
-- Requirement Completeness: 8/8 ✅  
+- Requirement Completeness: 8/8 ✅
 - Feature Readiness: 4/4 ✅
 - **Total: 16/16 criteria met**
 

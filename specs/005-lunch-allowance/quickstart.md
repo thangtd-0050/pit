@@ -1,7 +1,7 @@
 # Quickstart: Lunch Allowance Implementation
 
-**Feature**: 005-lunch-allowance  
-**Date**: November 7, 2025  
+**Feature**: 005-lunch-allowance
+**Date**: November 7, 2025
 **Estimated Time**: 4-6 hours (including tests)
 
 ## Overview
@@ -69,7 +69,7 @@ npm test tests/unit/constants.test.ts
 // Find CalculationResult interface and add:
 export interface CalculationResult {
   // ... existing fields ...
-  
+
   /**
    * Tax-exempt lunch allowance amount
    * - undefined: Lunch allowance is disabled
@@ -92,21 +92,21 @@ describe('Lunch Allowance Type Contracts', () => {
       // ... required fields ...
       lunchAllowance: undefined, // Disabled
     };
-    
+
     const result2: CalculationResult = {
       // ... required fields ...
       lunchAllowance: 730_000, // Enabled
     };
-    
+
     expect(result1.lunchAllowance).toBeUndefined();
     expect(result2.lunchAllowance).toBe(730_000);
   });
-  
+
   it('should allow CalculationResult without lunchAllowance field', () => {
     const result: CalculationResult = {
       // ... required fields only ...
     };
-    
+
     expect(result.lunchAllowance).toBeUndefined();
   });
 });
@@ -133,13 +133,13 @@ import { DEFAULT_LUNCH_ALLOWANCE } from '@/config/constants';
 
 interface CalculatorState {
   // ... existing state ...
-  
+
   // Lunch allowance state
   hasLunchAllowance: boolean;
   lunchAllowance: number;
-  
+
   // ... existing actions ...
-  
+
   // Lunch allowance actions
   setHasLunchAllowance: (has: boolean) => void;
   setLunchAllowance: (amount: number) => void;
@@ -147,16 +147,16 @@ interface CalculatorState {
 
 export const useCalculatorStore = create<CalculatorState>((set) => ({
   // ... existing initial state ...
-  
+
   // Lunch allowance initial state
   hasLunchAllowance: false,
   lunchAllowance: DEFAULT_LUNCH_ALLOWANCE,
-  
+
   // ... existing actions ...
-  
+
   // Lunch allowance actions
   setHasLunchAllowance: (has) => set({ hasLunchAllowance: has }),
-  setLunchAllowance: (amount) => 
+  setLunchAllowance: (amount) =>
     set({ lunchAllowance: Math.max(0, Math.floor(amount)) }),
 }));
 ```
@@ -176,48 +176,48 @@ describe('Calculator Store - Lunch Allowance', () => {
     store.setHasLunchAllowance(false);
     store.setLunchAllowance(DEFAULT_LUNCH_ALLOWANCE);
   });
-  
+
   it('should initialize with lunch allowance disabled', () => {
     const { hasLunchAllowance } = useCalculatorStore.getState();
     expect(hasLunchAllowance).toBe(false);
   });
-  
+
   it('should initialize with default lunch allowance amount', () => {
     const { lunchAllowance } = useCalculatorStore.getState();
     expect(lunchAllowance).toBe(DEFAULT_LUNCH_ALLOWANCE);
   });
-  
+
   it('should toggle lunch allowance on', () => {
     const store = useCalculatorStore.getState();
     store.setHasLunchAllowance(true);
     expect(store.hasLunchAllowance).toBe(true);
   });
-  
+
   it('should toggle lunch allowance off', () => {
     const store = useCalculatorStore.getState();
     store.setHasLunchAllowance(true);
     store.setHasLunchAllowance(false);
     expect(store.hasLunchAllowance).toBe(false);
   });
-  
+
   it('should update lunch allowance amount', () => {
     const store = useCalculatorStore.getState();
     store.setLunchAllowance(1_500_000);
     expect(store.lunchAllowance).toBe(1_500_000);
   });
-  
+
   it('should clamp negative amounts to 0', () => {
     const store = useCalculatorStore.getState();
     store.setLunchAllowance(-100);
     expect(store.lunchAllowance).toBe(0);
   });
-  
+
   it('should floor decimal amounts to integer', () => {
     const store = useCalculatorStore.getState();
     store.setLunchAllowance(730_000.99);
     expect(store.lunchAllowance).toBe(730_000);
   });
-  
+
   it('should preserve amount when toggled off and on', () => {
     const store = useCalculatorStore.getState();
     store.setLunchAllowance(1_500_000);
@@ -260,11 +260,11 @@ export function calculateNet(
   options?: CalculateNetOptions
 ): CalculationResult {
   // ... existing calculation logic ...
-  
+
   const net = grossAfterInsurance - tax;
   const unionDues = options?.unionDues;
   const lunchAllowance = options?.lunchAllowance;
-  
+
   // Calculate final NET
   let finalNet = net;
   if (unionDues !== undefined) {
@@ -273,7 +273,7 @@ export function calculateNet(
   if (lunchAllowance !== undefined) {
     finalNet += lunchAllowance;
   }
-  
+
   return {
     // ... existing fields ...
     net,
@@ -297,13 +297,13 @@ describe('Lunch Allowance Calculation', () => {
     totalEmployee: 1_000_000,
     // ... other insurance fields ...
   };
-  
+
   const mockDeductions = {
     personal: 11_000_000,
     dependents: 0,
     total: 11_000_000,
   };
-  
+
   it('should return undefined when lunch allowance is disabled', () => {
     const result = calculateNet(
       30_000_000,
@@ -311,10 +311,10 @@ describe('Lunch Allowance Calculation', () => {
       mockDeductions,
       2_777_500
     );
-    
+
     expect(result.lunchAllowance).toBeUndefined();
   });
-  
+
   it('should add default lunch allowance to final NET', () => {
     const result = calculateNet(
       30_000_000,
@@ -323,11 +323,11 @@ describe('Lunch Allowance Calculation', () => {
       2_777_500,
       { lunchAllowance: DEFAULT_LUNCH_ALLOWANCE }
     );
-    
+
     expect(result.lunchAllowance).toBe(DEFAULT_LUNCH_ALLOWANCE);
     expect(result.finalNet).toBe(result.net + DEFAULT_LUNCH_ALLOWANCE);
   });
-  
+
   it('should add custom lunch allowance to final NET', () => {
     const customAmount = 1_500_000;
     const result = calculateNet(
@@ -337,11 +337,11 @@ describe('Lunch Allowance Calculation', () => {
       2_777_500,
       { lunchAllowance: customAmount }
     );
-    
+
     expect(result.lunchAllowance).toBe(customAmount);
     expect(result.finalNet).toBe(result.net + customAmount);
   });
-  
+
   it('should handle zero lunch allowance', () => {
     const result = calculateNet(
       30_000_000,
@@ -350,11 +350,11 @@ describe('Lunch Allowance Calculation', () => {
       2_777_500,
       { lunchAllowance: 0 }
     );
-    
+
     expect(result.lunchAllowance).toBe(0);
     expect(result.finalNet).toBe(result.net);
   });
-  
+
   it('should work with union dues and lunch allowance together', () => {
     const result = calculateNet(
       30_000_000,
@@ -366,12 +366,12 @@ describe('Lunch Allowance Calculation', () => {
         lunchAllowance: 730_000,
       }
     );
-    
+
     expect(result.unionDues).toBe(150_000);
     expect(result.lunchAllowance).toBe(730_000);
     expect(result.finalNet).toBe(result.net - 150_000 + 730_000);
   });
-  
+
   it('should handle very large lunch allowance amounts', () => {
     const largeAmount = 10_000_000;
     const result = calculateNet(
@@ -381,7 +381,7 @@ describe('Lunch Allowance Calculation', () => {
       2_777_500,
       { lunchAllowance: largeAmount }
     );
-    
+
     expect(result.lunchAllowance).toBe(largeAmount);
     expect(result.finalNet).toBe(result.net + largeAmount);
   });
@@ -410,10 +410,10 @@ import { DEFAULT_LUNCH_ALLOWANCE } from '@/config/constants';
 // Add to parseStateFromURL function
 export function parseStateFromURL(): Partial<CalculatorState> {
   const params = new URLSearchParams(window.location.search);
-  
+
   return {
     // ... existing URL parsing ...
-    
+
     // Parse lunch allowance
     hasLunchAllowance: params.get('hasLunchAllowance') === 'true',
     lunchAllowance: (() => {
@@ -426,15 +426,15 @@ export function parseStateFromURL(): Partial<CalculatorState> {
 // Add to serializeStateToURL function
 export function serializeStateToURL(state: CalculatorState): string {
   const params = new URLSearchParams();
-  
+
   // ... existing URL serialization ...
-  
+
   // Serialize lunch allowance
   if (state.hasLunchAllowance) {
     params.set('hasLunchAllowance', 'true');
     params.set('lunchAllowance', state.lunchAllowance.toString());
   }
-  
+
   return params.toString();
 }
 ```
@@ -452,53 +452,53 @@ describe('URL State - Lunch Allowance', () => {
     it('should parse hasLunchAllowance=true', () => {
       const url = '?hasLunchAllowance=true&lunchAllowance=730000';
       window.history.pushState({}, '', url);
-      
+
       const state = parseStateFromURL();
       expect(state.hasLunchAllowance).toBe(true);
       expect(state.lunchAllowance).toBe(730_000);
     });
-    
+
     it('should default to disabled when parameter is missing', () => {
       window.history.pushState({}, '', '?');
-      
+
       const state = parseStateFromURL();
       expect(state.hasLunchAllowance).toBe(false);
       expect(state.lunchAllowance).toBe(DEFAULT_LUNCH_ALLOWANCE);
     });
-    
+
     it('should default to disabled when parameter is false', () => {
       const url = '?hasLunchAllowance=false';
       window.history.pushState({}, '', url);
-      
+
       const state = parseStateFromURL();
       expect(state.hasLunchAllowance).toBe(false);
     });
-    
+
     it('should use default amount when lunchAllowance is missing', () => {
       const url = '?hasLunchAllowance=true';
       window.history.pushState({}, '', url);
-      
+
       const state = parseStateFromURL();
       expect(state.lunchAllowance).toBe(DEFAULT_LUNCH_ALLOWANCE);
     });
-    
+
     it('should use default amount when lunchAllowance is invalid', () => {
       const url = '?hasLunchAllowance=true&lunchAllowance=abc';
       window.history.pushState({}, '', url);
-      
+
       const state = parseStateFromURL();
       expect(state.lunchAllowance).toBe(DEFAULT_LUNCH_ALLOWANCE);
     });
-    
+
     it('should use default amount when lunchAllowance is negative', () => {
       const url = '?hasLunchAllowance=true&lunchAllowance=-100';
       window.history.pushState({}, '', url);
-      
+
       const state = parseStateFromURL();
       expect(state.lunchAllowance).toBe(DEFAULT_LUNCH_ALLOWANCE);
     });
   });
-  
+
   describe('serializeStateToURL', () => {
     it('should include parameters when enabled', () => {
       const state = {
@@ -506,19 +506,19 @@ describe('URL State - Lunch Allowance', () => {
         lunchAllowance: 730_000,
         // ... other required state fields ...
       };
-      
+
       const url = serializeStateToURL(state);
       expect(url).toContain('hasLunchAllowance=true');
       expect(url).toContain('lunchAllowance=730000');
     });
-    
+
     it('should omit parameters when disabled', () => {
       const state = {
         hasLunchAllowance: false,
         lunchAllowance: 730_000,
         // ... other required state fields ...
       };
-      
+
       const url = serializeStateToURL(state);
       expect(url).not.toContain('hasLunchAllowance');
       expect(url).not.toContain('lunchAllowance');
@@ -551,24 +551,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export default function LunchAllowanceInput() {
-  const { hasLunchAllowance, lunchAllowance, setHasLunchAllowance, setLunchAllowance } = 
+  const { hasLunchAllowance, lunchAllowance, setHasLunchAllowance, setLunchAllowance } =
     useCalculatorStore();
-  
+
   const handleToggle = (checked: boolean) => {
     setHasLunchAllowance(checked);
   };
-  
+
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const amount = parseInt(value, 10);
-    
+
     if (!isNaN(amount) && amount >= 0) {
       setLunchAllowance(amount);
     } else if (value === '') {
       setLunchAllowance(0);
     }
   };
-  
+
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
@@ -582,7 +582,7 @@ export default function LunchAllowanceInput() {
           aria-label="Bật trợ cấp ăn trưa"
         />
       </div>
-      
+
       <div className="flex items-center gap-2">
         <Input
           type="number"
@@ -597,7 +597,7 @@ export default function LunchAllowanceInput() {
         />
         <span className="text-sm text-muted-foreground">VND</span>
       </div>
-      
+
       {hasLunchAllowance && (
         <p className="text-xs text-muted-foreground">
           Toàn bộ số tiền được miễn thuế (không có giới hạn)
@@ -625,94 +625,94 @@ describe('LunchAllowanceInput Component', () => {
     store.setHasLunchAllowance(false);
     store.setLunchAllowance(DEFAULT_LUNCH_ALLOWANCE);
   });
-  
+
   it('should render toggle and input field', () => {
     render(<LunchAllowanceInput />);
-    
+
     expect(screen.getByLabelText(/Bật trợ cấp ăn trưa/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i)).toBeInTheDocument();
   });
-  
+
   it('should disable input when toggle is off', () => {
     render(<LunchAllowanceInput />);
-    
+
     const input = screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i);
     expect(input).toBeDisabled();
   });
-  
+
   it('should enable input when toggle is on', () => {
     render(<LunchAllowanceInput />);
-    
+
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     fireEvent.click(toggle);
-    
+
     const input = screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i);
     expect(input).not.toBeDisabled();
   });
-  
+
   it('should update store when toggle is changed', () => {
     render(<LunchAllowanceInput />);
-    
+
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     fireEvent.click(toggle);
-    
+
     const store = useCalculatorStore.getState();
     expect(store.hasLunchAllowance).toBe(true);
   });
-  
+
   it('should update store when amount is changed', () => {
     render(<LunchAllowanceInput />);
-    
+
     // Enable first
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     fireEvent.click(toggle);
-    
+
     // Change amount
     const input = screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i);
     fireEvent.change(input, { target: { value: '1500000' } });
-    
+
     const store = useCalculatorStore.getState();
     expect(store.lunchAllowance).toBe(1_500_000);
   });
-  
+
   it('should show default value initially', () => {
     render(<LunchAllowanceInput />);
-    
+
     const input = screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i);
     expect(input).toHaveValue(DEFAULT_LUNCH_ALLOWANCE);
   });
-  
+
   it('should preserve custom amount when toggled off and on', () => {
     render(<LunchAllowanceInput />);
-    
+
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     const input = screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i);
-    
+
     // Enable and set custom amount
     fireEvent.click(toggle);
     fireEvent.change(input, { target: { value: '1500000' } });
-    
+
     // Disable
     fireEvent.click(toggle);
-    
+
     // Enable again
     fireEvent.click(toggle);
-    
+
     expect(input).toHaveValue(1_500_000);
   });
-  
+
   it('should show tax-exempt hint when enabled', () => {
     render(<LunchAllowanceInput />);
-    
+
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     fireEvent.click(toggle);
-    
+
     expect(screen.getByText(/Toàn bộ số tiền được miễn thuế/i)).toBeInTheDocument();
   });
-  
+
   it('should not show tax-exempt hint when disabled', () => {
     render(<LunchAllowanceInput />);
-    
+
     expect(screen.queryByText(/Toàn bộ số tiền được miễn thuế/i)).not.toBeInTheDocument();
   });
 });
@@ -738,12 +738,12 @@ npm test tests/components/LunchAllowanceInput.test.tsx
 import LunchAllowanceInput from './LunchAllowanceInput';
 
 export default function Calculator() {
-  const { 
+  const {
     // ... existing store state ...
-    hasLunchAllowance, 
-    lunchAllowance 
+    hasLunchAllowance,
+    lunchAllowance
   } = useCalculatorStore();
-  
+
   // Update calculation to include lunch allowance
   const result = calculateNet(
     gross,
@@ -755,14 +755,14 @@ export default function Calculator() {
       lunchAllowance: hasLunchAllowance ? lunchAllowance : undefined,
     }
   );
-  
+
   return (
     <div>
       {/* ... existing inputs ... */}
-      
+
       {/* Add lunch allowance input after union dues */}
       <LunchAllowanceInput />
-      
+
       {/* ... existing results display ... */}
     </div>
   );
@@ -798,67 +798,67 @@ describe('Lunch Allowance Integration', () => {
     store.setHasLunchAllowance(false);
     store.setLunchAllowance(730_000);
   });
-  
+
   it('should recalculate when lunch allowance is enabled', () => {
     render(<Calculator />);
-    
+
     // Get initial final NET
     const initialNet = screen.getByTestId('final-net').textContent;
-    
+
     // Enable lunch allowance
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     fireEvent.click(toggle);
-    
+
     // Final NET should increase
     const newNet = screen.getByTestId('final-net').textContent;
     expect(newNet).not.toBe(initialNet);
   });
-  
+
   it('should use custom amount in calculation', () => {
     render(<Calculator />);
-    
+
     // Enable and set custom amount
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     fireEvent.click(toggle);
-    
+
     const input = screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i);
     fireEvent.change(input, { target: { value: '1500000' } });
-    
+
     // Should display custom amount
     expect(screen.getByText(/\+1,500,000 VND/)).toBeInTheDocument();
   });
-  
+
   it('should persist state in URL', () => {
     render(<Calculator />);
-    
+
     const toggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
     fireEvent.click(toggle);
-    
+
     expect(window.location.search).toContain('hasLunchAllowance=true');
     expect(window.location.search).toContain('lunchAllowance=730000');
   });
-  
+
   it('should restore state from URL', () => {
     // Set URL
     window.history.pushState({}, '', '?hasLunchAllowance=true&lunchAllowance=1500000');
-    
+
     render(<Calculator />);
-    
+
     const input = screen.getByLabelText(/Trợ cấp ăn trưa không chịu thuế/i);
     expect(input).toHaveValue(1_500_000);
     expect(input).not.toBeDisabled();
   });
-  
+
   it('should work with union dues feature', () => {
     render(<Calculator />);
-    
+
     // Enable both features
     const unionToggle = screen.getByLabelText(/Bật đóng công đoàn/i);
     const lunchToggle = screen.getByLabelText(/Bật trợ cấp ăn trưa/i);
-    
+
     fireEvent.click(unionToggle);
     fireEvent.click(lunchToggle);
-    
+
     // Should display both
     expect(screen.getByText(/Đóng công đoàn/)).toBeInTheDocument();
     expect(screen.getByText(/Trợ cấp ăn trưa/)).toBeInTheDocument();

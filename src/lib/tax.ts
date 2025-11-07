@@ -179,9 +179,10 @@ export function calcPit(taxable: number, regime: Regime): PIT {
 /**
  * Master calculation function that orchestrates insurance, deductions, PIT, and NET calculation.
  * @param inputs - User-provided calculator inputs
+ * @param lunchAllowance - Optional tax-exempt lunch allowance amount (VND)
  * @returns Complete CalculationResult
  */
-export function calcAll(inputs: CalculatorInputs): CalculationResult {
+export function calcAll(inputs: CalculatorInputs, lunchAllowance?: number): CalculationResult {
   const regionalMin = REGIONAL_MINIMUMS[inputs.region].minWage;
 
   // 1. Calculate insurance bases and amounts
@@ -209,7 +210,7 @@ export function calcAll(inputs: CalculatorInputs): CalculationResult {
   // 6. Calculate union dues (if user is union member)
   const unionDues = inputs.isUnionMember ? calculateUnionDues(bases.baseSIHI) : undefined;
 
-  // 7. Calculate final NET after union dues
+  // 7. Calculate final NET after union dues and lunch allowance
   const result: CalculationResult = {
     inputs,
     insurance,
@@ -217,10 +218,11 @@ export function calcAll(inputs: CalculatorInputs): CalculationResult {
     pit,
     net,
     unionDues,
+    lunchAllowance, // Include lunch allowance in result
     finalNet: net, // Temporary - will update below
   };
 
-  // Calculate final NET properly
+  // Calculate final NET properly (includes union dues deduction and lunch allowance addition)
   result.finalNet = calculateFinalNet(result);
 
   return result;
@@ -238,12 +240,16 @@ function formatVnd(amount: number): string {
 /**
  * Compare 2025 vs 2026 tax regimes side-by-side with delta calculations.
  * @param inputs - User-provided calculator inputs (without regime specified)
+ * @param lunchAllowance - Optional tax-exempt lunch allowance amount (VND)
  * @returns ComparisonResult with both calculations and deltas
  */
-export function compareRegimes(inputs: Omit<CalculatorInputs, 'regime'>): ComparisonResult {
+export function compareRegimes(
+  inputs: Omit<CalculatorInputs, 'regime'>,
+  lunchAllowance?: number
+): ComparisonResult {
   // Calculate results for both regimes
-  const regime2025 = calcAll({ ...inputs, regime: REGIME_2025 });
-  const regime2026 = calcAll({ ...inputs, regime: REGIME_2026 });
+  const regime2025 = calcAll({ ...inputs, regime: REGIME_2025 }, lunchAllowance);
+  const regime2026 = calcAll({ ...inputs, regime: REGIME_2026 }, lunchAllowance);
 
   // Calculate deltas (2026 - 2025)
   // Positive delta = 2026 is higher (better for deductions, worse for taxes)

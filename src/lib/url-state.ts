@@ -11,6 +11,8 @@ import type { URLState, RegionId, ViewMode, InsuranceBaseMode } from '@/types';
  * - m: view mode
  * - fmt: locale format
  * - u: union member (1 if true, omitted if false)
+ * - la: lunch allowance enabled (1 if true, omitted if false)
+ * - laa: lunch allowance amount
  *
  * @param state - Partial or complete URLState object
  * @returns Query string (without leading '?')
@@ -48,6 +50,14 @@ export function encodeStateToURL(state: Partial<URLState>): string {
 
   if (state.isUnionMember === true) {
     params.set('u', '1');
+  }
+
+  // Encode lunch allowance (only if enabled)
+  if (state.hasLunchAllowance === true) {
+    params.set('la', '1');
+    if (state.lunchAllowance !== undefined) {
+      params.set('laa', state.lunchAllowance.toString());
+    }
   }
 
   return params.toString();
@@ -129,6 +139,21 @@ export function decodeStateFromURL(queryString: string): Partial<URLState> {
     const unionMember = params.get('u');
     if (unionMember === '1') {
       state.isUnionMember = true;
+    }
+
+    // Parse lunch allowance enabled
+    const lunchAllowanceEnabled = params.get('la');
+    if (lunchAllowanceEnabled === '1') {
+      state.hasLunchAllowance = true;
+    }
+
+    // Parse lunch allowance amount
+    const lunchAllowanceStr = params.get('laa');
+    if (lunchAllowanceStr) {
+      const lunchAllowance = Number(lunchAllowanceStr);
+      if (!isNaN(lunchAllowance) && lunchAllowance >= 0) {
+        state.lunchAllowance = lunchAllowance;
+      }
     }
   } catch (error) {
     // If URLSearchParams fails to parse, return whatever we have

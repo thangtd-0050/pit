@@ -1,7 +1,7 @@
 # Data Model: Tax-Exempt Lunch Allowance
 
-**Feature**: 005-lunch-allowance  
-**Date**: November 7, 2025  
+**Feature**: 005-lunch-allowance
+**Date**: November 7, 2025
 **Status**: Complete
 
 ## Overview
@@ -79,7 +79,7 @@ interface CalculationResult {
   taxableIncome: number;
   tax: number;
   net: number;
-  
+
   // Union dues fields (from feature 004)
   unionDues?: {
     amount: number;
@@ -89,7 +89,7 @@ interface CalculationResult {
     maxAmount: number;
   };
   finalNet?: number; // NET after union dues
-  
+
   // NEW: Lunch allowance field
   lunchAllowance?: number; // Tax-exempt lunch allowance amount
 }
@@ -136,16 +136,16 @@ interface CalculatorState {
   dependents: number;
   isUnionMember: boolean;
   // ...other existing fields
-  
+
   // NEW: Lunch allowance state
   hasLunchAllowance: boolean;
   lunchAllowance: number;
-  
+
   // Existing actions
   setGross: (gross: number) => void;
   setRegion: (region: RegionCode) => void;
   // ...other existing actions
-  
+
   // NEW: Lunch allowance actions
   setHasLunchAllowance: (has: boolean) => void;
   setLunchAllowance: (amount: number) => void;
@@ -158,9 +158,9 @@ const useCalculatorStore = create<CalculatorState>((set) => ({
   // ...existing state
   hasLunchAllowance: false,
   lunchAllowance: 730_000,
-  
+
   setHasLunchAllowance: (has) => set({ hasLunchAllowance: has }),
-  setLunchAllowance: (amount) => set({ 
+  setLunchAllowance: (amount) => set({
     lunchAllowance: Math.max(0, amount) // Ensure non-negative
   }),
 }));

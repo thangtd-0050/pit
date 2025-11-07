@@ -40,6 +40,17 @@ export const UNION_DUES_MAX_RATIO = 0.1;
  */
 export const UNION_DUES_MAX = 234_000; // VND/month
 
+/**
+ * Default tax-exempt lunch allowance amount
+ * Common value for Vietnamese companies (730,000 VND/month)
+ * 
+ * @remarks
+ * - Entire amount is tax-exempt (no threshold cap)
+ * - Foreign companies may offer higher amounts (e.g., 1,500,000 VND)
+ * - This is a default value only, users can customize the amount
+ */
+export const DEFAULT_LUNCH_ALLOWANCE = 730_000; // VND/month
+
 // ============================================================================
 // Regional Minimum Wages
 // ============================================================================
