@@ -7,7 +7,7 @@ import { useCalculatorStore } from '@/store/calculatorStore';
  * LunchAllowanceInput Component
  *
  * Provides UI for enabling/disabling lunch allowance and setting the monthly amount.
- * The lunch allowance is tax-exempt and added to the final NET salary.
+ * The lunch allowance is tax-exempt.
  *
  * Features:
  * - Toggle switch to enable/disable lunch allowance
@@ -63,9 +63,7 @@ export function LunchAllowanceInput() {
           <Label htmlFor="lunch-allowance-toggle" className="text-base font-medium">
             Lunch Allowance
           </Label>
-          <p className="text-sm text-muted-foreground">
-            Tax-exempt lunch allowance (added to NET salary)
-          </p>
+          <p className="text-sm text-muted-foreground">Tax-exempt lunch allowance</p>
         </div>
         <Switch
           id="lunch-allowance-toggle"
