@@ -23,7 +23,7 @@ describe('Calculator Store - Lunch Allowance', () => {
   it('should toggle lunch allowance on', () => {
     const store = useCalculatorStore.getState();
     store.setHasLunchAllowance(true);
-    
+
     const { hasLunchAllowance } = useCalculatorStore.getState();
     expect(hasLunchAllowance).toBe(true);
   });
@@ -32,7 +32,7 @@ describe('Calculator Store - Lunch Allowance', () => {
     const store = useCalculatorStore.getState();
     store.setHasLunchAllowance(true);
     store.setHasLunchAllowance(false);
-    
+
     const { hasLunchAllowance } = useCalculatorStore.getState();
     expect(hasLunchAllowance).toBe(false);
   });
@@ -40,7 +40,7 @@ describe('Calculator Store - Lunch Allowance', () => {
   it('should update lunch allowance amount', () => {
     const store = useCalculatorStore.getState();
     store.setLunchAllowance(1_500_000);
-    
+
     const { lunchAllowance } = useCalculatorStore.getState();
     expect(lunchAllowance).toBe(1_500_000);
   });
@@ -48,7 +48,7 @@ describe('Calculator Store - Lunch Allowance', () => {
   it('should clamp negative amounts to 0', () => {
     const store = useCalculatorStore.getState();
     store.setLunchAllowance(-100);
-    
+
     const { lunchAllowance } = useCalculatorStore.getState();
     expect(lunchAllowance).toBe(0);
   });
@@ -56,7 +56,7 @@ describe('Calculator Store - Lunch Allowance', () => {
   it('should floor decimal amounts to integer', () => {
     const store = useCalculatorStore.getState();
     store.setLunchAllowance(730_000.99);
-    
+
     const { lunchAllowance } = useCalculatorStore.getState();
     expect(lunchAllowance).toBe(730_000);
   });
@@ -66,7 +66,7 @@ describe('Calculator Store - Lunch Allowance', () => {
     store.setLunchAllowance(1_500_000);
     store.setHasLunchAllowance(true);
     store.setHasLunchAllowance(false);
-    
+
     const { lunchAllowance } = useCalculatorStore.getState();
     expect(lunchAllowance).toBe(1_500_000);
   });

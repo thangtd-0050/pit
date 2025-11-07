@@ -19,6 +19,7 @@ Công cụ tính lương NET từ lương GROSS theo quy định thuế TNCN và
 - **4 Vùng Lương Tối Thiểu**: Tự động điều chỉnh theo vùng I, II, III, IV
 - **Cơ Sở Đóng Bảo Hiểm**: Chọn theo Gross hoặc tùy chỉnh (tự động áp dụng trần/sàn)
 - **Đoàn Phí Công Đoàn**: Tùy chọn tính đoàn phí (0.5% cơ sở BHXH, tối đa 234K VND) cho đoàn viên
+- **Phụ Cấp Ăn Trưa**: Tùy chọn phụ cấp ăn trưa miễn thuế (mặc định 730K VND/tháng, có thể tùy chỉnh)
 - **Số Người Phụ Thuộc**: 0-20 người (hỗ trợ các trường hợp đặc biệt)
 - **Preset Lương**: Chọn nhanh 10M, 30M, 60M, 100M, 185M
 

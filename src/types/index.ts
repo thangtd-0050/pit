@@ -195,7 +195,7 @@ export interface CalculationResult {
    * Tax-exempt lunch allowance amount
    * - undefined: Lunch allowance is disabled
    * - number: Lunch allowance amount in VND (≥ 0)
-   * 
+   *
    * @remarks
    * - This is always undefined when the user hasn't enabled lunch allowance
    * - When enabled, this value is added to final NET salary

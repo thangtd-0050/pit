@@ -162,7 +162,35 @@ export function ResultDisplay({
                     -{formatNumber(result.unionDues.amount, locale)} VND
                   </span>
                 </div>
-                <div className="flex items-center justify-between border-t pt-2 text-sm font-semibold">
+              </div>
+            </div>
+          )}
+
+          {/* Lunch Allowance Breakdown - only show if lunch allowance is enabled */}
+          {result.lunchAllowance !== undefined && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium">Phụ cấp ăn trưa</h3>
+              <div className="space-y-2 rounded-lg border border-green-200 bg-green-50/50 p-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">
+                    Phụ cấp ăn trưa
+                    <span className="ml-1 text-xs text-green-700" title="Không chịu thuế TNCN">
+                      (Miễn thuế)
+                    </span>
+                  </span>
+                  <span className="font-medium text-green-600">
+                    +{formatNumber(result.lunchAllowance, locale)} VND
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Final NET - only show when union dues or lunch allowance is present */}
+          {(result.unionDues || result.lunchAllowance !== undefined) && (
+            <div className="space-y-3">
+              <div className="space-y-2 rounded-lg border-2 border-green-600 bg-green-50 p-4">
+                <div className="flex items-center justify-between text-sm font-semibold">
                   <span>Lương thực nhận cuối cùng</span>
                   <span className="text-lg text-green-600">
                     {formatNumber(result.finalNet, locale)} VND

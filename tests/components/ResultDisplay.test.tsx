@@ -54,11 +54,12 @@ describe('ResultDisplay - Union Dues', () => {
 
     render(<ResultDisplay result={mockResult} />);
 
-    // Should display union dues label
-    expect(screen.getByText(/đoàn phí công đoàn/i)).toBeInTheDocument();
+    // Should display union dues section (now has both h3 and span with same text)
+    const unionDuesHeaders = screen.getAllByText(/đoàn phí công đoàn/i);
+    expect(unionDuesHeaders.length).toBeGreaterThan(0);
 
-    // Should display union dues amount
-    expect(screen.getByText(/150.000/)).toBeInTheDocument();
+    // Should display union dues amount (may appear multiple times - in union section)
+    expect(screen.getByText(/-150.000/)).toBeInTheDocument(); // Look for negative amount specifically
   });
 
   // T029: hides union dues row when unionDues is undefined
@@ -144,10 +145,12 @@ describe('ResultDisplay - Union Dues', () => {
     // Should show capped amount
     expect(screen.getByText(/234.000/)).toBeInTheDocument();
 
-    // Should show cap indicator (tooltip or note)
-    // This depends on implementation - checking for common phrases
-    const container = screen.getByText(/đoàn phí công đoàn/i).closest('div');
-    expect(container).toBeInTheDocument();
+    // Should show cap indicator - now using getAllByText since we have multiple elements
+    const unionDuesLabels = screen.getAllByText(/đoàn phí công đoàn/i);
+    expect(unionDuesLabels.length).toBeGreaterThan(0);
+
+    // Check for cap indicator text
+    expect(screen.getByText(/đã đạt mức trần/i)).toBeInTheDocument();
   });
 
   // T031: displays finalNet correctly as separate row
@@ -191,10 +194,11 @@ describe('ResultDisplay - Union Dues', () => {
 
     render(<ResultDisplay result={mockResult} />);
 
-    // Should display both NET and final NET
-    expect(screen.getByText(/lương thực nhận/i)).toBeInTheDocument();
+    // Should display both NET and final NET (now appears twice - in highlight and final section)
+    expect(screen.getAllByText(/lương thực nhận/i).length).toBeGreaterThan(0);
 
-    // Final NET should be NET - union dues = 24,907,500
-    expect(screen.getByText(/24.907.500/)).toBeInTheDocument();
+    // Final NET should be NET - union dues = 24,907,500 (appears in both places now)
+    const netAmounts = screen.getAllByText(/24.907.500/);
+    expect(netAmounts.length).toBeGreaterThan(0);
   });
 });

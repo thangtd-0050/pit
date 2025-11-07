@@ -93,15 +93,15 @@
 
 ### Implementation for User Story 2
 
-- [ ] T016 [US2] Create LunchAllowanceInput component in src/components/LunchAllowanceInput.tsx with toggle and input field
-- [ ] T017 [US2] Implement toggle handler (setHasLunchAllowance) in LunchAllowanceInput component
-- [ ] T018 [US2] Implement input change handler (setLunchAllowance with validation) in LunchAllowanceInput component
-- [ ] T019 [US2] Add disabled state for input when toggle is off in LunchAllowanceInput component
-- [ ] T020 [US2] Add accessibility labels (ARIA) for toggle and input in LunchAllowanceInput component
-- [ ] T021 [US2] Import and add LunchAllowanceInput component to Calculator component in src/components/Calculator.tsx (after union dues input)
-- [ ] T022 [US2] Update calculation call in Calculator component to pass lunchAllowance option from store state
+- [X] T016 [US2] Create LunchAllowanceInput component in src/components/LunchAllowanceInput.tsx with toggle and input field
+- [X] T017 [US2] Implement toggle handler (setHasLunchAllowance) in LunchAllowanceInput component
+- [X] T018 [US2] Implement input change handler (setLunchAllowance with validation) in LunchAllowanceInput component
+- [X] T019 [US2] Implement disabled state for input when toggle is off in LunchAllowanceInput component
+- [X] T020 [US2] Add accessibility labels (ARIA) for toggle and input in LunchAllowanceInput component
+- [X] T021 [US2] Import and add LunchAllowanceInput component to Calculator component in src/components/CalculatorInputs.tsx (after union dues input)
+- [X] T022 [US2] Update calculation call in Calculator component to pass lunchAllowance option from store state
 
-**Checkpoint**: At this point, User Stories 1 AND 2 work independently - users can enable/disable and customize lunch allowance amount via UI
+**Checkpoint**: At this point, User Stories 1 AND 2 work independently - users can enable/disable and customize lunch allowance amount via UI ✅
 
 ---
 
@@ -113,7 +113,7 @@
 
 ### Tests for User Story 3 (TDD - Write FIRST)
 
-- [ ] T023 [P] [US3] Create integration test file tests/integration/lunch-allowance.integration.test.tsx with 5 test cases:
+- [X] T023 [P] [US3] Create integration test file tests/integration/lunch-allowance.integration.test.tsx with 5 test cases:
   - Test 1: Recalculates when lunch allowance is enabled
   - Test 2: Uses custom amount in calculation
   - Test 3: Persists state in URL
@@ -122,12 +122,12 @@
 
 ### Implementation for User Story 3
 
-- [ ] T024 [US3] Add lunch allowance display section to ResultsDisplay component in src/components/ResultsDisplay.tsx
-- [ ] T025 [US3] Add conditional rendering based on result.lunchAllowance !== undefined in ResultsDisplay
-- [ ] T026 [US3] Display lunch allowance amount with "tax-exempt" label and green color (+amount) in ResultsDisplay
-- [ ] T027 [US3] Ensure lunch allowance appears after union dues and before final NET in results breakdown
+- [X] T024 [US3] Add lunch allowance display section to ResultsDisplay component in src/components/ResultDisplay.tsx
+- [X] T025 [US3] Add conditional rendering based on result.lunchAllowance !== undefined in ResultDisplay
+- [X] T026 [US3] Display lunch allowance amount with "tax-exempt" label and green color (+amount) in ResultDisplay
+- [X] T027 [US3] Ensure lunch allowance appears after union dues and before final NET in results breakdown
 
-**Checkpoint**: All user stories (1, 2, 3) are now independently functional with complete UI display
+**Checkpoint**: All user stories (1, 2, 3) are now independently functional with complete UI display ✅
 
 ---
 
@@ -135,11 +135,11 @@
 
 **Purpose**: Documentation, edge case handling, and final validation
 
-- [ ] T028 [P] Add JSDoc comments to calculateNet function explaining lunch allowance parameter in src/lib/tax.ts
-- [ ] T029 [P] Add JSDoc comments to LunchAllowanceInput component in src/components/LunchAllowanceInput.tsx
-- [ ] T030 Add input validation for negative values (clamp to 0) in setLunchAllowance action in src/store/calculatorStore.ts
-- [ ] T031 Add input validation to floor decimal values to integers in setLunchAllowance action in src/store/calculatorStore.ts
-- [ ] T032 [P] Update README.md with lunch allowance feature description in project root
+- [X] T028 [P] Add JSDoc comments to calculateNet function explaining lunch allowance parameter in src/lib/tax.ts (ALREADY DONE in T009-T011)
+- [X] T029 [P] Add JSDoc comments to LunchAllowanceInput component in src/components/LunchAllowanceInput.tsx (ALREADY DONE in T016)
+- [X] T030 Add input validation for negative values (clamp to 0) in setLunchAllowance action in src/store/calculatorStore.ts (ALREADY DONE in T006)
+- [X] T031 Add input validation to floor decimal values to integers in setLunchAllowance action in src/store/calculatorStore.ts (ALREADY DONE in T006)
+- [X] T032 [P] Update README.md with lunch allowance feature description in project root
 - [ ] T033 Run full test suite and verify all tests pass (npm test)
 - [ ] T034 Run linting and fix any issues (npm run lint)
 - [ ] T035 Verify bundle size is within constraints (<200KB gzipped) using build tool

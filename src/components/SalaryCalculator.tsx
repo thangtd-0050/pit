@@ -4,6 +4,7 @@ import { ResultDisplay } from '@/components/ResultDisplay';
 import { calcAll, compareRegimes } from '@/lib/tax';
 import { REGIME_2025, REGIME_2026, REGIONAL_MINIMUMS } from '@/config/constants';
 import { usePreferences } from '@/store/preferences';
+import { useCalculatorStore } from '@/store/calculatorStore';
 import { decodeStateFromURL } from '@/lib/url-state';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import type { RegionId, InsuranceBaseMode, CalculationResult, ComparisonResult } from '@/types';
@@ -19,6 +20,9 @@ export function SalaryCalculator() {
   const [insuranceBaseMode, setInsuranceBaseMode] = useState<InsuranceBaseMode>('gross');
   const [customInsuranceBase, setCustomInsuranceBase] = useState(30_000_000);
   const [isUnionMember, setIsUnionMember] = useState(false);
+
+  // Lunch allowance state from calculator store
+  const { hasLunchAllowance, lunchAllowance } = useCalculatorStore();
 
   // View mode from preferences store (persisted)
   const { viewMode, setViewMode, setLocale, locale } = usePreferences();
@@ -50,6 +54,7 @@ export function SalaryCalculator() {
   // Restore state from URL on mount
   useEffect(() => {
     const urlState = decodeStateFromURL(window.location.search);
+    const { setHasLunchAllowance, setLunchAllowance } = useCalculatorStore.getState();
 
     if (urlState.gross !== undefined) setGross(urlState.gross);
     if (urlState.dependents !== undefined) setDependents(urlState.dependents);
@@ -60,6 +65,8 @@ export function SalaryCalculator() {
     if (urlState.viewMode !== undefined) setViewMode(urlState.viewMode);
     if (urlState.locale !== undefined) setLocale(urlState.locale);
     if (urlState.isUnionMember !== undefined) setIsUnionMember(urlState.isUnionMember);
+    if (urlState.hasLunchAllowance !== undefined) setHasLunchAllowance(urlState.hasLunchAllowance);
+    if (urlState.lunchAllowance !== undefined) setLunchAllowance(urlState.lunchAllowance);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run on mount
 
@@ -86,10 +93,13 @@ export function SalaryCalculator() {
         }),
       };
 
+      // Determine lunch allowance value (only if enabled)
+      const lunchAllowanceValue = hasLunchAllowance ? lunchAllowance : undefined;
+
       // Always calculate all modes for smooth switching
-      const calc2025 = calcAll({ ...inputs, regime: REGIME_2025 });
-      const calc2026 = calcAll({ ...inputs, regime: REGIME_2026 });
-      const comp = compareRegimes(inputs);
+      const calc2025 = calcAll({ ...inputs, regime: REGIME_2025 }, lunchAllowanceValue);
+      const calc2026 = calcAll({ ...inputs, regime: REGIME_2026 }, lunchAllowanceValue);
+      const comp = compareRegimes(inputs, lunchAllowanceValue);
 
       setResult2025(calc2025);
       setResult2026(calc2026);
@@ -109,7 +119,7 @@ export function SalaryCalculator() {
       setResult2026(null);
       setComparison(null);
     }
-  }, [gross, dependents, region, insuranceBaseMode, customInsuranceBase, isUnionMember, viewMode, trackCalculation]);
+  }, [gross, dependents, region, insuranceBaseMode, customInsuranceBase, isUnionMember, hasLunchAllowance, lunchAllowance, viewMode, trackCalculation]);
 
   // Determine which result to display based on view mode
   const currentResult = viewMode === '2025' ? result2025 : viewMode === '2026' ? result2026 : null;

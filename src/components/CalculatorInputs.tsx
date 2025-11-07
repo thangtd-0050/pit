@@ -4,6 +4,7 @@ import { DependentsInput } from '@/components/DependentsInput';
 import { RegionSelector } from '@/components/RegionSelector';
 import { InsuranceBaseInput } from '@/components/InsuranceBaseInput';
 import { UnionDuesCheckbox } from '@/components/UnionDuesCheckbox';
+import { LunchAllowanceInput } from '@/components/LunchAllowanceInput';
 import type { RegionId, InsuranceBaseMode } from '@/types';
 
 interface CalculatorInputsProps {
@@ -51,6 +52,7 @@ export function CalculatorInputs({
           onCustomAmountChange={onCustomInsuranceBaseChange}
         />
         <UnionDuesCheckbox checked={isUnionMember} onCheckedChange={onUnionMemberChange} />
+        <LunchAllowanceInput />
       </CardContent>
     </Card>
   );
