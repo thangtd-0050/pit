@@ -29,13 +29,13 @@
 
 **Notes**:
 - Zero [NEEDS CLARIFICATION] markers - all requirements are concrete
-- Each FR is testable (e.g., FR-004 specifies exact 730,000 VND threshold)
-- Success criteria include quantitative metrics (SC-001: under 5 seconds, SC-002: 95% adoption, SC-004: handles 0-10M VND)
+- Each FR is testable (e.g., FR-004 specifies entire amount is tax-exempt, FR-005 adds to final net salary)
+- Success criteria include quantitative metrics (SC-001: under 5 seconds, SC-002: 95% adoption, SC-004: handles 0-10M VND as fully tax-exempt)
 - Success criteria are user-facing outcomes, not implementation metrics
 - 4 detailed acceptance scenarios per user story covering happy paths and edge cases
 - 5 edge cases identified with clear expected behaviors
 - Out of Scope section clearly defines boundaries
-- Dependencies section lists existing system components, Assumptions section documents 6 key assumptions
+- Dependencies section lists existing system components, Assumptions section documents 6 key assumptions including clarification that 730K is default value (not tax threshold)
 
 ## Feature Readiness
 
@@ -68,4 +68,5 @@
 
 ## Revision History
 
-- **2025-11-07**: Initial validation - all criteria passed on first review
+- **2025-11-07 (Initial)**: Initial validation - all criteria passed on first review
+- **2025-11-07 (Update)**: Corrected tax treatment - entire lunch allowance is tax-exempt (no 730K threshold), 730K is default value only. Updated FRs, success criteria, and assumptions accordingly. All 16/16 criteria still pass.
