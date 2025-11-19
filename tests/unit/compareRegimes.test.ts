@@ -262,14 +262,17 @@ describe('compareRegimes', () => {
       expect(result.regime2025.net).toBeLessThan(0);
       expect(result.regime2026.net).toBeLessThan(0);
 
-      // Insurance deltas should be zero (same formula both regimes)
-      expect(result.deltas.insurance).toBe(0);
+      // Insurance deltas will be non-zero since 2026 uses higher regional minimums
+      // For Region I: 2026 uses 5,310,000 vs 2025's 4,960,000 = 350,000 difference
+      // Insurance rates: SI 8% + HI 1.5% + UI 1% = 10.5%
+      // Expected delta: 350,000 * 10.5% = 36,750
+      expect(result.deltas.insurance).toBe(36_750);
 
       // PIT should be zero (no taxable income)
       expect(result.deltas.pit).toBe(0);
 
-      // NET delta should be zero (both negative by same amount)
-      expect(result.deltas.netSalary).toBe(0);
+      // NET delta equals negative of insurance delta (higher insurance = lower net)
+      expect(result.deltas.netSalary).toBe(-36_750);
     });
 
     it('should handle all regions consistently', () => {

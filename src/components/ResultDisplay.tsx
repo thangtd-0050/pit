@@ -139,7 +139,8 @@ export function ResultDisplay({
           <InsuranceBreakdown
             insurance={result.insurance}
             customBase={insuranceBaseMode === 'custom' ? customInsuranceBase : undefined}
-            regionalMin={regionalMin}
+            region={result.inputs.region}
+            regimeId={result.inputs.regime.id}
           />
           <DeductionsBreakdown
             deductions={result.deductions}

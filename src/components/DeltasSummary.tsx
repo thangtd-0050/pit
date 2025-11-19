@@ -37,10 +37,10 @@ export function DeltasSummary({ comparison, className }: DeltasSummaryProps) {
           />
         </div>
 
-        {/* Insurance delta (should always be 0) */}
+        {/* Insurance delta */}
         <div className="space-y-3">
           <h3 className="text-sm font-semibold text-muted-foreground">Bảo hiểm</h3>
-          <DeltaItem label="Bảo hiểm bắt buộc" delta={deltas.insurance} />
+          <DeltaItem label="Bảo hiểm bắt buộc" delta={deltas.insurance} inverted />
         </div>
 
         {/* Tax deltas */}

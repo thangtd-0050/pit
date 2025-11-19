@@ -10,7 +10,8 @@ import type {
   Regime,
 } from '@/types';
 import {
-  REGIONAL_MINIMUMS,
+  REGIONAL_MINIMUMS_2025,
+  REGIONAL_MINIMUMS_2026,
   BASE_SALARY,
   RATE_SI,
   RATE_HI,
@@ -183,7 +184,12 @@ export function calcPit(taxable: number, regime: Regime): PIT {
  * @returns Complete CalculationResult
  */
 export function calcAll(inputs: CalculatorInputs, lunchAllowance?: number): CalculationResult {
-  const regionalMin = REGIONAL_MINIMUMS[inputs.region].minWage;
+  // Select the appropriate regional minimum wage set based on the tax regime
+  const regionalMinimums = inputs.regime.id === '2026'
+    ? REGIONAL_MINIMUMS_2026
+    : REGIONAL_MINIMUMS_2025;
+
+  const regionalMin = regionalMinimums[inputs.region].minWage;
 
   // 1. Calculate insurance bases and amounts
   const bases = calcInsuranceBases(inputs.gross, regionalMin, BASE_SALARY, inputs.insuranceBase);

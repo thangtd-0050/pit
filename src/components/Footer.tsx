@@ -4,7 +4,7 @@
  */
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const lastUpdated = '2025-11-05';
+  const lastUpdated = '2025-11-19';
 
   return (
     <footer className="mt-16 border-t bg-muted/50 py-8">

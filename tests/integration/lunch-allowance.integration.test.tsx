@@ -28,28 +28,43 @@ describe('Lunch Allowance Integration Tests', () => {
 
     // Wait for initial calculation to complete
     await waitFor(() => {
-      expect(screen.getByText(/lương thực nhận/i)).toBeInTheDocument();
+      expect(screen.getByText(/Lương NET/i)).toBeInTheDocument();
     });
 
-    // Get initial NET value
-    const initialNet = screen.getByText(/lương thực nhận/i)
-      .closest('div')
-      ?.textContent;
+    // Store initial state - lunch allowance should be disabled
+    expect(useCalculatorStore.getState().hasLunchAllowance).toBe(false);
 
-    // Enable lunch allowance
+    // Get the NET salary value from the large display element
+    const getNetSalary = () => {
+      const netLabel = screen.queryByText(/Lương NET/i);
+      // The NET value is in a sibling or parent element with class text-4xl or text-5xl
+      const container = netLabel?.closest('div');
+      const netValueElement = container?.querySelector('.text-4xl, .text-5xl');
+      return netValueElement?.textContent || '';
+    };
+
+    const initialNet = getNetSalary();
+
+    // Enable lunch allowance - this should reduce PIT and increase NET
     const toggle = screen.getByRole('switch', { name: /lunch allowance/i });
     await user.click(toggle);
 
-    // Wait for recalculation
+    // Wait for store to update
     await waitFor(() => {
-      const newNet = screen.getByText(/lương thực nhận/i)
-        .closest('div')
-        ?.textContent;
-      expect(newNet).not.toBe(initialNet);
+      expect(useCalculatorStore.getState().hasLunchAllowance).toBe(true);
     });
 
-    // Final NET should include lunch allowance
+    // Wait for recalculation - NET value should increase (less PIT due to lunch allowance)
+    await waitFor(() => {
+      const newNet = getNetSalary();
+      // The NET should be different (higher) after enabling lunch allowance
+      expect(newNet).not.toBe(initialNet);
+      expect(newNet.length).toBeGreaterThan(0);
+    }, { timeout: 2000 });
+
+    // Verify final state
     expect(useCalculatorStore.getState().hasLunchAllowance).toBe(true);
+    expect(useCalculatorStore.getState().lunchAllowance).toBe(730_000);
   });
 
   it('uses custom amount in calculation', async () => {
@@ -58,7 +73,7 @@ describe('Lunch Allowance Integration Tests', () => {
 
     // Wait for initial calculation
     await waitFor(() => {
-      expect(screen.getByText(/lương thực nhận/i)).toBeInTheDocument();
+      expect(screen.getByText(/Lương NET/i)).toBeInTheDocument();
     });
 
     // Enable lunch allowance
@@ -124,12 +139,12 @@ describe('Lunch Allowance Integration Tests', () => {
 
     // Wait for initial calculation
     await waitFor(() => {
-      expect(screen.getByText(/lương thực nhận/i)).toBeInTheDocument();
+      expect(screen.getByText(/Lương NET/i)).toBeInTheDocument();
     });
 
-    // Enable union dues
-    const unionCheckbox = screen.getByRole('checkbox', { name: /union member/i });
-    await user.click(unionCheckbox);
+    // Enable union dues (it's a switch, not a checkbox)
+    const unionSwitch = screen.getByRole('switch', { name: /Đoàn viên công đoàn/i });
+    await user.click(unionSwitch);
 
     // Enable lunch allowance
     const lunchToggle = screen.getByRole('switch', { name: /lunch allowance/i });
@@ -142,7 +157,7 @@ describe('Lunch Allowance Integration Tests', () => {
 
     // Final NET should reflect: NET - UnionDues + LunchAllowance
     // Both deduction and addition should be visible in UI
-    expect(screen.getByText(/đoàn phí công đoàn/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/đoàn phí công đoàn/i).length).toBeGreaterThan(0);
     expect(useCalculatorStore.getState().hasLunchAllowance).toBe(true);
   });
 });

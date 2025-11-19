@@ -56,15 +56,32 @@ export const DEFAULT_LUNCH_ALLOWANCE = 730_000; // VND/month
 // ============================================================================
 
 /**
- * Regional minimum wages by region (VND/month).
+ * Regional minimum wages by region for 2025 (VND/month).
  * Updated annually per government decree.
  */
-export const REGIONAL_MINIMUMS: Record<RegionId, RegionConfig> = {
+export const REGIONAL_MINIMUMS_2025: Record<RegionId, RegionConfig> = {
   I: { minWage: 4_960_000 }, // Region I: Hanoi, Ho Chi Minh City, major urban areas
   II: { minWage: 4_410_000 }, // Region II: Secondary cities, provincial capitals
   III: { minWage: 3_860_000 }, // Region III: Smaller cities and towns
   IV: { minWage: 3_450_000 }, // Region IV: Rural areas
 };
+
+/**
+ * Regional minimum wages by region for 2026 (VND/month).
+ * Updated per Decree 73/2025/NÐ-CP effective July 1, 2025.
+ */
+export const REGIONAL_MINIMUMS_2026: Record<RegionId, RegionConfig> = {
+  I: { minWage: 5_310_000 }, // Region I: Hanoi, Ho Chi Minh City, major urban areas
+  II: { minWage: 4_730_000 }, // Region II: Secondary cities, provincial capitals
+  III: { minWage: 4_140_000 }, // Region III: Smaller cities and towns
+  IV: { minWage: 3_700_000 }, // Region IV: Rural areas
+};
+
+/**
+ * Default regional minimum wages (currently points to 2025 values for backward compatibility).
+ * @deprecated Use REGIONAL_MINIMUMS_2025 or REGIONAL_MINIMUMS_2026 explicitly based on regime.
+ */
+export const REGIONAL_MINIMUMS = REGIONAL_MINIMUMS_2025;
 
 // ============================================================================
 // Tax Regimes
@@ -125,11 +142,20 @@ export const REGIME_2026: Regime = {
 export const CAP_SI_HI = 20 * BASE_SALARY; // 46,800,000 VND
 
 /**
- * Unemployment Insurance caps by region (20 × regional minimum wage).
+ * Helper function to calculate Unemployment Insurance cap (20 × regional minimum wage).
+ * @param regionalMin - Regional minimum wage (VND/month)
+ * @returns UI cap amount (VND)
+ */
+export function getCapUI(regionalMin: number): number {
+  return 20 * regionalMin;
+}
+
+/**
+ * Unemployment Insurance caps by region for 2025 (20 × regional minimum wage).
  */
 export const CAP_UI_BY_REGION: Record<RegionId, number> = {
-  I: 20 * REGIONAL_MINIMUMS.I.minWage, // 99,200,000 VND
-  II: 20 * REGIONAL_MINIMUMS.II.minWage, // 88,200,000 VND
-  III: 20 * REGIONAL_MINIMUMS.III.minWage, // 77,200,000 VND
-  IV: 20 * REGIONAL_MINIMUMS.IV.minWage, // 69,000,000 VND
+  I: getCapUI(REGIONAL_MINIMUMS_2025.I.minWage), // 99,200,000 VND
+  II: getCapUI(REGIONAL_MINIMUMS_2025.II.minWage), // 88,200,000 VND
+  III: getCapUI(REGIONAL_MINIMUMS_2025.III.minWage), // 77,200,000 VND
+  IV: getCapUI(REGIONAL_MINIMUMS_2025.IV.minWage), // 69,000,000 VND
 };

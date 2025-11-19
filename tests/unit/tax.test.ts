@@ -7,7 +7,14 @@ import {
   calcPit,
   calcAll,
 } from '@/lib/tax';
-import { REGIME_2025, REGIME_2026, REGIONAL_MINIMUMS, BASE_SALARY } from '@/config/constants';
+import {
+  REGIME_2025,
+  REGIME_2026,
+  REGIONAL_MINIMUMS_2025,
+  REGIONAL_MINIMUMS_2026,
+  BASE_SALARY,
+  getCapUI,
+} from '@/config/constants';
 
 describe('clamp', () => {
   it('should return value when within bounds', () => {
@@ -56,46 +63,46 @@ describe('roundVnd', () => {
 describe('calcInsuranceBases', () => {
   it('should calculate bases for all 4 regions', () => {
     // Region I
-    const basesI = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS.I.minWage, BASE_SALARY);
+    const basesI = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS_2025.I.minWage, BASE_SALARY);
     expect(basesI.baseSIHI).toBe(30_000_000);
     expect(basesI.baseUI).toBe(30_000_000);
 
     // Region II
-    const basesII = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS.II.minWage, BASE_SALARY);
+    const basesII = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS_2025.II.minWage, BASE_SALARY);
     expect(basesII.baseSIHI).toBe(30_000_000);
     expect(basesII.baseUI).toBe(30_000_000);
 
     // Region III
-    const basesIII = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS.III.minWage, BASE_SALARY);
+    const basesIII = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS_2025.III.minWage, BASE_SALARY);
     expect(basesIII.baseSIHI).toBe(30_000_000);
     expect(basesIII.baseUI).toBe(30_000_000);
 
     // Region IV
-    const basesIV = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS.IV.minWage, BASE_SALARY);
+    const basesIV = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS_2025.IV.minWage, BASE_SALARY);
     expect(basesIV.baseSIHI).toBe(30_000_000);
     expect(basesIV.baseUI).toBe(30_000_000);
   });
 
   it('should not cap when gross is within bounds', () => {
-    const bases = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS.I.minWage, BASE_SALARY);
+    const bases = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS_2025.I.minWage, BASE_SALARY);
     expect(bases.baseSIHI).toBe(30_000_000);
     expect(bases.baseUI).toBe(30_000_000);
   });
 
   it('should cap SI/HI base when exceeding limit', () => {
-    const bases = calcInsuranceBases(185_000_000, REGIONAL_MINIMUMS.I.minWage, BASE_SALARY);
+    const bases = calcInsuranceBases(185_000_000, REGIONAL_MINIMUMS_2025.I.minWage, BASE_SALARY);
     expect(bases.baseSIHI).toBe(46_800_000); // 20 × 2,340,000
   });
 
   it('should cap UI base when exceeding limit', () => {
-    const bases = calcInsuranceBases(185_000_000, REGIONAL_MINIMUMS.I.minWage, BASE_SALARY);
+    const bases = calcInsuranceBases(185_000_000, REGIONAL_MINIMUMS_2025.I.minWage, BASE_SALARY);
     expect(bases.baseUI).toBe(99_200_000); // 20 × 4,960,000
   });
 
   it('should floor bases when custom base is below regional minimum', () => {
     const bases = calcInsuranceBases(
       30_000_000,
-      REGIONAL_MINIMUMS.I.minWage,
+      REGIONAL_MINIMUMS_2025.I.minWage,
       BASE_SALARY,
       3_000_000
     );
@@ -106,7 +113,7 @@ describe('calcInsuranceBases', () => {
   it('should cap bases when custom base is above limits', () => {
     const bases = calcInsuranceBases(
       30_000_000,
-      REGIONAL_MINIMUMS.I.minWage,
+      REGIONAL_MINIMUMS_2025.I.minWage,
       BASE_SALARY,
       200_000_000
     );
@@ -115,7 +122,7 @@ describe('calcInsuranceBases', () => {
   });
 
   it('should use gross when insuranceBase is undefined', () => {
-    const bases = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS.I.minWage, BASE_SALARY);
+    const bases = calcInsuranceBases(30_000_000, REGIONAL_MINIMUMS_2025.I.minWage, BASE_SALARY);
     expect(bases.baseSIHI).toBe(30_000_000);
     expect(bases.baseUI).toBe(30_000_000);
   });
@@ -415,5 +422,160 @@ describe('calcAll', () => {
     // Verify the formula: NET = gross - insurance - PIT
     const expectedNet = result.inputs.gross - result.insurance.total - result.pit.total;
     expect(result.net).toBe(expectedNet);
+  });
+
+  describe('2026 Regional Minimum Wage Selection', () => {
+    it('should use 2025 RMW when regime is 2025', () => {
+      const result = calcAll({
+        gross: 30_000_000,
+        dependents: 0,
+        region: 'I',
+        regime: REGIME_2025,
+      });
+
+      // For Region I 2025: RMW = 4,960,000
+      // UI cap = 20 × 4,960,000 = 99,200,000
+      // Since gross (30M) < cap, baseUI should be 30M
+      expect(result.insurance.bases.baseUI).toBe(30_000_000);
+
+      // Verify insurance calculation uses 2025 values
+      // At 30M gross, should not be floored to 4,960,000
+      expect(result.insurance.bases.baseSIHI).toBe(30_000_000);
+    });
+
+    it('should use 2026 RMW when regime is 2026', () => {
+      const result = calcAll({
+        gross: 30_000_000,
+        dependents: 0,
+        region: 'I',
+        regime: REGIME_2026,
+      });
+
+      // For Region I 2026: RMW = 5,310,000
+      // UI cap = 20 × 5,310,000 = 106,200,000
+      // Since gross (30M) < cap, baseUI should be 30M
+      expect(result.insurance.bases.baseUI).toBe(30_000_000);
+
+      // Verify insurance calculation uses 2026 values
+      // At 30M gross, should not be floored to 5,310,000
+      expect(result.insurance.bases.baseSIHI).toBe(30_000_000);
+    });
+
+    it('should apply correct 2026 RMW floor for all regions', () => {
+      const regions: Array<'I' | 'II' | 'III' | 'IV'> = ['I', 'II', 'III', 'IV'];
+      const expected2026Floors = {
+        I: 5_310_000,
+        II: 4_730_000,
+        III: 4_140_000,
+        IV: 3_700_000,
+      };
+
+      regions.forEach((region) => {
+        const result = calcAll({
+          gross: 30_000_000,
+          dependents: 0,
+          region,
+          regime: REGIME_2026,
+          insuranceBase: 1_000_000, // Very low custom base to trigger floor
+        });
+
+        // Should be floored to 2026 RMW for this region
+        expect(result.insurance.bases.baseSIHI).toBe(expected2026Floors[region]);
+        expect(result.insurance.bases.baseUI).toBe(expected2026Floors[region]);
+      });
+    });
+  });
+
+  describe('2026 BHTN Ceiling Calculation', () => {
+    it('should calculate BHTN ceiling as 20x RMW for 2026 Region I', () => {
+      const result = calcAll({
+        gross: 150_000_000, // High salary to test ceiling
+        dependents: 0,
+        region: 'I',
+        regime: REGIME_2026,
+      });
+
+      // For Region I 2026: RMW = 5,310,000
+      // UI cap = 20 × 5,310,000 = 106,200,000
+      const expected2026CapUI = getCapUI(REGIONAL_MINIMUMS_2026.I.minWage);
+      expect(expected2026CapUI).toBe(106_200_000);
+      expect(result.insurance.bases.baseUI).toBe(expected2026CapUI);
+    });
+
+    it('should calculate BHTN ceiling as 20x RMW for 2026 Region II', () => {
+      const result = calcAll({
+        gross: 150_000_000,
+        dependents: 0,
+        region: 'II',
+        regime: REGIME_2026,
+      });
+
+      // For Region II 2026: RMW = 4,730,000
+      // UI cap = 20 × 4,730,000 = 94,600,000
+      const expected2026CapUI = getCapUI(REGIONAL_MINIMUMS_2026.II.minWage);
+      expect(expected2026CapUI).toBe(94_600_000);
+      expect(result.insurance.bases.baseUI).toBe(expected2026CapUI);
+    });
+
+    it('should calculate BHTN ceiling as 20x RMW for 2026 Region III', () => {
+      const result = calcAll({
+        gross: 150_000_000,
+        dependents: 0,
+        region: 'III',
+        regime: REGIME_2026,
+      });
+
+      // For Region III 2026: RMW = 4,140,000
+      // UI cap = 20 × 4,140,000 = 82,800,000
+      const expected2026CapUI = getCapUI(REGIONAL_MINIMUMS_2026.III.minWage);
+      expect(expected2026CapUI).toBe(82_800_000);
+      expect(result.insurance.bases.baseUI).toBe(expected2026CapUI);
+    });
+
+    it('should calculate BHTN ceiling as 20x RMW for 2026 Region IV', () => {
+      const result = calcAll({
+        gross: 150_000_000,
+        dependents: 0,
+        region: 'IV',
+        regime: REGIME_2026,
+      });
+
+      // For Region IV 2026: RMW = 3,700,000
+      // UI cap = 20 × 3,700,000 = 74,000,000
+      const expected2026CapUI = getCapUI(REGIONAL_MINIMUMS_2026.IV.minWage);
+      expect(expected2026CapUI).toBe(74_000_000);
+      expect(result.insurance.bases.baseUI).toBe(expected2026CapUI);
+    });
+
+    it('should compare 2025 vs 2026 BHTN ceilings for Region I', () => {
+      const result2025 = calcAll({
+        gross: 150_000_000,
+        dependents: 0,
+        region: 'I',
+        regime: REGIME_2025,
+      });
+
+      const result2026 = calcAll({
+        gross: 150_000_000,
+        dependents: 0,
+        region: 'I',
+        regime: REGIME_2026,
+      });
+
+      // 2025: 20 × 4,960,000 = 99,200,000
+      expect(result2025.insurance.bases.baseUI).toBe(99_200_000);
+
+      // 2026: 20 × 5,310,000 = 106,200,000
+      expect(result2026.insurance.bases.baseUI).toBe(106_200_000);
+
+      // 2026 ceiling should be higher
+      expect(result2026.insurance.bases.baseUI).toBeGreaterThan(result2025.insurance.bases.baseUI);
+
+      // Verify the difference is exactly the RMW increase × 20
+      const rmwDiff = REGIONAL_MINIMUMS_2026.I.minWage - REGIONAL_MINIMUMS_2025.I.minWage;
+      const expectedDiff = rmwDiff * 20;
+      const actualDiff = result2026.insurance.bases.baseUI - result2025.insurance.bases.baseUI;
+      expect(actualDiff).toBe(expectedDiff);
+    });
   });
 });

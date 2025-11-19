@@ -1,9 +1,10 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 interface InfoTooltipProps {
-  content: string;
+  content: string | ReactNode;
   'aria-label'?: string;
 }
 
@@ -18,7 +19,11 @@ export function InfoTooltip({ content, 'aria-label': ariaLabel }: InfoTooltipPro
           </Button>
         </TooltipTrigger>
         <TooltipContent className="max-w-xs">
-          <p className="text-sm">{content}</p>
+          {typeof content === 'string' ? (
+            <p className="text-sm">{content}</p>
+          ) : (
+            <div className="text-sm">{content}</div>
+          )}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
