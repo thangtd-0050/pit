@@ -8,7 +8,6 @@ interface ComparisonViewProps {
   /** Additional context for insurance base adjustments */
   insuranceBaseMode?: InsuranceBaseMode;
   customInsuranceBase?: number;
-  regionalMin?: number;
   /** Current locale for copy formatting */
   locale?: 'en-US' | 'vi-VN';
   /** Current view mode */
@@ -23,7 +22,6 @@ function ComparisonView({
   comparison,
   insuranceBaseMode,
   customInsuranceBase,
-  regionalMin,
   locale,
   viewMode,
 }: ComparisonViewProps) {
@@ -37,7 +35,6 @@ function ComparisonView({
             result={comparison.regime2025}
             insuranceBaseMode={insuranceBaseMode}
             customInsuranceBase={customInsuranceBase}
-            regionalMin={regionalMin}
             locale={locale}
             viewMode={viewMode}
           />
@@ -49,7 +46,6 @@ function ComparisonView({
             result={comparison.regime2026}
             insuranceBaseMode={insuranceBaseMode}
             customInsuranceBase={customInsuranceBase}
-            regionalMin={regionalMin}
             locale={locale}
             viewMode={viewMode}
           />

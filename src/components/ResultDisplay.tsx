@@ -17,7 +17,6 @@ interface ResultDisplayProps {
   /** Additional context for insurance base adjustments */
   insuranceBaseMode?: InsuranceBaseMode;
   customInsuranceBase?: number;
-  regionalMin?: number;
   /** Current locale for copy formatting */
   locale?: 'en-US' | 'vi-VN';
   /** Current view mode */
@@ -28,7 +27,6 @@ export function ResultDisplay({
   result,
   insuranceBaseMode,
   customInsuranceBase,
-  regionalMin,
   locale = 'vi-VN',
   viewMode = '2025',
 }: ResultDisplayProps) {

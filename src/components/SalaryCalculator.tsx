@@ -2,7 +2,7 @@ import { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { CalculatorInputs } from '@/components/CalculatorInputs';
 import { ResultDisplay } from '@/components/ResultDisplay';
 import { calcAll, compareRegimes } from '@/lib/tax';
-import { REGIME_2025, REGIME_2026, REGIONAL_MINIMUMS } from '@/config/constants';
+import { REGIME_2025, REGIME_2026 } from '@/config/constants';
 import { usePreferences } from '@/store/preferences';
 import { useCalculatorStore } from '@/store/calculatorStore';
 import { decodeStateFromURL } from '@/lib/url-state';
@@ -156,7 +156,6 @@ export function SalaryCalculator() {
               comparison={comparison}
               insuranceBaseMode={insuranceBaseMode}
               customInsuranceBase={customInsuranceBase}
-              regionalMin={REGIONAL_MINIMUMS[region].minWage}
               locale={locale}
               viewMode={viewMode}
             />
@@ -167,7 +166,6 @@ export function SalaryCalculator() {
           result={currentResult}
           insuranceBaseMode={insuranceBaseMode}
           customInsuranceBase={customInsuranceBase}
-          regionalMin={REGIONAL_MINIMUMS[region].minWage}
           locale={locale}
           viewMode={viewMode}
         />
