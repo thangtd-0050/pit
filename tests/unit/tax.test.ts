@@ -243,22 +243,22 @@ describe('calcPit', () => {
 
       // Exactly at 30M threshold
       const pit2 = calcPit(30_000_000, REGIME_2026);
-      expect(pit2.total).toBe(3_500_000); // 10M×5% + 20M×15%
+      expect(pit2.total).toBe(2_500_000); // 10M×5% + 20M×10%
 
       // Exactly at 60M threshold
       const pit3 = calcPit(60_000_000, REGIME_2026);
-      expect(pit3.total).toBe(11_000_000); // 10M×5% + 20M×15% + 30M×25%
+      expect(pit3.total).toBe(8_500_000); // 10M×5% + 20M×10% + 30M×20%
 
       // Exactly at 100M threshold
       const pit4 = calcPit(100_000_000, REGIME_2026);
-      expect(pit4.total).toBe(23_000_000); // ... + 40M×30%
+      expect(pit4.total).toBe(20_500_000); // ... + 40M×30%
     });
 
     it('should calculate highest bracket correctly', () => {
       const pit = calcPit(150_000_000, REGIME_2026);
-      // First 100M: 23,000,000
+      // First 100M: 20,500,000
       // Remaining 50M × 35%: 17,500,000
-      expect(pit.total).toBe(40_500_000);
+      expect(pit.total).toBe(38_000_000);
     });
   });
 });

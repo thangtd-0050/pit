@@ -27,9 +27,9 @@ npm test && npm run lint
 TypeScript 5.3+ (strict mode enabled): Follow standard conventions
 
 ## Recent Changes
+- 007-pit-rates-update: Added TypeScript 5.3.3 (strict mode enabled) + React 18.2, Vite 5.0, Zustand 4.4, Tailwind CSS 3.4, shadcn/ui (Radix UI components)
 - 006-update-2026-regulations: Added TypeScript 5.3.3 (strict mode enabled) + React 18.2, Vite 5.0, Zustand 4.4, Tailwind CSS 3.4, shadcn/ui
 - 006-update-2026-regulations: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
-- 005-lunch-allowance: Added TypeScript 5.3.3 (strict mode enabled) + React 18.2, Vite 5.0, Zustand 4.4, Tailwind CSS 3.4, shadcn/ui (Radix UI components)
 
 
 <!-- MANUAL ADDITIONS START -->
